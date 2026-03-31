@@ -1,0 +1,16 @@
+# Screenshots and design artifacts
+*.png
+DESIGN.md
+code.html
+screen.png
+
+# Playwright MCP
+.playwright-mcp/
+
+# Claude
+.claude/
+
+# OS
+.DS_Store
+
+# Site-level ignores are in site/.gitignore

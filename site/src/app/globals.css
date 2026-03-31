@@ -1,0 +1,67 @@
+@import "tailwindcss";
+
+@theme inline {
+  --color-primary: #0F172A;
+  --color-secondary: #10B981;
+  --color-accent-indigo: #1E1B4B;
+  --color-pii-highlight: #FBBF24;
+  --color-surface: #FFFFFF;
+  --color-on-surface: #0F172A;
+  --color-on-surface-variant: #475569;
+  --color-outline-variant: #E2E8F0;
+
+  --font-sans: "Inter", ui-sans-serif, system-ui, sans-serif;
+  --font-mono: "JetBrains Mono", ui-monospace, monospace;
+}
+
+/* Material Symbols */
+.material-symbols-outlined {
+  font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+}
+
+/* Hero dot pattern */
+.hero-pattern {
+  background-image: radial-gradient(rgba(16, 185, 129, 0.15) 1px, transparent 1px);
+  background-size: 32px 32px;
+}
+
+/* Glass effects */
+.glass {
+  background: rgba(255, 255, 255, 0.03);
+  backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.glass-dark {
+  background: rgba(15, 23, 42, 0.9);
+  backdrop-filter: blur(16px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+/* PII highlight text */
+.text-pii {
+  color: #FBBF24;
+  background: rgba(251, 191, 36, 0.15);
+  padding: 0 4px;
+  border-radius: 2px;
+}
+
+/* Electric glow effect */
+.electric-glow {
+  box-shadow: 0 0 40px -10px rgba(16, 185, 129, 0.5);
+}
+
+/* Smooth scrolling */
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+::selection {
+  background: rgba(16, 185, 129, 0.3);
+}
