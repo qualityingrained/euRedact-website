@@ -81,24 +81,12 @@ export default function PricingPage() {
                 <FeatureItem>Apache 2.0 license</FeatureItem>
                 <FeatureItem>Community support</FeatureItem>
               </ul>
-              <div className="flex flex-col gap-3">
-                <a
-                  href="https://pypi.org/project/euredact/"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="block w-full text-center border-2 border-primary text-primary font-semibold rounded-full py-3.5 px-6 hover:bg-primary hover:text-white transition-colors"
-                >
-                  pip install euredact
-                </a>
-                <a
-                  href="https://www.npmjs.com/package/euredact"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="block w-full text-center border-2 border-primary text-primary font-semibold rounded-full py-3.5 px-6 hover:bg-primary hover:text-white transition-colors"
-                >
-                  npm install euredact
-                </a>
-              </div>
+              <a
+                href="/docs/quickstart"
+                className="block w-full text-center bg-primary text-white font-semibold rounded-full py-3.5 px-6 hover:bg-primary/90 transition-colors"
+              >
+                Get Started &rarr;
+              </a>
             </div>
 
             {/* Card 2: Starter */}

@@ -48,9 +48,6 @@ export function Nav() {
         </div>
 
         <div className="flex items-center gap-4">
-          <button className="hidden md:block text-slate-300 hover:text-white text-sm font-bold transition-colors px-4 py-2">
-            Log In
-          </button>
           <Link
             href="/docs"
             className="hidden md:block bg-secondary hover:bg-emerald-400 text-primary text-sm font-black px-6 py-2.5 rounded-lg transition-all hover:-translate-y-0.5 active:scale-95 duration-150 electric-glow uppercase tracking-wider"
@@ -104,9 +101,6 @@ export function Nav() {
               GitHub
             </Link>
             <hr className="border-white/10" />
-            <button className="text-slate-300 font-bold text-sm text-left">
-              Log In
-            </button>
             <Link
               href="/docs"
               className="bg-secondary text-primary text-sm font-black px-6 py-2.5 rounded-lg text-center uppercase tracking-wider"

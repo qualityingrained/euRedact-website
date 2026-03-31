@@ -113,14 +113,17 @@ export default function Page() {
             <div className="w-20 h-1.5 bg-secondary rounded-full" />
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-4 gap-12">
+          <div className="relative grid grid-cols-1 md:grid-cols-4 gap-12">
+            {/* Connector line behind the icons */}
+            <div className="hidden md:block absolute top-14 left-[12.5%] right-[12.5%] h-[2px] bg-secondary/30" />
+
             {[
               { icon: "terminal", label: "Input", sublabel: "Raw logs or user text.", accent: false, comingSoon: false },
               { icon: "memory", label: "Local Engine", sublabel: "Deterministic pattern matching.", accent: true, comingSoon: false },
               { icon: "psychology", label: "AI Model", sublabel: "Contextual AI analysis.", accent: false, comingSoon: true },
               { icon: "verified", label: "Secure Output", sublabel: "Cleaned, GDPR-ready data.", accent: false, comingSoon: false },
-            ].map((step, i) => (
-              <div key={step.label} className="relative group">
+            ].map((step) => (
+              <div key={step.label} className="relative group z-10">
                 <div className="flex flex-col items-center text-center">
                   <div
                     className={`w-28 h-28 rounded-[2rem] flex items-center justify-center shadow-2xl mb-8 ${
@@ -149,9 +152,6 @@ export default function Page() {
                     </div>
                   )}
                 </div>
-                {i < 3 && (
-                  <div className="hidden md:block absolute top-14 left-[80%] w-full h-[2px] bg-gradient-to-r from-secondary/50 to-transparent" />
-                )}
               </div>
             ))}
           </div>
@@ -177,10 +177,14 @@ export default function Page() {
             </div>
             <ul className="space-y-6 mb-16 flex-grow">
               {[
-                "100% local execution",
-                "Regex-based detection",
-                "32 European country rules",
-                "Community support",
+                "100% local execution — zero data leakage",
+                "31 European country configurations",
+                "25+ Structured PII entity types with checksum validation",
+                "Secret & API key detection (AWS, GitHub, Stripe, ...)",
+                "Custom pattern support",
+                "Pseudonymization mode",
+                "0.02ms per page — zero dependencies",
+                "Python & Node.js / TypeScript",
               ].map((f) => (
                 <li key={f} className="flex items-center gap-4 text-slate-800 font-bold text-lg">
                   <span className="material-symbols-outlined text-secondary font-black">done</span>
@@ -188,9 +192,12 @@ export default function Page() {
                 </li>
               ))}
             </ul>
-            <button className="w-full py-5 rounded-2xl border-4 border-primary text-primary font-black uppercase tracking-widest text-sm hover:bg-primary hover:text-white transition-all">
-              Install via Pip
-            </button>
+            <a
+              href="/docs/quickstart"
+              className="block w-full py-5 rounded-2xl border-4 border-primary text-primary font-black uppercase tracking-widest text-sm hover:bg-primary hover:text-white transition-all text-center"
+            >
+              Install via pip / npm
+            </a>
           </div>
 
           {/* Cloud Neural */}
@@ -488,62 +495,6 @@ export default function Page() {
             <WaitlistButton className="shrink-0 bg-secondary text-primary px-8 py-4 rounded-2xl font-black uppercase tracking-widest text-sm hover:bg-emerald-400 hover:scale-105 transition-all electric-glow text-center cursor-pointer">
               Join the Waitlist &rarr;
             </WaitlistButton>
-          </div>
-        </div>
-      </section>
-
-      {/* ── TESTIMONIALS ── */}
-      <section className="py-32 bg-slate-50">
-        <div className="max-w-7xl mx-auto px-8">
-          <h2 className="text-5xl font-black text-primary mb-24 text-center">
-            Trusted by DevOps
-          </h2>
-          <div className="grid md:grid-cols-2 gap-12">
-            {[
-              {
-                quote:
-                  "The support for Dutch BSN and German Tax IDs saved us weeks of work. Finally a tool that gets Europe.",
-                name: "Lars van den Berg",
-                role: "CTO @ FINTECH NL",
-                initials: "LB",
-                bg: "bg-primary",
-              },
-              {
-                quote:
-                  "Millisecond latency with contextual AI quality. Compliance is now fully automated in our stack.",
-                name: "Elena Fischer",
-                role: "LEAD DEVOPS @ EUROHEALTH",
-                initials: "EF",
-                bg: "bg-secondary",
-              },
-            ].map((t) => (
-              <div
-                key={t.name}
-                className="p-12 bg-white rounded-[3rem] shadow-xl border border-slate-100 relative group hover:-translate-y-2 transition-transform duration-500"
-              >
-                <span className="material-symbols-outlined absolute top-12 right-12 text-secondary/20 text-7xl">
-                  format_quote
-                </span>
-                <p className="text-2xl text-slate-700 font-medium italic mb-12 relative z-10 leading-relaxed">
-                  &ldquo;{t.quote}&rdquo;
-                </p>
-                <div className="flex items-center gap-5">
-                  <div
-                    className={`w-16 h-16 rounded-2xl flex items-center justify-center text-white text-lg font-black ring-4 ring-secondary/20 ${t.bg}`}
-                  >
-                    {t.initials}
-                  </div>
-                  <div>
-                    <div className="font-black text-primary uppercase tracking-wider text-sm">
-                      {t.name}
-                    </div>
-                    <div className="text-xs text-secondary font-black font-mono">
-                      {t.role}
-                    </div>
-                  </div>
-                </div>
-              </div>
-            ))}
           </div>
         </div>
       </section>
