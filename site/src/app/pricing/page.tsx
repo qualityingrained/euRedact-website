@@ -1,5 +1,4 @@
 import type { Metadata } from "next";
-import { TokenCalculator } from "./token-calculator";
 import { FAQAccordion } from "./faq-accordion";
 import { WaitlistButton } from "@/components/waitlist-button";
 
@@ -56,8 +55,8 @@ export default function PricingPage() {
 
       {/* Pricing Cards */}
       <section className="py-20 bg-slate-50/50">
-        <div className="max-w-7xl mx-auto px-6">
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+        <div className="max-w-5xl mx-auto px-6">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
             {/* Card 1: Rules (Free) */}
             <div className="bg-slate-50 rounded-[3rem] border-2 border-slate-200 shadow-xl p-12 flex flex-col">
               <div className="mb-8">
@@ -76,7 +75,7 @@ export default function PricingPage() {
                 <FeatureItem>
                   &gt;99% recall on IBANs, phones, IDs, emails
                 </FeatureItem>
-                <FeatureItem>32 country configs</FeatureItem>
+                <FeatureItem>31 country configs</FeatureItem>
                 <FeatureItem>Zero dependencies</FeatureItem>
                 <FeatureItem>Apache 2.0 license</FeatureItem>
                 <FeatureItem>Community support</FeatureItem>
@@ -89,114 +88,37 @@ export default function PricingPage() {
               </a>
             </div>
 
-            {/* Card 2: Starter */}
-            <div className="bg-slate-50 rounded-[3rem] border-2 border-slate-200 shadow-xl p-12 flex flex-col opacity-80">
+            {/* Card 2: Cloud (Coming Soon) */}
+            <div className="relative bg-primary rounded-[3rem] border-4 border-secondary/40 p-12 flex flex-col overflow-hidden">
               <div className="mb-8">
-                <span className="inline-block bg-amber-100 text-amber-800 text-xs font-bold uppercase tracking-wider px-4 py-1.5 rounded-full mb-3">
+                <span className="inline-block bg-amber-500/20 text-amber-400 text-xs font-bold uppercase tracking-wider px-4 py-1.5 rounded-full mb-3">
                   Coming Soon
                 </span>
-                <h3 className="text-2xl font-bold text-primary mb-2">
-                  Starter
-                </h3>
-              </div>
-              <div className="mb-8">
-                <span className="text-6xl font-black text-primary">
-                  &euro;79
-                </span>
-                <span className="text-on-surface-variant ml-2">/month</span>
-              </div>
-              <ul className="space-y-4 text-on-surface-variant text-sm flex-1 mb-4">
-                <FeatureItem>Everything in Rules, plus</FeatureItem>
-                <FeatureItem>1M cloud tokens/month</FeatureItem>
-                <FeatureItem>Contextual PII detection</FeatureItem>
-                <FeatureItem>Fine-tuned privacy model</FeatureItem>
-                <FeatureItem>98&ndash;99% blended recall</FeatureItem>
-                <FeatureItem>Referential integrity</FeatureItem>
-                <FeatureItem>Email support</FeatureItem>
-              </ul>
-              <p className="text-xs text-on-surface-variant mb-6">
-                Overage: &euro;0.10 / 1K extra tokens
-              </p>
-              <WaitlistButton className="block w-full text-center bg-secondary text-white font-semibold rounded-full py-3.5 px-6 hover:bg-secondary/90 transition-colors cursor-pointer">
-                Join Waitlist &rarr;
-              </WaitlistButton>
-            </div>
-
-            {/* Card 3: Professional (Highlighted) */}
-            <div className="relative bg-primary rounded-[3rem] border-4 border-secondary p-12 flex flex-col overflow-hidden opacity-80">
-              {/* Coming Soon ribbon */}
-              <div className="absolute top-8 -right-10 bg-amber-500 text-white text-xs font-bold uppercase tracking-wider py-1.5 px-12 rotate-45">
-                Coming Soon
-              </div>
-              <div className="mb-8">
                 <h3 className="text-2xl font-bold text-white mb-2">
-                  Professional
+                  Cloud
                 </h3>
               </div>
               <div className="mb-8">
-                <span className="text-6xl font-black text-white">
-                  &euro;149
+                <span className="text-3xl font-black text-white">
+                  Multiple plans to fit your needs
                 </span>
-                <span className="text-white/60 ml-2">/month</span>
               </div>
-              <ul className="space-y-4 text-sm flex-1 mb-4">
-                <FeatureItemWhite>
-                  Everything in Starter, plus
-                </FeatureItemWhite>
-                <FeatureItemWhite>2.5M cloud tokens/month</FeatureItemWhite>
-                <FeatureItemWhite>Deep referential integrity</FeatureItemWhite>
-                <FeatureItemWhite>Local coreference model</FeatureItemWhite>
-                <FeatureItemWhite>Priority support</FeatureItemWhite>
+              <ul className="space-y-4 text-sm flex-1 mb-8">
+                <FeatureItemWhite>Everything in Rules, plus</FeatureItemWhite>
+                <FeatureItemWhite>Contextual PII detection (names, addresses)</FeatureItemWhite>
+                <FeatureItemWhite>Fine-tuned European privacy model</FeatureItemWhite>
+                <FeatureItemWhite>Structured PII stripped locally before cloud processing</FeatureItemWhite>
+                <FeatureItemWhite>Token-based consumption pricing</FeatureItemWhite>
+                <FeatureItemWhite>Enterprise and on-premise options</FeatureItemWhite>
               </ul>
-              <p className="text-xs text-white/50 mb-6">
-                Overage: &euro;0.08 / 1K extra tokens
+              <p className="text-sm text-white/50 mb-6">
+                Join the waitlist to be notified when the cloud tier launches.
               </p>
-              <WaitlistButton className="block w-full text-center bg-secondary text-white font-semibold rounded-full py-3.5 px-6 hover:bg-secondary/90 transition-colors cursor-pointer">
+              <WaitlistButton className="block w-full text-center bg-secondary text-primary font-semibold rounded-full py-3.5 px-6 hover:bg-emerald-400 transition-colors cursor-pointer">
                 Join Waitlist &rarr;
-              </WaitlistButton>
-            </div>
-
-            {/* Card 4: Enterprise */}
-            <div className="bg-slate-50 rounded-[3rem] border-2 border-slate-200 shadow-xl p-12 flex flex-col opacity-80">
-              <div className="mb-8">
-                <span className="inline-block bg-amber-100 text-amber-800 text-xs font-bold uppercase tracking-wider px-4 py-1.5 rounded-full mb-3">
-                  Coming Soon
-                </span>
-                <h3 className="text-2xl font-bold text-primary mb-2">
-                  Enterprise
-                </h3>
-              </div>
-              <div className="mb-8">
-                <span className="text-5xl font-black text-primary">Custom</span>
-              </div>
-              <ul className="space-y-4 text-on-surface-variant text-sm flex-1 mb-10">
-                <FeatureItem>Everything in Professional, plus</FeatureItem>
-                <FeatureItem>Volume token pricing</FeatureItem>
-                <FeatureItem>On-premise deployment</FeatureItem>
-                <FeatureItem>Custom SLA</FeatureItem>
-                <FeatureItem>Dedicated support</FeatureItem>
-                <FeatureItem>SSO / SAML</FeatureItem>
-                <FeatureItem>DPA included</FeatureItem>
-              </ul>
-              <WaitlistButton className="block w-full text-center border-2 border-accent-indigo text-accent-indigo font-semibold rounded-full py-3.5 px-6 hover:bg-accent-indigo hover:text-white transition-colors cursor-pointer">
-                Contact Sales (Coming Soon) &rarr;
               </WaitlistButton>
             </div>
           </div>
-        </div>
-      </section>
-
-      {/* Token Calculator */}
-      <section className="py-20">
-        <div className="max-w-3xl mx-auto px-6">
-          <h2 className="font-black text-4xl text-primary text-center mb-4">
-            Estimate Your Usage
-          </h2>
-          <p className="text-on-surface-variant text-center mb-12 max-w-xl mx-auto">
-            Drag the sliders to see how many tokens you would need and which
-            plan fits best.
-          </p>
-          <TokenCalculator />
         </div>
       </section>
 

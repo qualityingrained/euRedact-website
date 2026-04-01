@@ -65,9 +65,9 @@ export default function AboutPage() {
           <p className="text-on-surface-variant leading-relaxed">
             Today, euRedact is available for both Python and Node.js — zero
             dependencies, sub-millisecond latency, and checksum validation that
-            eliminates false positives at the pattern level. Built by IT
-            professionals who understand what it takes to ship compliant software
-            in Europe.
+            eliminates false positives at the pattern level. Built by a
+            developer in Belgium who understands what it takes to ship compliant
+            software in Europe.
           </p>
         </div>
       </section>

@@ -3,7 +3,7 @@ import type { Metadata } from "next";
 export const metadata: Metadata = {
   title: "Accuracy Benchmarks — euRedact",
   description:
-    "Transparent, independently verifiable PII detection rates. 147,300 records tested across 32 European countries.",
+    "Transparent, independently verifiable PII detection rates. 147,300 records tested across 31 European countries.",
 };
 
 const countryData = [
@@ -58,9 +58,9 @@ const comparisonData = [
     tool: "euRedact",
     recall: "99.1%",
     precision: "99.3%",
-    entities: "32 countries",
+    entities: "31 countries",
     local: "Yes",
-    price: "Free / from \u20AC79",
+    price: "Free / Cloud waitlist",
     highlighted: true,
   },
   {
@@ -115,7 +115,7 @@ export default function BenchmarksPage() {
           </h1>
           <p className="text-white/70 text-xl max-w-2xl mx-auto mb-8">
             Transparent, independently verifiable detection rates. 147,300
-            records across 32 countries.
+            records across 31 countries.
           </p>
           <div className="w-20 h-1.5 bg-secondary rounded-full mx-auto" />
         </div>
@@ -129,7 +129,7 @@ export default function BenchmarksPage() {
               { value: "99.1%", label: "Recall" },
               { value: "99.3%", label: "Precision" },
               { value: "0.992", label: "F1 Score" },
-              { value: "32", label: "Countries Tested" },
+              { value: "31", label: "Countries Tested" },
             ].map((stat) => (
               <div key={stat.label} className="text-center">
                 <div className="text-6xl font-black text-primary tabular-nums">

@@ -193,9 +193,13 @@ export default function TrustPage() {
       {/* ===== PRIVACY ARCHITECTURE ===== */}
       <section className="bg-white px-6 py-24">
         <div className="mx-auto max-w-5xl">
-          <h2 className="mb-14 text-center text-3xl font-black text-primary tracking-tight">
-            Privacy Architecture in Detail
+          <h2 className="mb-4 text-center text-3xl font-black text-primary tracking-tight">
+            Cloud Tier — Planned Architecture
           </h2>
+          <p className="text-center text-on-surface-variant mb-14 max-w-2xl mx-auto">
+            When the cloud tier launches, these privacy measures will protect contextual PII detection.
+            Today, euRedact Rules runs 100% locally — nothing leaves your machine.
+          </p>
 
           <div className="grid gap-16 lg:grid-cols-2">
             {/* Hash-Based Segment Routing */}
@@ -286,7 +290,7 @@ export default function TrustPage() {
               "Apache 2.0 Licensed",
               "Auditable by Construction",
               "No Data Retention",
-              "SOC 2 (Roadmap)",
+              "Zero Dependencies",
             ].map((badge) => (
               <span
                 key={badge}

@@ -45,11 +45,11 @@ const posts: Post[] = [
   },
   {
     category: "Product Updates",
-    title: "v0.1.0 — 32 Countries, 99.1% Recall, 4,700 FP",
+    title: "v0.1.0 — 31 Countries, 99.1% Recall, 4,700 FP",
     date: "Mar 10, 2026",
     readTime: "5 min",
     excerpt:
-      "Today we're releasing euRedact v0.1.0 with support for 32 European countries...",
+      "Today we're releasing euRedact v0.1.0 with support for 31 European countries...",
   },
   {
     category: "Use Cases",

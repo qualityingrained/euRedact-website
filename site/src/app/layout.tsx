@@ -23,7 +23,7 @@ export const metadata: Metadata = {
     template: "%s — euRedact",
   },
   description:
-    "Open-source PII detection and redaction SDK for Python and Node.js. 31 European countries, 25+ entity types, checksum validation, sub-millisecond latency, zero dependencies. Apache 2.0.",
+    "Open-source PII detection and redaction SDK for Python and Node.js. 31 European countries, 30+ entity types, checksum validation, sub-millisecond latency, zero dependencies. Apache 2.0.",
   keywords: [
     "PII redaction",
     "PII detection",
@@ -62,13 +62,13 @@ export const metadata: Metadata = {
     siteName: "euRedact",
     title: "euRedact — European PII Redaction SDK",
     description:
-      "Open-source PII detection and redaction for Python and Node.js. 31 European countries, 25+ entity types, checksum validation, ~0.02ms per page. Apache 2.0.",
+      "Open-source PII detection and redaction for Python and Node.js. 31 European countries, 30+ entity types, checksum validation, ~0.02ms per page. Apache 2.0.",
   },
   twitter: {
     card: "summary_large_image",
     title: "euRedact — European PII Redaction SDK",
     description:
-      "Open-source PII detection and redaction for Python and Node.js. 31 European countries, 25+ entity types, ~0.02ms per page.",
+      "Open-source PII detection and redaction for Python and Node.js. 31 European countries, 30+ entity types, ~0.02ms per page.",
   },
   robots: {
     index: true,
@@ -83,7 +83,7 @@ const jsonLd = {
   applicationCategory: "DeveloperApplication",
   operatingSystem: "Cross-platform",
   description:
-    "Open-source PII detection and redaction SDK for Python and Node.js. Covers 31 European countries with 25+ entity types, checksum validation, and sub-millisecond latency.",
+    "Open-source PII detection and redaction SDK for Python and Node.js. Covers 31 European countries with 30+ entity types, checksum validation, and sub-millisecond latency.",
   url: "https://euredact.dev",
   downloadUrl: "https://pypi.org/project/euredact/",
   softwareVersion: "0.1",
@@ -96,7 +96,7 @@ const jsonLd = {
   },
   featureList: [
     "PII detection across 31 European countries",
-    "25+ structured PII entity types",
+    "30+ structured PII entity types",
     "Checksum validation (IBAN mod-97, Luhn, country-specific)",
     "Secret and API key detection",
     "Custom pattern registration",

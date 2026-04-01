@@ -189,7 +189,7 @@ export default function QuickstartPage() {
             What Gets Detected
           </h2>
           <p className="text-on-surface-variant leading-relaxed mb-8">
-            euRedact detects 20+ PII entity types across 32 European countries
+            euRedact detects 30+ PII entity types across 31 European countries
             with &gt;99% recall.
           </p>
           <div className="flex flex-wrap gap-2">

@@ -43,8 +43,30 @@ function buildSegments(
 /*  Constants                                                          */
 /* ------------------------------------------------------------------ */
 
-const SAMPLE_TEXT =
-  "Beste Jan Van den Berg, uw BSN is 111222333 en uw IBAN is NL91ABNA0417164300. U kunt ons bereiken op +31 6 12345678 of via jan.vandenberg@example.com. Uw geboortedatum is 15-03-1985.";
+const SAMPLE_TEXTS: { label: string; flag: string; text: string }[] = [
+  {
+    label: "NL",
+    flag: "\u{1F1F3}\u{1F1F1}",
+    text: "Beste Jan Van den Berg, uw BSN is 111222333 en uw IBAN is NL91ABNA0417164300. U kunt ons bereiken op +31 6 12345678 of via jan.vandenberg@example.com. Uw geboortedatum is 15-03-1985.",
+  },
+  {
+    label: "DE",
+    flag: "\u{1F1E9}\u{1F1EA}",
+    text: "Sehr geehrter Herr Max Mustermann, Ihre Steuer-ID ist 65929970489 und Ihre IBAN lautet DE89370400440532013000. Erreichen Sie uns unter +49 170 1234567 oder max.mustermann@beispiel.de.",
+  },
+  {
+    label: "FR",
+    flag: "\u{1F1EB}\u{1F1F7}",
+    text: "Bonjour Marie Dupont, votre NIR est 2 85 01 75 116 005 72. Votre IBAN est FR7630006000011234567890189. Contactez-nous au +33 6 12 34 56 78 ou marie.dupont@exemple.fr.",
+  },
+  {
+    label: "BE",
+    flag: "\u{1F1E7}\u{1F1EA}",
+    text: "Geachte Luc Peeters, uw rijksregisternummer is 85.07.15-001.26 en IBAN BE68539007547034. Contacteer ons op +32 470 12 34 56 of luc.peeters@voorbeeld.be.",
+  },
+];
+
+const SAMPLE_TEXT = SAMPLE_TEXTS[0].text;
 
 const SUPPORTED_COUNTRIES = availableCountries();
 
@@ -121,6 +143,10 @@ export default function DemoPage() {
           <h1 className="text-5xl font-black text-white mb-4">
             Try euRedact
           </h1>
+          <div className="inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-secondary/10 border border-secondary/30 mb-6">
+            <span className="material-symbols-outlined text-secondary text-lg">lock</span>
+            <span className="text-secondary text-sm font-bold">This demo runs entirely in your browser. No data is sent anywhere.</span>
+          </div>
           <p className="text-slate-400 text-lg max-w-2xl leading-relaxed">
             Paste text below and see PII detection in real-time. Powered by the{" "}
             <a
@@ -142,12 +168,32 @@ export default function DemoPage() {
           <div className="grid grid-cols-1 lg:grid-cols-[55fr_45fr] gap-8">
             {/* LEFT — Input */}
             <div>
-              <h2 className="text-sm font-bold uppercase tracking-[0.2em] text-on-surface-variant mb-3 flex items-center gap-2">
-                <span className="material-symbols-outlined text-secondary text-lg">
-                  edit_note
-                </span>
-                Input
-              </h2>
+              <div className="flex items-center justify-between mb-3">
+                <h2 className="text-sm font-bold uppercase tracking-[0.2em] text-on-surface-variant flex items-center gap-2">
+                  <span className="material-symbols-outlined text-secondary text-lg">
+                    edit_note
+                  </span>
+                  Input
+                </h2>
+                <div className="flex gap-2">
+                  {SAMPLE_TEXTS.map((s) => (
+                    <button
+                      key={s.label}
+                      onClick={() => {
+                        setInputText(s.text);
+                        const result = redact(s.text, { detectDates });
+                        setDetections(result.detections as unknown as Detection[]);
+                        setRedactedText(result.redactedText);
+                        setSegments(buildSegments(s.text, result.detections as unknown as Detection[], pseudonymize));
+                        setHasResults(true);
+                      }}
+                      className="px-3 py-1.5 rounded-lg text-xs font-bold bg-slate-100 text-slate-600 hover:bg-secondary hover:text-primary transition-all"
+                    >
+                      {s.flag} {s.label}
+                    </button>
+                  ))}
+                </div>
+              </div>
 
               <textarea
                 value={inputText}

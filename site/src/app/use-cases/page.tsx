@@ -22,7 +22,7 @@ const useCases = [
     code: `from euredact import redact
 
 # Sanitize before sending to your LLM
-clean = redact(user_message, country="NL")
+clean = redact(user_message, countries=["NL"])
 response = llm.chat(clean.redacted_text)`,
     audiences: ["AI Engineers", "ML Teams", "Data Scientists"],
   },
@@ -31,7 +31,7 @@ response = llm.chat(clean.redacted_text)`,
     title: "Document Anonymization",
     subtitle: "Anonymize contracts, reports, and case files at scale.",
     description:
-      "Legal teams, insurance companies, and government agencies process thousands of documents containing personal data. euRedact detects and replaces PII across 32 European country formats — from Dutch BSNs to German Steuer-IDs — in a single function call.",
+      "Legal teams, insurance companies, and government agencies process thousands of documents containing personal data. euRedact detects and replaces PII across 31 European country formats — from Dutch BSNs to German Steuer-IDs — in a single function call.",
     benefits: [
       "Checksum-validated detection eliminates false positives on national IDs",
       "Referential integrity preserves document readability (NAME_1, IBAN_1)",
@@ -39,7 +39,7 @@ response = llm.chat(clean.redacted_text)`,
     ],
     code: `from euredact import redact
 
-result = redact(contract_text, country="DE")
+result = redact(contract_text, countries=["DE"])
 # "Herr Max Mustermann, Steuer-ID 12345678901"
 # → "Herr [NAME_1], [STEUER_ID_1]"`,
     audiences: ["Legal Teams", "Compliance Officers", "DPOs"],
@@ -52,7 +52,7 @@ result = redact(contract_text, country="DE")
       "Application logs routinely capture email addresses, phone numbers, and national IDs. euRedact integrates into your logging pipeline to strip structured PII in real-time — keeping your observability stack GDPR-compliant without manual review.",
     benefits: [
       "Sub-millisecond processing handles high-throughput log streams",
-      "Detect emails, phone numbers, IBANs, and 25+ PII entity types",
+      "Detect emails, phone numbers, IBANs, and 30+ PII entity types",
       "Drop-in integration with Python logging, Node.js streams, or batch jobs",
     ],
     code: `import logging
@@ -81,7 +81,7 @@ from euredact import redact
 
 df = pd.read_csv("customers.csv")
 df["notes"] = df["notes"].apply(
-    lambda x: redact(x, country="BE").redacted_text
+    lambda x: redact(x, countries=["BE"]).redacted_text
 )`,
     audiences: ["Data Engineers", "Analytics Teams", "DBAs"],
   },
@@ -99,7 +99,7 @@ df["notes"] = df["notes"].apply(
     code: `from euredact import redact
 
 for doc in research_corpus:
-    result = redact(doc, country="FR",
+    result = redact(doc, countries=["FR"],
                     referential_integrity=True)
     clean_corpus.append(result.redacted_text)`,
     audiences: ["Researchers", "ML Engineers", "Universities"],
@@ -119,7 +119,7 @@ for doc in research_corpus:
 
 for ticket in zendesk_export:
     clean = redact(ticket["body"],
-                   country="NL")
+                   countries=["NL"])
     ticket["body"] = clean.redacted_text`,
     audiences: ["Support Leads", "Product Managers", "QA Teams"],
   },

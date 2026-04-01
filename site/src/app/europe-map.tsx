@@ -12,7 +12,7 @@ const GEO_URL = "https://cdn.jsdelivr.net/npm/world-atlas@2/countries-50m.json";
 
 /*
   world-atlas uses numeric ISO 3166-1 codes as the `id` field.
-  Map from numeric id → { code, name } for our 32 supported countries.
+  Map from numeric id → { code, name } for our 31 supported countries.
 */
 const SUPPORTED: Record<string, { code: string; name: string }> = {
   "040": { code: "AT", name: "Austria" },
@@ -132,7 +132,7 @@ export function EuropeMap() {
       <div className="flex items-center justify-center gap-8 mt-6">
         <div className="flex items-center gap-2">
           <div className="w-4 h-4 rounded bg-[#10B981]" />
-          <span className="text-sm font-bold text-slate-600">32 Supported Countries</span>
+          <span className="text-sm font-bold text-slate-600">31 Supported Countries</span>
         </div>
         <div className="flex items-center gap-2">
           <div className="w-4 h-4 rounded bg-[#1e293b]" />

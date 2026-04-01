@@ -11,7 +11,7 @@ export default function Page() {
           {/* Version badge */}
           <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-secondary/10 text-secondary text-xs font-black tracking-widest uppercase mb-12 border border-secondary/30">
             <span className="w-2 h-2 rounded-full bg-secondary animate-pulse" />
-            v0.1 — Now supporting 32 European countries
+            v0.1 — Now supporting 31 European countries
           </div>
 
           {/* Headline */}
@@ -22,7 +22,7 @@ export default function Page() {
 
           <p className="max-w-3xl mx-auto text-xl text-slate-300 leading-relaxed mb-14 font-medium">
             Open-source SDK that detects and redacts structured PII
-            across 32 European countries. Available for Python and Node.js.{" "}
+            across 31 European countries. Available for Python and Node.js.{" "}
             <br className="hidden md:block" />
             Local-only, deterministic, zero data leakage.
           </p>
@@ -36,7 +36,7 @@ export default function Page() {
         <div className="max-w-7xl mx-auto px-8 grid grid-cols-2 md:grid-cols-4 gap-8 md:gap-12">
           {[
             { value: ">99%", label: "Recall Rate" },
-            { value: "32", label: "Countries" },
+            { value: "31", label: "Countries" },
             { value: "0.02ms", label: "Per Page" },
             { value: "<2%", label: "False Positives" },
           ].map((m) => (
@@ -81,7 +81,7 @@ export default function Page() {
                 icon: "bolt",
                 title: "Slow Development",
                 description:
-                  "Stop building custom regex for 32 countries. One library covers the entire continent with consistent performance.",
+                  "Stop building custom regex for 31 countries. One library covers the entire continent with consistent performance.",
               },
             ].map((card) => (
               <div
@@ -179,7 +179,7 @@ export default function Page() {
               {[
                 "100% local execution — zero data leakage",
                 "31 European country configurations",
-                "25+ Structured PII entity types with checksum validation",
+                "30+ Structured PII entity types with checksum validation",
                 "Secret & API key detection (AWS, GitHub, Stripe, ...)",
                 "Custom pattern support",
                 "Referential integrity mode",
@@ -295,7 +295,7 @@ export default function Page() {
                 <tr>
                   <td className="py-4 pr-2 text-white font-bold text-sm border-b border-white/5">EU National ID Detection</td>
                   <td className="py-4 px-3 text-center bg-secondary/10 border-b border-white/5">
-                    <span className="text-secondary font-black">32 countries</span>
+                    <span className="text-secondary font-black">31 countries</span>
                   </td>
                   <td className="py-4 px-3 text-center bg-secondary/5 border-b border-white/5">
                     <span className="text-slate-400 font-bold">TBD</span>
@@ -341,10 +341,12 @@ export default function Page() {
                     <span className="block text-slate-500 text-[11px] font-medium mt-0.5">Names, addresses</span>
                   </td>
                   <td className="py-4 px-3 text-center bg-secondary/10 border-b border-white/5">
-                    <span className="material-symbols-outlined text-red-400/60 text-lg">cancel</span>
+                    <span className="text-slate-500 font-bold">&mdash;</span>
+                    <span className="block text-slate-600 text-[10px] mt-0.5">Structured only</span>
                   </td>
                   <td className="py-4 px-3 text-center bg-secondary/5 border-b border-white/5">
-                    <span className="text-slate-400 font-bold">Planned</span>
+                    <span className="text-secondary font-bold">Coming soon</span>
+                    <span className="block text-slate-400 text-[10px] mt-0.5">Fine-tuned EU model</span>
                   </td>
                   <td className="py-4 px-3 text-center bg-white/5 border-b border-white/5">
                     <span className="text-slate-400 font-bold">Via spaCy NER</span>
@@ -381,7 +383,7 @@ export default function Page() {
                 <tr>
                   <td className="py-4 pr-2 text-white font-bold text-sm border-b border-white/5">EU Language Support</td>
                   <td className="py-4 px-3 text-center bg-secondary/10 border-b border-white/5">
-                    <span className="text-secondary font-bold">32 countries</span>
+                    <span className="text-secondary font-bold">31 countries</span>
                   </td>
                   <td className="py-4 px-3 text-center bg-secondary/5 border-b border-white/5">
                     <span className="text-slate-400 font-bold">TBD</span>
@@ -446,7 +448,7 @@ export default function Page() {
                     <span className="text-secondary font-black">Free</span>
                   </td>
                   <td className="py-4 px-3 text-center bg-secondary/5 rounded-b-2xl">
-                    <span className="text-slate-400 font-bold">From &euro;79/mo</span>
+                    <span className="text-slate-400 font-bold">Waitlist</span>
                   </td>
                   <td className="py-4 px-3 text-center bg-white/5 rounded-b-2xl">
                     <span className="text-white font-bold">Free</span>
@@ -470,7 +472,7 @@ export default function Page() {
               </span>
               <p className="text-indigo-200 font-medium max-w-2xl">
                 euRedact Rules benchmarks are independently verifiable — our full test suite of{" "}
-                <span className="text-white font-bold">147,300 records across 32 countries</span> is open source.
+                <span className="text-white font-bold">147,300 records across 31 countries</span> is open source.
               </p>
             </div>
             <a
