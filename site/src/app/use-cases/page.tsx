@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
+import { DocMockup, TableMockup } from "./doc-mockup";
 
 export const metadata: Metadata = {
   title: "Use Cases — euRedact",
@@ -7,9 +8,12 @@ export const metadata: Metadata = {
     "Discover how European developers use euRedact for GDPR-compliant PII redaction — from LLM preprocessing to log sanitization and document anonymization.",
 };
 
+/* ------------------------------------------------------------------ */
+/*  Use case data                                                      */
+/* ------------------------------------------------------------------ */
+
 const useCases = [
   {
-    icon: "auto_awesome",
     title: "LLM Pre-Processing",
     subtitle: "Strip PII before it reaches your AI models.",
     description:
@@ -19,15 +23,26 @@ const useCases = [
       "Zero-latency inline processing — no extra API round-trip",
       "Works with RAG pipelines, chat systems, and batch processing",
     ],
-    code: `from euredact import redact
-
-# Sanitize before sending to your LLM
-clean = redact(user_message, countries=["NL"])
-response = llm.chat(clean.redacted_text)`,
     audiences: ["AI Engineers", "ML Teams", "Data Scientists"],
+    mockup: (dark: boolean) => (
+      <DocMockup
+        variant="chat"
+        darkParent={dark}
+        lines={[
+          [
+            { text: "Hallo, ik ben " },
+            { text: "Jan Van den Berg", pii: "NAME" },
+            { text: ". Mijn BSN is " },
+            { text: "111222333", pii: "NATIONAL_ID" },
+            { text: " en mijn IBAN is " },
+            { text: "NL91ABNA0417164300", pii: "IBAN" },
+            { text: ". Kun je mijn saldo controleren?" },
+          ],
+        ]}
+      />
+    ),
   },
   {
-    icon: "description",
     title: "Document Anonymization",
     subtitle: "Anonymize contracts, reports, and case files at scale.",
     description:
@@ -37,15 +52,53 @@ response = llm.chat(clean.redacted_text)`,
       "Referential integrity preserves document readability (NAME_1, IBAN_1)",
       "Process PDFs, Word documents, and plain text with consistent results",
     ],
-    code: `from euredact import redact
-
-result = redact(contract_text, countries=["DE"])
-# "Herr Max Mustermann, Steuer-ID 12345678901"
-# → "Herr [NAME_1], [STEUER_ID_1]"`,
     audiences: ["Legal Teams", "Compliance Officers", "DPOs"],
+    mockup: (dark: boolean) => (
+      <DocMockup
+        variant="letter"
+        darkParent={dark}
+        lines={[
+          [
+            { text: "Hierbij bevestigen wij dat " },
+            { text: "Max Mustermann", pii: "NAME" },
+            { text: ", geboren op " },
+            { text: "15-03-1985", pii: "DOB" },
+            { text: "," },
+          ],
+          [
+            { text: "wonende te " },
+            { text: "Keizersgracht 312, 1016 EZ Amsterdam", pii: "ADDRESS" },
+            { text: "," },
+          ],
+          [
+            { text: "met Steuer-ID " },
+            { text: "65929970489", pii: "TAX_ID" },
+            { text: " per 1 mei 2026 in dienst" },
+          ],
+          [
+            { text: "treedt bij onze organisatie. Het salaris wordt" },
+          ],
+          [
+            { text: "overgemaakt naar IBAN " },
+            { text: "DE89370400440532013000", pii: "IBAN" },
+            { text: "." },
+          ],
+          [
+            { text: "" },
+          ],
+          [
+            { text: "Contactgegevens: " },
+            { text: "+49 170 1234567", pii: "PHONE" },
+          ],
+          [
+            { text: "E-mail: " },
+            { text: "m.mustermann@beispiel.de", pii: "EMAIL" },
+          ],
+        ]}
+      />
+    ),
   },
   {
-    icon: "terminal",
     title: "Log Sanitization",
     subtitle: "Clean PII from logs before they reach your SIEM.",
     description:
@@ -55,18 +108,55 @@ result = redact(contract_text, countries=["DE"])
       "Detect emails, phone numbers, IBANs, and 30+ PII entity types",
       "Drop-in integration with Python logging, Node.js streams, or batch jobs",
     ],
-    code: `import logging
-from euredact import redact
-
-class PIIFilter(logging.Filter):
-    def filter(self, record):
-        result = redact(record.getMessage())
-        record.msg = result.redacted_text
-        return True`,
     audiences: ["DevOps Engineers", "SREs", "Platform Teams"],
+    mockup: (dark: boolean) => (
+      <DocMockup
+        variant="logs"
+        darkParent={dark}
+        lines={[
+          [
+            { text: "2026-04-01 09:14:02 " },
+            { text: "INFO  " },
+            { text: "User login: " },
+            { text: "jan.vandenberg@example.com", pii: "EMAIL" },
+          ],
+          [
+            { text: "2026-04-01 09:14:03 " },
+            { text: "INFO  " },
+            { text: "KYC check for BSN " },
+            { text: "111222333", pii: "NATIONAL_ID" },
+            { text: " — passed" },
+          ],
+          [
+            { text: "2026-04-01 09:14:05 " },
+            { text: "WARN  " },
+            { text: "Rate limit: IP " },
+            { text: "192.168.1.42", pii: "IP_ADDRESS" },
+          ],
+          [
+            { text: "2026-04-01 09:14:07 " },
+            { text: "INFO  " },
+            { text: "Payment to " },
+            { text: "NL91ABNA0417164300", pii: "IBAN" },
+            { text: " — €2,450" },
+          ],
+          [
+            { text: "2026-04-01 09:14:08 " },
+            { text: "INFO  " },
+            { text: "SMS sent to " },
+            { text: "+31 6 12345678", pii: "PHONE" },
+          ],
+          [
+            { text: "2026-04-01 09:14:09 " },
+            { text: "ERROR " },
+            { text: "Auth failed: user " },
+            { text: "marie.dupont@exemple.fr", pii: "EMAIL" },
+          ],
+        ]}
+      />
+    ),
   },
   {
-    icon: "database",
     title: "Database Field Redaction",
     subtitle: "Mask PII columns before exporting or sharing data.",
     description:
@@ -76,17 +166,53 @@ class PIIFilter(logging.Filter):
       "Country-aware detection catches formats US tools ignore",
       "Deterministic output — same input always produces the same result",
     ],
-    code: `import pandas as pd
-from euredact import redact
-
-df = pd.read_csv("customers.csv")
-df["notes"] = df["notes"].apply(
-    lambda x: redact(x, countries=["BE"]).redacted_text
-)`,
     audiences: ["Data Engineers", "Analytics Teams", "DBAs"],
+    mockup: (dark: boolean) => (
+      <TableMockup
+        darkParent={dark}
+        headers={["Name", "Email", "BSN", "IBAN", "Phone"]}
+        rows={[
+          {
+            cells: [
+              { text: "Jan Van den Berg", pii: "NAME" },
+              { text: "jan@example.com", pii: "EMAIL" },
+              { text: "111222333", pii: "NATIONAL_ID" },
+              { text: "NL91ABNA041716", pii: "IBAN" },
+              { text: "+31 6 12345678", pii: "PHONE" },
+            ],
+          },
+          {
+            cells: [
+              { text: "Marie Dupont", pii: "NAME" },
+              { text: "marie@exemple.fr", pii: "EMAIL" },
+              { text: "285017511600572", pii: "NATIONAL_ID" },
+              { text: "FR76300060000112", pii: "IBAN" },
+              { text: "+33 6 12345678", pii: "PHONE" },
+            ],
+          },
+          {
+            cells: [
+              { text: "Luc Peeters", pii: "NAME" },
+              { text: "luc@voorbeeld.be", pii: "EMAIL" },
+              { text: "85.07.15-001.26", pii: "NATIONAL_ID" },
+              { text: "BE68539007547034", pii: "IBAN" },
+              { text: "+32 470 123456", pii: "PHONE" },
+            ],
+          },
+          {
+            cells: [
+              { text: "Max Mustermann", pii: "NAME" },
+              { text: "max@beispiel.de", pii: "EMAIL" },
+              { text: "65929970489", pii: "NATIONAL_ID" },
+              { text: "DE89370400440532", pii: "IBAN" },
+              { text: "+49 170 1234567", pii: "PHONE" },
+            ],
+          },
+        ]}
+      />
+    ),
   },
   {
-    icon: "science",
     title: "Research & Training Data",
     subtitle: "De-identify datasets for ML training and academic research.",
     description:
@@ -96,16 +222,47 @@ df["notes"] = df["notes"].apply(
       "Preserves statistical properties of the underlying data",
       "Supports GDPR Article 89 research exemption workflows",
     ],
-    code: `from euredact import redact
-
-for doc in research_corpus:
-    result = redact(doc, countries=["FR"],
-                    referential_integrity=True)
-    clean_corpus.append(result.redacted_text)`,
     audiences: ["Researchers", "ML Engineers", "Universities"],
+    mockup: (dark: boolean) => (
+      <DocMockup
+        variant="paper"
+        darkParent={dark}
+        lines={[
+          [
+            { text: "Patient " },
+            { text: "Pieter de Vries", pii: "NAME_1" },
+            { text: " (DOB: " },
+            { text: "23-11-1967", pii: "DOB" },
+            { text: ") presented with" },
+          ],
+          [
+            { text: "recurring symptoms at " },
+            { text: "Keizersgracht 312, Amsterdam", pii: "ADDRESS" },
+            { text: "." },
+          ],
+          [
+            { text: "Insurance ID: " },
+            { text: "8234567891", pii: "HEALTH_INSURANCE" },
+            { text: ". Referred by Dr. " },
+            { text: "Janssen", pii: "NAME_2" },
+            { text: "." },
+          ],
+          [{ text: "" }],
+          [
+            { text: "Follow-up with " },
+            { text: "Pieter de Vries", pii: "NAME_1" },
+            { text: " scheduled for" },
+          ],
+          [
+            { text: "next week. Contact: " },
+            { text: "+31 6 98765432", pii: "PHONE" },
+            { text: "." },
+          ],
+        ]}
+      />
+    ),
   },
   {
-    icon: "support_agent",
     title: "Customer Support Pipelines",
     subtitle: "Redact tickets and chat logs for analytics and QA.",
     description:
@@ -115,15 +272,51 @@ for doc in research_corpus:
       "Detect PII across multiple European languages in a single pass",
       "Enable safe sharing of support data with product and engineering teams",
     ],
-    code: `from euredact import redact
-
-for ticket in zendesk_export:
-    clean = redact(ticket["body"],
-                   countries=["NL"])
-    ticket["body"] = clean.redacted_text`,
     audiences: ["Support Leads", "Product Managers", "QA Teams"],
+    mockup: (dark: boolean) => (
+      <DocMockup
+        variant="ticket"
+        darkParent={dark}
+        lines={[
+          [
+            { text: "Van: " },
+            { text: "Sophie Laurent", pii: "NAME" },
+            { text: " <" },
+            { text: "sophie.laurent@exemple.fr", pii: "EMAIL" },
+            { text: ">" },
+          ],
+          [{ text: "" }],
+          [
+            { text: "Bonjour, mon numéro de sécurité sociale est" },
+          ],
+          [
+            { text: "le " },
+            { text: "2 85 01 75 116 005 72", pii: "NATIONAL_ID" },
+            { text: " et je n'arrive pas à" },
+          ],
+          [
+            { text: "accéder à mon compte. Mon IBAN est" },
+          ],
+          [
+            { text: "" },
+            { text: "FR7630006000011234567890189", pii: "IBAN" },
+            { text: "." },
+          ],
+          [{ text: "" }],
+          [
+            { text: "Appelez-moi au " },
+            { text: "+33 6 12 34 56 78", pii: "PHONE" },
+            { text: ". Merci." },
+          ],
+        ]}
+      />
+    ),
   },
 ];
+
+/* ------------------------------------------------------------------ */
+/*  Industries                                                         */
+/* ------------------------------------------------------------------ */
 
 const industries = [
   {
@@ -164,6 +357,10 @@ const industries = [
   },
 ];
 
+/* ------------------------------------------------------------------ */
+/*  Page                                                               */
+/* ------------------------------------------------------------------ */
+
 export default function UseCasesPage() {
   return (
     <>
@@ -185,19 +382,24 @@ export default function UseCasesPage() {
         </div>
       </section>
 
-      {/* ===== USE CASE CARDS ===== */}
+      {/* ===== USE CASE SECTIONS ===== */}
       {useCases.map((uc, i) => {
         const isOdd = i % 2 === 1;
-        const bgOptions = ["bg-white", "bg-slate-50", "bg-white", "bg-slate-50", "bg-white", "bg-slate-50"];
+        const bgOptions = [
+          "bg-white",
+          "bg-slate-50",
+          "bg-white",
+          "bg-slate-50",
+          "bg-white",
+          "bg-slate-50",
+        ];
         const darkBg = i % 3 === 1;
 
         return (
           <section
             key={uc.title}
             className={`px-6 md:px-8 py-16 md:py-28 overflow-hidden ${
-              darkBg
-                ? "bg-primary hero-pattern text-white"
-                : bgOptions[i]
+              darkBg ? "bg-primary hero-pattern text-white" : bgOptions[i]
             }`}
           >
             <div className="max-w-7xl mx-auto">
@@ -254,24 +456,9 @@ export default function UseCasesPage() {
                   </ul>
                 </div>
 
-                {/* Code side */}
+                {/* Mockup side */}
                 <div className={isOdd ? "lg:order-1" : ""}>
-                  <div
-                    className={`rounded-2xl md:rounded-[2rem] p-5 md:p-8 shadow-2xl overflow-hidden ${
-                      darkBg
-                        ? "bg-black/40 border border-white/10"
-                        : "bg-slate-950 border border-white/10"
-                    }`}
-                  >
-                    <div className="flex items-center gap-2 mb-4 md:mb-6">
-                      <div className="w-2.5 h-2.5 md:w-3 md:h-3 rounded-full bg-red-500/60" />
-                      <div className="w-2.5 h-2.5 md:w-3 md:h-3 rounded-full bg-amber-400/60" />
-                      <div className="w-2.5 h-2.5 md:w-3 md:h-3 rounded-full bg-green-500/60" />
-                    </div>
-                    <pre className="text-xs md:text-sm text-slate-300 font-mono leading-relaxed overflow-x-auto">
-                      <code>{uc.code}</code>
-                    </pre>
-                  </div>
+                  {uc.mockup(darkBg)}
                 </div>
               </div>
             </div>
@@ -323,8 +510,8 @@ export default function UseCasesPage() {
               <span className="text-secondary">Our SDK.</span>
             </h2>
             <p className="max-w-2xl mx-auto text-base md:text-lg text-slate-300 leading-relaxed mb-10 md:mb-14 font-medium">
-              euRedact handles structured PII redaction for any European
-              data pipeline. Get started in under a minute.
+              euRedact handles structured PII redaction for any European data
+              pipeline. Get started in under a minute.
             </p>
             <div className="flex flex-col md:flex-row items-center justify-center gap-6 md:gap-8">
               <Link
