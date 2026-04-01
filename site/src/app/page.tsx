@@ -33,18 +33,18 @@ export default function Page() {
 
       {/* ── TRUST BAR ── */}
       <section className="bg-white border-y border-slate-200 py-20">
-        <div className="max-w-7xl mx-auto px-8 grid grid-cols-2 md:grid-cols-4 gap-12">
+        <div className="max-w-7xl mx-auto px-8 grid grid-cols-2 md:grid-cols-4 gap-8 md:gap-12">
           {[
             { value: ">99%", label: "Recall Rate" },
             { value: "32", label: "Countries" },
-            { value: "0.02ms", label: "Per Page (~500 words)" },
+            { value: "0.02ms", label: "Per Page" },
             { value: "<2%", label: "False Positives" },
           ].map((m) => (
             <div key={m.label} className="text-center group cursor-default">
-              <div className="text-6xl font-black text-primary mb-3 transition-transform group-hover:-translate-y-1">
+              <div className="text-4xl md:text-6xl font-black text-primary mb-3 transition-transform group-hover:-translate-y-1">
                 {m.value}
               </div>
-              <div className="text-xs font-black text-slate-400 uppercase tracking-[0.25em]">
+              <div className="text-[10px] md:text-xs font-black text-slate-400 uppercase tracking-[0.25em]">
                 {m.label}
               </div>
             </div>
