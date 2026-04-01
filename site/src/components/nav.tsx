@@ -28,6 +28,12 @@ export function Nav() {
             Live Demo
           </Link>
           <Link
+            href="/use-cases"
+            className="text-slate-400 hover:text-white transition-colors"
+          >
+            Use Cases
+          </Link>
+          <Link
             href="/docs"
             className="text-slate-400 hover:text-white transition-colors"
           >
@@ -78,6 +84,13 @@ export function Nav() {
               onClick={() => setMobileOpen(false)}
             >
               Live Demo
+            </Link>
+            <Link
+              href="/use-cases"
+              className="text-slate-400 hover:text-white font-bold text-sm uppercase tracking-[0.2em] transition-colors"
+              onClick={() => setMobileOpen(false)}
+            >
+              Use Cases
             </Link>
             <Link
               href="/docs"
