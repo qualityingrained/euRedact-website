@@ -168,17 +168,17 @@ export default function UseCasesPage() {
   return (
     <>
       {/* ===== HERO ===== */}
-      <section className="bg-primary hero-pattern pt-48 pb-20 px-8">
+      <section className="bg-primary hero-pattern pt-48 pb-20 px-6 md:px-8">
         <div className="mx-auto max-w-5xl text-center">
           <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-secondary/10 text-secondary text-xs font-black tracking-widest uppercase mb-12 border border-secondary/30">
             <span className="material-symbols-outlined text-sm">cases</span>
             Use Cases
           </div>
-          <h1 className="font-black text-6xl md:text-8xl text-white tracking-tighter leading-[0.85] mb-8">
+          <h1 className="font-black text-4xl md:text-8xl text-white tracking-tighter leading-[0.85] mb-8">
             PII Redaction for{" "}
             <span className="text-secondary">Every Pipeline.</span>
           </h1>
-          <p className="mx-auto max-w-3xl text-xl text-slate-300 leading-relaxed font-medium">
+          <p className="mx-auto max-w-3xl text-lg md:text-xl text-slate-300 leading-relaxed font-medium">
             From LLM pre-processing to log sanitization — see how European
             developers use euRedact to build GDPR-compliant applications.
           </p>
@@ -194,14 +194,14 @@ export default function UseCasesPage() {
         return (
           <section
             key={uc.title}
-            className={`px-8 py-28 ${
+            className={`px-6 md:px-8 py-16 md:py-28 overflow-hidden ${
               darkBg
                 ? "bg-primary hero-pattern text-white"
                 : bgOptions[i]
             }`}
           >
             <div className="max-w-7xl mx-auto">
-              <div className="grid lg:grid-cols-2 gap-20 items-center">
+              <div className="grid lg:grid-cols-2 gap-12 md:gap-20 items-center">
                 {/* Text side */}
                 <div className={isOdd ? "lg:order-2" : ""}>
                   <div className="flex flex-wrap items-center gap-2 mb-6">
@@ -220,17 +220,17 @@ export default function UseCasesPage() {
                   </div>
 
                   <h2
-                    className={`font-black text-4xl tracking-tight mb-3 ${
+                    className={`font-black text-3xl md:text-4xl tracking-tight mb-3 ${
                       darkBg ? "text-white" : "text-primary"
                     }`}
                   >
                     {uc.title}
                   </h2>
-                  <p className="text-lg text-secondary font-bold mb-6">
+                  <p className="text-base md:text-lg text-secondary font-bold mb-6">
                     {uc.subtitle}
                   </p>
                   <p
-                    className={`leading-relaxed mb-8 ${
+                    className={`text-sm md:text-base leading-relaxed mb-8 ${
                       darkBg ? "text-slate-300" : "text-on-surface-variant"
                     }`}
                   >
@@ -241,7 +241,7 @@ export default function UseCasesPage() {
                     {uc.benefits.map((b) => (
                       <li
                         key={b}
-                        className={`flex items-start gap-3 font-medium ${
+                        className={`flex items-start gap-3 text-sm md:text-base font-medium ${
                           darkBg ? "text-slate-200" : "text-slate-700"
                         }`}
                       >
@@ -257,18 +257,18 @@ export default function UseCasesPage() {
                 {/* Code side */}
                 <div className={isOdd ? "lg:order-1" : ""}>
                   <div
-                    className={`rounded-[2rem] p-8 shadow-2xl ${
+                    className={`rounded-2xl md:rounded-[2rem] p-5 md:p-8 shadow-2xl overflow-hidden ${
                       darkBg
                         ? "bg-black/40 border border-white/10"
                         : "bg-slate-950 border border-white/10"
                     }`}
                   >
-                    <div className="flex items-center gap-2 mb-6">
-                      <div className="w-3 h-3 rounded-full bg-red-500/60" />
-                      <div className="w-3 h-3 rounded-full bg-amber-400/60" />
-                      <div className="w-3 h-3 rounded-full bg-green-500/60" />
+                    <div className="flex items-center gap-2 mb-4 md:mb-6">
+                      <div className="w-2.5 h-2.5 md:w-3 md:h-3 rounded-full bg-red-500/60" />
+                      <div className="w-2.5 h-2.5 md:w-3 md:h-3 rounded-full bg-amber-400/60" />
+                      <div className="w-2.5 h-2.5 md:w-3 md:h-3 rounded-full bg-green-500/60" />
                     </div>
-                    <pre className="text-sm text-slate-300 font-mono leading-relaxed overflow-x-auto">
+                    <pre className="text-xs md:text-sm text-slate-300 font-mono leading-relaxed overflow-x-auto">
                       <code>{uc.code}</code>
                     </pre>
                   </div>
@@ -280,31 +280,31 @@ export default function UseCasesPage() {
       })}
 
       {/* ===== INDUSTRIES ===== */}
-      <section className="py-32 px-8 bg-accent-indigo text-white relative overflow-hidden">
+      <section className="py-20 md:py-32 px-6 md:px-8 bg-accent-indigo text-white relative overflow-hidden">
         <div className="absolute top-0 left-0 w-full h-full hero-pattern opacity-5" />
         <div className="max-w-7xl mx-auto relative z-10">
-          <div className="flex flex-col items-center text-center mb-20">
-            <h2 className="text-5xl md:text-6xl font-black tracking-tight text-white mb-6">
+          <div className="flex flex-col items-center text-center mb-14 md:mb-20">
+            <h2 className="text-3xl md:text-5xl lg:text-6xl font-black tracking-tight text-white mb-6">
               Built for European Industries
             </h2>
             <div className="w-24 h-2 bg-secondary rounded-full" />
           </div>
 
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-10">
+          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-10">
             {industries.map((ind) => (
               <div
                 key={ind.name}
-                className="group p-10 bg-white/5 rounded-[2.5rem] hover:bg-white/10 transition-all duration-500 border border-white/10 hover:border-secondary/50"
+                className="group p-8 md:p-10 bg-white/5 rounded-[2rem] md:rounded-[2.5rem] hover:bg-white/10 transition-all duration-500 border border-white/10 hover:border-secondary/50"
               >
-                <div className="w-14 h-14 bg-secondary rounded-2xl flex items-center justify-center mb-8 shadow-lg electric-glow">
-                  <span className="material-symbols-outlined text-primary text-2xl">
+                <div className="w-12 h-12 md:w-14 md:h-14 bg-secondary rounded-xl md:rounded-2xl flex items-center justify-center mb-6 md:mb-8 shadow-lg electric-glow">
+                  <span className="material-symbols-outlined text-primary text-xl md:text-2xl">
                     {ind.icon}
                   </span>
                 </div>
-                <h3 className="text-2xl font-black text-white mb-4">
+                <h3 className="text-xl md:text-2xl font-black text-white mb-3 md:mb-4">
                   {ind.name}
                 </h3>
-                <p className="text-slate-300 leading-relaxed font-medium">
+                <p className="text-sm md:text-base text-slate-300 leading-relaxed font-medium">
                   {ind.description}
                 </p>
               </div>
@@ -314,22 +314,22 @@ export default function UseCasesPage() {
       </section>
 
       {/* ===== CTA ===== */}
-      <section className="py-32 px-8">
-        <div className="max-w-5xl mx-auto bg-primary rounded-[4rem] p-20 md:p-28 text-center relative overflow-hidden shadow-2xl electric-glow">
+      <section className="py-20 md:py-32 px-6 md:px-8">
+        <div className="max-w-5xl mx-auto bg-primary rounded-[2.5rem] md:rounded-[4rem] p-10 md:p-28 text-center relative overflow-hidden shadow-2xl electric-glow">
           <div className="absolute inset-0 hero-pattern opacity-10" />
           <div className="relative z-10">
-            <h2 className="text-5xl md:text-7xl font-black text-white mb-8 tracking-tighter leading-none">
+            <h2 className="text-3xl md:text-5xl lg:text-7xl font-black text-white mb-6 md:mb-8 tracking-tighter leading-none">
               Your Use Case.{" "}
               <span className="text-secondary">Our SDK.</span>
             </h2>
-            <p className="max-w-2xl mx-auto text-lg text-slate-300 leading-relaxed mb-14 font-medium">
+            <p className="max-w-2xl mx-auto text-base md:text-lg text-slate-300 leading-relaxed mb-10 md:mb-14 font-medium">
               euRedact handles structured PII redaction for any European
               data pipeline. Get started in under a minute.
             </p>
-            <div className="flex flex-col md:flex-row items-center justify-center gap-8">
+            <div className="flex flex-col md:flex-row items-center justify-center gap-6 md:gap-8">
               <Link
                 href="/docs/quickstart"
-                className="w-full md:w-auto bg-secondary text-primary px-12 py-5 rounded-2xl font-black uppercase tracking-widest text-base hover:bg-emerald-400 hover:scale-105 transition-all shadow-2xl text-center flex items-center justify-center gap-3"
+                className="w-full md:w-auto bg-secondary text-primary px-10 md:px-12 py-4 md:py-5 rounded-2xl font-black uppercase tracking-widest text-sm md:text-base hover:bg-emerald-400 hover:scale-105 transition-all shadow-2xl text-center flex items-center justify-center gap-3"
               >
                 <span className="material-symbols-outlined text-xl">
                   rocket_launch
