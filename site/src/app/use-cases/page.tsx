@@ -61,37 +61,30 @@ const useCases = [
           [
             { text: "Hierbij bevestigen wij dat " },
             { text: "Max Mustermann", pii: "NAME" },
-            { text: ", geboren op " },
-            { text: "15-03-1985", pii: "DOB" },
             { text: "," },
           ],
           [
             { text: "wonende te " },
-            { text: "Keizersgracht 312, 1016 EZ Amsterdam", pii: "ADDRESS" },
+            { text: "Keizersgracht 312, Amsterdam", pii: "ADDRESS" },
             { text: "," },
           ],
           [
-            { text: "met Steuer-ID " },
-            { text: "65929970489", pii: "TAX_ID" },
-            { text: " per 1 mei 2026 in dienst" },
+            { text: "per 1 mei 2026 in dienst treedt als Software" },
           ],
           [
-            { text: "treedt bij onze organisatie. Het salaris wordt" },
+            { text: "Engineer bij onze organisatie. Het salaris" },
           ],
           [
-            { text: "overgemaakt naar IBAN " },
-            { text: "DE89370400440532013000", pii: "IBAN" },
-            { text: "." },
+            { text: "wordt maandelijks overgemaakt naar IBAN" },
           ],
           [
             { text: "" },
+            { text: "DE89370400440532013000", pii: "IBAN" },
+            { text: "." },
           ],
+          [{ text: "" }],
           [
-            { text: "Contactgegevens: " },
-            { text: "+49 170 1234567", pii: "PHONE" },
-          ],
-          [
-            { text: "E-mail: " },
+            { text: "Voor vragen: " },
             { text: "m.mustermann@beispiel.de", pii: "EMAIL" },
           ],
         ]}
@@ -123,15 +116,14 @@ const useCases = [
           [
             { text: "2026-04-01 09:14:03 " },
             { text: "INFO  " },
-            { text: "KYC check for BSN " },
-            { text: "111222333", pii: "NATIONAL_ID" },
-            { text: " — passed" },
+            { text: "Session created, role=admin" },
           ],
           [
             { text: "2026-04-01 09:14:05 " },
-            { text: "WARN  " },
-            { text: "Rate limit: IP " },
-            { text: "192.168.1.42", pii: "IP_ADDRESS" },
+            { text: "INFO  " },
+            { text: "KYC check for BSN " },
+            { text: "111222333", pii: "NATIONAL_ID" },
+            { text: " — passed" },
           ],
           [
             { text: "2026-04-01 09:14:07 " },
@@ -142,9 +134,8 @@ const useCases = [
           ],
           [
             { text: "2026-04-01 09:14:08 " },
-            { text: "INFO  " },
-            { text: "SMS sent to " },
-            { text: "+31 6 12345678", pii: "PHONE" },
+            { text: "WARN  " },
+            { text: "Retry 2/3 for tx_8f2a91c" },
           ],
           [
             { text: "2026-04-01 09:14:09 " },
@@ -170,42 +161,38 @@ const useCases = [
     mockup: (dark: boolean) => (
       <TableMockup
         darkParent={dark}
-        headers={["Name", "Email", "BSN", "IBAN", "Phone"]}
+        headers={["Name", "Plan", "Email", "Notes"]}
         rows={[
           {
             cells: [
               { text: "Jan Van den Berg", pii: "NAME" },
+              { text: "Professional" },
               { text: "jan@example.com", pii: "EMAIL" },
-              { text: "111222333", pii: "NATIONAL_ID" },
-              { text: "NL91ABNA041716", pii: "IBAN" },
-              { text: "+31 6 12345678", pii: "PHONE" },
+              { text: "BSN 111222333", pii: "NATIONAL_ID" },
             ],
           },
           {
             cells: [
               { text: "Marie Dupont", pii: "NAME" },
+              { text: "Starter" },
               { text: "marie@exemple.fr", pii: "EMAIL" },
-              { text: "285017511600572", pii: "NATIONAL_ID" },
-              { text: "FR76300060000112", pii: "IBAN" },
-              { text: "+33 6 12345678", pii: "PHONE" },
+              { text: "Called +33 6 12345678", pii: "PHONE" },
             ],
           },
           {
             cells: [
               { text: "Luc Peeters", pii: "NAME" },
+              { text: "Enterprise" },
               { text: "luc@voorbeeld.be", pii: "EMAIL" },
-              { text: "85.07.15-001.26", pii: "NATIONAL_ID" },
-              { text: "BE68539007547034", pii: "IBAN" },
-              { text: "+32 470 123456", pii: "PHONE" },
+              { text: "IBAN BE68539007547034", pii: "IBAN" },
             ],
           },
           {
             cells: [
               { text: "Max Mustermann", pii: "NAME" },
+              { text: "Professional" },
               { text: "max@beispiel.de", pii: "EMAIL" },
-              { text: "65929970489", pii: "NATIONAL_ID" },
-              { text: "DE89370400440532", pii: "IBAN" },
-              { text: "+49 170 1234567", pii: "PHONE" },
+              { text: "Renewal pending" },
             ],
           },
         ]}
@@ -231,32 +218,30 @@ const useCases = [
           [
             { text: "Patient " },
             { text: "Pieter de Vries", pii: "NAME_1" },
-            { text: " (DOB: " },
-            { text: "23-11-1967", pii: "DOB" },
-            { text: ") presented with" },
+            { text: " presented with" },
           ],
           [
-            { text: "recurring symptoms at " },
-            { text: "Keizersgracht 312, Amsterdam", pii: "ADDRESS" },
-            { text: "." },
+            { text: "recurring symptoms over a 6-month period." },
           ],
           [
-            { text: "Insurance ID: " },
-            { text: "8234567891", pii: "HEALTH_INSURANCE" },
-            { text: ". Referred by Dr. " },
+            { text: "Treatment was initiated at the Amsterdam" },
+          ],
+          [
+            { text: "University Medical Center. Referred by" },
+          ],
+          [
+            { text: "Dr. " },
             { text: "Janssen", pii: "NAME_2" },
-            { text: "." },
+            { text: " (cardiology dept)." },
           ],
           [{ text: "" }],
           [
             { text: "Follow-up with " },
             { text: "Pieter de Vries", pii: "NAME_1" },
-            { text: " scheduled for" },
+            { text: " scheduled" },
           ],
           [
-            { text: "next week. Contact: " },
-            { text: "+31 6 98765432", pii: "PHONE" },
-            { text: "." },
+            { text: "for Q3 2026. Prognosis: favourable." },
           ],
         ]}
       />

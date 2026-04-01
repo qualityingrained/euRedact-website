@@ -26,15 +26,26 @@ function PiiSpan({ span, redacted }: { span: Span; redacted: boolean }) {
     return <span>{span.text}</span>;
   }
 
+  // Use a grid stack so both states occupy the same space without layout shift
+  const area = "1 / 1 / 2 / 2";
   return (
-    <span
-      className={`inline transition-all duration-500 rounded px-0.5 ${
-        redacted
-          ? "bg-emerald-400/25 text-emerald-400 font-bold"
-          : "bg-amber-400/20 text-amber-300"
-      }`}
-    >
-      {redacted ? `[${span.pii}]` : span.text}
+    <span className="inline-grid rounded px-0.5" style={{ gridTemplate: "1fr / 1fr" }}>
+      <span
+        className={`transition-opacity duration-500 rounded px-0.5 bg-amber-400/20 text-amber-300 ${
+          redacted ? "opacity-0" : "opacity-100"
+        }`}
+        style={{ gridArea: area }}
+      >
+        {span.text}
+      </span>
+      <span
+        className={`transition-opacity duration-500 rounded px-0.5 bg-emerald-400/25 text-emerald-400 font-bold ${
+          redacted ? "opacity-100" : "opacity-0"
+        }`}
+        style={{ gridArea: area }}
+      >
+        {`[${span.pii}]`}
+      </span>
     </span>
   );
 }
@@ -234,7 +245,7 @@ export function DocMockup({ lines, variant, darkParent }: DocMockupProps) {
       } ${hovered ? "border-secondary/40" : ""}`}
     >
       {/* Hover hint */}
-      <div className={`flex items-center justify-center gap-1.5 mb-4 transition-all duration-300 ${hovered ? "opacity-0 h-0 mb-0" : "opacity-100"}`}>
+      <div className={`flex items-center justify-center gap-1.5 mb-4 transition-opacity duration-300 ${hovered ? "opacity-0" : "opacity-100"}`}>
         <span className="material-symbols-outlined text-slate-600 text-[11px]">touch_app</span>
         <span className="text-[9px] text-slate-600 font-bold uppercase tracking-wider">Hover to redact</span>
       </div>
