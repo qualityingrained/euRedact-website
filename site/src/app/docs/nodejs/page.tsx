@@ -89,10 +89,12 @@ const countries = [
 ];
 
 const entities = [
-  "NATIONAL_ID", "IBAN", "PHONE", "EMAIL", "TAX_ID", "CREDIT_CARD",
-  "LICENSE_PLATE", "PASSPORT", "VAT", "BIC", "VIN", "IP_ADDRESS",
-  "MAC_ADDRESS", "UUID", "IMEI", "GPS_COORDINATES", "SOCIAL_HANDLE",
-  "DOB", "POSTAL_CODE", "HEALTHCARE_PROVIDER", "HEALTH_INSURANCE",
+  "NAME", "ADDRESS", "IBAN", "BIC", "CREDIT_CARD", "PHONE", "EMAIL",
+  "DOB", "DATE_OF_DEATH", "NATIONAL_ID", "SSN", "TAX_ID", "PASSPORT",
+  "DRIVERS_LICENSE", "RESIDENCE_PERMIT", "LICENSE_PLATE", "VIN", "VAT",
+  "POSTAL_CODE", "IP_ADDRESS", "IPV6_ADDRESS", "MAC_ADDRESS",
+  "HEALTH_INSURANCE", "HEALTHCARE_PROVIDER", "CHAMBER_OF_COMMERCE",
+  "IMEI", "GPS_COORDINATES", "UUID", "SOCIAL_HANDLE", "SECRET", "OTHER",
 ];
 
 export default function NodejsSDKPage() {
@@ -151,7 +153,7 @@ export default function NodejsSDKPage() {
               redact()
             </h2>
             <p className="text-on-surface-variant leading-relaxed mb-6">
-              Redact PII from a text string. Returns a{" "}
+              Main entry point. Redact PII from a text string. Returns a{" "}
               <code className="text-secondary font-mono font-bold text-sm bg-secondary/10 px-2 py-0.5 rounded">
                 RedactResult
               </code>{" "}
@@ -174,40 +176,45 @@ export default function NodejsSDKPage() {
               <span className="text-blue-300">RedactResult</span>
             </CodeBlock>
 
-            <h3 className="font-black text-xl text-primary mt-8 mb-3">
-              Options
-            </h3>
-            <ParamTable
-              params={[
-                {
-                  name: "countries",
-                  type: "string[]",
-                  default: "undefined",
-                  description:
-                    "ISO country codes to detect. Omit to detect all supported countries.",
-                },
-                {
-                  name: "pseudonymize",
-                  type: "boolean",
-                  default: "false",
-                  description:
-                    "Replace PII with consistent fake values instead of type labels.",
-                },
-                {
-                  name: "detectDates",
-                  type: "boolean",
-                  default: "true",
-                  description: "Whether to detect and redact date-of-birth patterns.",
-                },
-                {
-                  name: "cache",
-                  type: "boolean",
-                  default: "true",
-                  description:
-                    "Cache compiled patterns for faster subsequent calls.",
-                },
-              ]}
-            />
+            <div className="mt-6">
+              <ParamTable
+                params={[
+                  {
+                    name: "text",
+                    type: "string",
+                    description: "The input text to redact.",
+                  },
+                  {
+                    name: "countries",
+                    type: "string[]",
+                    default: "undefined",
+                    description:
+                      "Country codes (e.g. [\"NL\", \"BE\"]). Recommended for best precision. Omit to detect all supported countries.",
+                  },
+                  {
+                    name: "pseudonymize",
+                    type: "boolean",
+                    default: "false",
+                    description:
+                      "Replace PII with consistent pseudonyms (ENTITY_1, ENTITY_2, ...) instead of type labels.",
+                  },
+                  {
+                    name: "detectDates",
+                    type: "boolean",
+                    default: "false",
+                    description:
+                      "Include DOB and date-of-death detections. Off by default.",
+                  },
+                  {
+                    name: "cache",
+                    type: "boolean",
+                    default: "true",
+                    description:
+                      "Enable result caching for faster subsequent calls.",
+                  },
+                ]}
+              />
+            </div>
 
             <h3 className="font-black text-xl text-primary mt-8 mb-3">
               Return value
@@ -232,6 +239,65 @@ export default function NodejsSDKPage() {
                   type: "Detection[]",
                   description:
                     "Array of detected PII entities with type, value, position, and country.",
+                },
+                {
+                  name: "source",
+                  type: "string",
+                  description:
+                    "Source identifier for the redaction engine.",
+                },
+                {
+                  name: "degraded",
+                  type: "boolean",
+                  description:
+                    "Whether the result was produced in a degraded mode.",
+                },
+              ]}
+            />
+
+            <h3 className="font-black text-xl text-primary mt-8 mb-3">
+              Detection
+            </h3>
+            <p className="text-on-surface-variant leading-relaxed mb-4">
+              Each detection in the array contains:
+            </p>
+            <ParamTable
+              params={[
+                {
+                  name: "entityType",
+                  type: "EntityType",
+                  description: "The type of PII detected (enum value).",
+                },
+                {
+                  name: "start",
+                  type: "number",
+                  description: "Start character index in the original text.",
+                },
+                {
+                  name: "end",
+                  type: "number",
+                  description: "End character index in the original text.",
+                },
+                {
+                  name: "text",
+                  type: "string",
+                  description: "The original PII text that was detected.",
+                },
+                {
+                  name: "source",
+                  type: "DetectionSource",
+                  description: "The detection engine that found this entity.",
+                },
+                {
+                  name: "country",
+                  type: "string | null",
+                  description:
+                    "The country code associated with this detection, or null.",
+                },
+                {
+                  name: "confidence",
+                  type: "string",
+                  description: "Confidence level of the detection.",
                 },
               ]}
             />
@@ -282,7 +348,8 @@ export default function NodejsSDKPage() {
               redactBatch()
             </h2>
             <p className="text-on-surface-variant leading-relaxed mb-6">
-              Process multiple texts at once. Same options as{" "}
+              Process multiple texts efficiently. Loads country configs once.
+              Same options as{" "}
               <code className="text-secondary font-mono font-bold text-sm bg-secondary/10 px-2 py-0.5 rounded">
                 redact()
               </code>
@@ -345,6 +412,85 @@ export default function NodejsSDKPage() {
             </CodeBlock>
           </div>
 
+          {/* addCustomPattern() */}
+          <div>
+            <h2 className="font-black text-3xl text-primary mb-2 tracking-tight">
+              addCustomPattern()
+            </h2>
+            <p className="text-on-surface-variant leading-relaxed mb-6">
+              Register a custom regex pattern at runtime. Detected matches will
+              be labeled with the given entity type.
+            </p>
+
+            <CodeBlock title="Signature">
+              <span className="text-purple-400">function</span>
+              <span className="text-secondary"> addCustomPattern</span>
+              <span className="text-white">(</span>
+              {"\n"}
+              <span className="text-white">  entityType: </span>
+              <span className="text-blue-300">string</span>
+              <span className="text-white">,</span>
+              {"\n"}
+              <span className="text-white">  pattern: </span>
+              <span className="text-blue-300">string</span>
+              {"\n"}
+              <span className="text-white">): </span>
+              <span className="text-blue-300">void</span>
+            </CodeBlock>
+
+            <div className="mt-6">
+              <ParamTable
+                params={[
+                  {
+                    name: "entityType",
+                    type: "string",
+                    description:
+                      "The label to use for matches (e.g. \"EMPLOYEE_ID\").",
+                  },
+                  {
+                    name: "pattern",
+                    type: "string",
+                    description:
+                      "A regex pattern string to match against input text.",
+                  },
+                ]}
+              />
+            </div>
+
+            <h3 className="font-black text-xl text-primary mt-8 mb-3">
+              Example
+            </h3>
+            <CodeBlock title="custom.ts">
+              <span className="text-purple-400">import</span>
+              <span className="text-white"> {"{ "}</span>
+              <span className="text-white">addCustomPattern, redact</span>
+              <span className="text-white">{" }"} </span>
+              <span className="text-purple-400">from</span>
+              <span className="text-amber-300"> &quot;euredact&quot;</span>
+              <span className="text-white">;{"\n\n"}</span>
+              <span className="text-secondary">addCustomPattern</span>
+              <span className="text-white">(</span>
+              <span className="text-amber-300">&quot;EMPLOYEE_ID&quot;</span>
+              <span className="text-white">, </span>
+              <span className="text-amber-300">&quot;EMP-\\d{"{6}"}&quot;</span>
+              <span className="text-white">);{"\n\n"}</span>
+              <span className="text-purple-400">const</span>
+              <span className="text-white"> result = </span>
+              <span className="text-secondary">redact</span>
+              <span className="text-white">(</span>
+              <span className="text-amber-300">
+                &quot;Contact EMP-123456 for details&quot;
+              </span>
+              <span className="text-white">);{"\n\n"}</span>
+              <span className="text-white">console.</span>
+              <span className="text-secondary">log</span>
+              <span className="text-white">(result.redactedText);{"\n"}</span>
+              <span className="text-slate-500">
+                // &quot;Contact [EMPLOYEE_ID] for details&quot;
+              </span>
+            </CodeBlock>
+          </div>
+
           {/* availableCountries() */}
           <div>
             <h2 className="font-black text-3xl text-primary mb-2 tracking-tight">
@@ -372,6 +518,62 @@ export default function NodejsSDKPage() {
             </CodeBlock>
           </div>
 
+          {/* Secret Detection */}
+          <div>
+            <h2 className="font-black text-3xl text-primary mb-2 tracking-tight">
+              Secret Detection
+            </h2>
+            <p className="text-on-surface-variant leading-relaxed mb-6">
+              euRedact automatically detects secrets and API keys using two
+              strategies: known-prefix patterns for popular services (AWS,
+              GitHub, Stripe, OpenAI, Slack, JWT, SendGrid) and an
+              entropy-based fallback that catches generic secrets near context
+              keywords like{" "}
+              <code className="text-secondary font-mono font-bold text-sm bg-secondary/10 px-2 py-0.5 rounded">
+                api_key
+              </code>
+              ,{" "}
+              <code className="text-secondary font-mono font-bold text-sm bg-secondary/10 px-2 py-0.5 rounded">
+                token
+              </code>
+              , and{" "}
+              <code className="text-secondary font-mono font-bold text-sm bg-secondary/10 px-2 py-0.5 rounded">
+                secret
+              </code>
+              . Detected secrets are labeled as{" "}
+              <code className="text-secondary font-mono font-bold text-sm bg-secondary/10 px-2 py-0.5 rounded">
+                [SECRET]
+              </code>
+              .
+            </p>
+            <CodeBlock title="secrets.ts">
+              <span className="text-purple-400">import</span>
+              <span className="text-white"> {"{ "}</span>
+              <span className="text-white">redact</span>
+              <span className="text-white">{" }"} </span>
+              <span className="text-purple-400">from</span>
+              <span className="text-amber-300"> &quot;euredact&quot;</span>
+              <span className="text-white">;{"\n\n"}</span>
+              <span className="text-purple-400">const</span>
+              <span className="text-white"> result = </span>
+              <span className="text-secondary">redact</span>
+              <span className="text-white">(</span>
+              {"\n"}
+              <span className="text-white">  </span>
+              <span className="text-amber-300">
+                &quot;My API key is sk-proj-abc123def456ghi789&quot;
+              </span>
+              {"\n"}
+              <span className="text-white">);{"\n\n"}</span>
+              <span className="text-white">console.</span>
+              <span className="text-secondary">log</span>
+              <span className="text-white">(result.redactedText);{"\n"}</span>
+              <span className="text-slate-500">
+                // &quot;My API key is [SECRET]&quot;
+              </span>
+            </CodeBlock>
+          </div>
+
           {/* Performance */}
           <div>
             <h2 className="font-black text-3xl text-primary mb-6 tracking-tight">
@@ -380,12 +582,30 @@ export default function NodejsSDKPage() {
             <div className="grid sm:grid-cols-3 gap-6">
               <div className="rounded-2xl bg-slate-50 border-2 border-slate-200 p-8">
                 <div className="text-4xl font-black text-primary mb-2">
-                  0.02ms
+                  ~0.02ms
                 </div>
                 <div className="text-xs font-black text-slate-400 uppercase tracking-[0.2em]">
-                  Per redaction
+                  Per page (~500 words)
                 </div>
               </div>
+              <div className="rounded-2xl bg-slate-50 border-2 border-slate-200 p-8">
+                <div className="text-4xl font-black text-primary mb-2">
+                  ~50,000
+                </div>
+                <div className="text-xs font-black text-slate-400 uppercase tracking-[0.2em]">
+                  Records per second
+                </div>
+              </div>
+              <div className="rounded-2xl bg-slate-50 border-2 border-slate-200 p-8">
+                <div className="text-4xl font-black text-primary mb-2">
+                  ~50KB
+                </div>
+                <div className="text-xs font-black text-slate-400 uppercase tracking-[0.2em]">
+                  Memory per country
+                </div>
+              </div>
+            </div>
+            <div className="grid sm:grid-cols-3 gap-6 mt-6">
               <div className="rounded-2xl bg-slate-50 border-2 border-slate-200 p-8">
                 <div className="text-4xl font-black text-primary mb-2">
                   86KB
@@ -411,6 +631,9 @@ export default function NodejsSDKPage() {
           <h2 className="font-black text-3xl text-primary mb-6 tracking-tight">
             Supported Countries
           </h2>
+          <p className="text-on-surface-variant leading-relaxed mb-6">
+            31 European and EEA countries with country-specific PII patterns.
+          </p>
           <div className="flex flex-wrap gap-2 mb-12">
             {countries.map((code) => (
               <span

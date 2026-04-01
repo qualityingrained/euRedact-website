@@ -21,15 +21,8 @@ const values = [
     icon: "public",
     title: "European by Design",
     description:
-      "Built in Belgium, hosted in the EU, purpose-built for European regulatory requirements. Not a US tool with European patterns bolted on.",
+      "Built in Europe, hosted in the EU, purpose-built for European regulatory requirements. Not a US tool with European patterns bolted on.",
   },
-];
-
-const stats = [
-  { value: "1.2k", label: "Stars" },
-  { value: "89", label: "Forks" },
-  { value: "12", label: "Contributors" },
-  { value: "32", label: "Countries" },
 ];
 
 export default function AboutPage() {
@@ -39,11 +32,12 @@ export default function AboutPage() {
       <section className="bg-primary hero-pattern pt-32 py-20">
         <div className="mx-auto max-w-5xl px-6 text-center">
           <h1 className="font-black text-5xl text-white tracking-tight">
-            Built in Belgium. Built for Europe.
+            Built by Engineers. For Engineers.
           </h1>
           <p className="mx-auto mt-6 max-w-3xl text-lg text-slate-300 leading-relaxed">
-            euRedact is created by JNJS BV, a Belgian IT consultancy, to solve
-            the PII redaction problem that European developers face every day.
+            euRedact is built by developers who got tired of writing the same
+            PII regex for every European country, every project, every client.
+            So we built the tool we wished existed.
           </p>
         </div>
       </section>
@@ -59,14 +53,21 @@ export default function AboutPage() {
             challenge: the continent&apos;s diverse PII formats — from Dutch
             BSNs to German Steuer-IDs to Belgian National Numbers — aren&apos;t
             supported by US-built redaction tools. We kept writing custom regex
-            for every project, every country, every new client engagement.
+            for every project, every country, every new engagement.
           </p>
-          <p className="text-on-surface-variant leading-relaxed">
+          <p className="text-on-surface-variant leading-relaxed mb-6">
             euRedact was born from that frustration. What started as an internal
-            tool at JNJS BV became a comprehensive SDK covering 32 countries
-            with &gt;99% recall. We open-sourced the rule engine because we
+            tool became a comprehensive SDK covering 31 countries with &gt;99%
+            recall on structured PII. We open-sourced the rule engine because we
             believe every European developer should have access to reliable PII
             detection, regardless of budget.
+          </p>
+          <p className="text-on-surface-variant leading-relaxed">
+            Today, euRedact is available for both Python and Node.js — zero
+            dependencies, sub-millisecond latency, and checksum validation that
+            eliminates false positives at the pattern level. Built by IT
+            professionals who understand what it takes to ship compliant software
+            in Europe.
           </p>
         </div>
       </section>
@@ -109,24 +110,12 @@ export default function AboutPage() {
             because trust in PII tooling starts with transparency.
           </p>
 
-          <div className="rounded-[3rem] bg-primary p-12">
-            <div className="grid grid-cols-2 gap-8 sm:grid-cols-4">
-              {stats.map((s) => (
-                <div key={s.label} className="text-center">
-                  <div className="text-4xl font-black text-white">{s.value}</div>
-                  <div className="mt-2 text-sm font-semibold uppercase tracking-wider text-white/50">
-                    {s.label}
-                  </div>
-                </div>
-              ))}
-            </div>
-          </div>
-
           <a
-            href="https://github.com/jnjs-bv/euredact"
-            className="mt-8 inline-block text-secondary font-black hover:underline"
+            href="https://github.com/euRedact/euRedact"
+            className="inline-flex items-center gap-2 bg-primary text-white font-black uppercase tracking-wider text-sm px-8 py-4 rounded-2xl hover:bg-primary/90 transition-colors"
           >
-            View on GitHub &rarr;
+            View on GitHub
+            <span className="material-symbols-outlined text-secondary text-lg">arrow_forward</span>
           </a>
         </div>
       </section>
@@ -148,9 +137,6 @@ export default function AboutPage() {
             >
               contact@euredact.eu
             </a>
-            <p className="mt-4 text-sm text-slate-400">
-              JNJS BV — Antwerp, Belgium
-            </p>
           </div>
         </div>
       </section>

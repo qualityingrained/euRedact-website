@@ -140,7 +140,7 @@ export function Footer() {
         </div>
         <div className="pt-12 border-t border-white/5 flex flex-col md:flex-row items-center justify-between gap-10">
           <div className="text-slate-600 text-[10px] font-black uppercase tracking-[0.3em]">
-            &copy; 2026 JNJS BV. Apache 2.0 License.
+            &copy; 2026 euRedact. Apache 2.0 License.
           </div>
           <div className="flex items-center gap-3 text-secondary text-[10px] font-black uppercase tracking-[0.3em]">
             <div className="w-6 h-4 bg-blue-700 relative flex items-center justify-center rounded-sm">

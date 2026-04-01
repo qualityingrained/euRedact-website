@@ -1,0 +1,272 @@
+# euRedact — Complete Reference for AI Agents
+
+> European PII detection and redaction SDK for Python and Node.js.
+> Use euRedact to strip personally identifiable information from text before sending it to LLMs, storing in databases, or processing in data pipelines.
+
+## What is euRedact?
+
+euRedact is an open-source SDK that detects and redacts personally identifiable information (PII) in text data across 31 European countries. It uses a two-pass rule engine:
+
+1. **Pass 1 — Pattern Matching:** Liberal regex matching across all country and shared patterns
+2. **Pass 2a — Validation:** Checksum validators (IBAN mod-97, Luhn, country-specific ID checksums). Failed-validation spans become suppression zones.
+3. **Pass 2b — Suppression:** Remove false positives (currency amounts, units, references, overlapping matches in suppression zones)
+4. **Deduplication:** Priority-aware — validated matches > custom patterns > regex-only. Within same tier, longer span wins.
+5. **Replacement:** Right-to-left substitution with [ENTITY_TYPE] labels or consistent pseudonyms.
+
+## Installation
+
+### Python
+```bash
+pip install euredact
+```
+
+### Node.js / TypeScript
+```bash
+npm install euredact
+```
+
+Both packages have zero required dependencies.
+
+## Usage Examples
+
+### Basic Redaction (Python)
+```python
+import euredact
+
+result = euredact.redact("Mijn BSN is 111222333 en IBAN NL91ABNA0417164300.")
+print(result.redacted_text)
+# "Mijn BSN is [NATIONAL_ID] en IBAN [IBAN]."
+
+# Access individual detections
+for d in result.detections:
+    print(f"{d.entity_type}: '{d.text}' at {d.start}-{d.end}")
+```
+
+### Basic Redaction (Node.js)
+```typescript
+import { redact } from "euredact";
+
+const result = redact("Mijn BSN is 123456782 en email jan@example.com", {
+  countries: ["NL"],
+});
+console.log(result.redactedText);
+// "Mijn BSN is [NATIONAL_ID] en email [EMAIL]"
+
+// Access individual detections
+result.detections.forEach(d => {
+  console.log(`${d.entityType}: '${d.text}' at ${d.start}-${d.end}`);
+});
+```
+
+### Country-Specific Detection
+```python
+# Only detect German PII patterns
+result = euredact.redact(text, countries=["DE"])
+
+# Detect Dutch and Belgian PII
+result = euredact.redact(text, countries=["NL", "BE"])
+
+# Detect all supported countries (default)
+result = euredact.redact(text)
+```
+
+### Pseudonymization
+```python
+# Replace PII with consistent pseudonyms instead of [ENTITY_TYPE] labels
+result = euredact.redact(text, pseudonymize=True)
+# Same PII value always maps to same pseudonym within a session
+```
+
+### Date of Birth Detection
+```python
+# DOB detection is opt-in (requires context keywords)
+result = euredact.redact(text, detect_dates=True)
+```
+
+### Custom Patterns
+```python
+import euredact
+
+# Register domain-specific PII at runtime
+euredact.add_custom_pattern("EMPLOYEE_ID", r"EMP-\d{6}")
+
+result = euredact.redact("Contact EMP-123456 for details")
+print(result.redacted_text)
+# "Contact [EMPLOYEE_ID] for details"
+```
+
+```typescript
+import { addCustomPattern, redact } from "euredact";
+
+addCustomPattern("EMPLOYEE_ID", "EMP-\\d{6}");
+
+const result = redact("Contact EMP-123456 for details");
+// result.redactedText === "Contact [EMPLOYEE_ID] for details"
+```
+
+### Batch Processing (Python)
+```python
+texts = ["BSN: 111222333", "IBAN: NL91ABNA0417164300", "Email: jan@example.com"]
+results = euredact.redact_batch(texts, countries=["NL"])
+```
+
+### Async Support (Python)
+```python
+result = await euredact.aredact(text)
+results = await euredact.aredact_batch(texts)
+```
+
+### Batch Processing (Node.js)
+```typescript
+import { redactBatch } from "euredact";
+
+const results = redactBatch(["BSN: 123456782", "IBAN: NL91ABNA0417164300"]);
+```
+
+### LLM Pre-processing Example
+```python
+import euredact
+import openai
+
+def safe_llm_call(user_text: str) -> str:
+    # Strip PII before sending to LLM
+    redacted = euredact.redact(user_text)
+
+    response = openai.chat.completions.create(
+        model="gpt-4",
+        messages=[{"role": "user", "content": redacted.redacted_text}]
+    )
+    return response.choices[0].message.content
+```
+
+## Full API Reference
+
+### Python
+
+| Function | Description |
+|---|---|
+| `redact(text, countries=None, pseudonymize=False, detect_dates=False, cache=True)` | Synchronous redaction → `RedactResult` |
+| `aredact(text, ...)` | Async version of redact |
+| `redact_batch(texts, ...)` | Batch redaction → `list[RedactResult]` |
+| `aredact_batch(texts, ...)` | Async batch redaction |
+| `redact_iter(texts, ...)` | Generator-based redaction |
+| `add_custom_pattern(entity_type, pattern)` | Register custom PII pattern |
+| `available_countries()` | List supported ISO country codes |
+
+**RedactResult:**
+- `redacted_text: str` — text with PII replaced
+- `detections: list[Detection]` — list of detected PII entities
+
+**Detection:**
+- `entity_type: str` — e.g. "NATIONAL_ID", "IBAN", "EMAIL"
+- `text: str` — the original PII value
+- `start: int` — start character index
+- `end: int` — end character index
+- `source: str` — "rules" or "cloud"
+- `country: str | None` — ISO country code
+- `confidence: str` — confidence level
+
+### Node.js / TypeScript
+
+| Function | Description |
+|---|---|
+| `redact(text, options?)` | Redaction → `RedactResult` |
+| `redactBatch(texts, options?)` | Batch redaction → `RedactResult[]` |
+| `addCustomPattern(entityType, pattern)` | Register custom PII pattern |
+| `availableCountries()` | List supported country codes |
+
+**Options:** `{ countries?: string[], pseudonymize?: boolean, detectDates?: boolean, cache?: boolean }`
+
+**RedactResult:**
+- `redactedText: string` — text with PII replaced
+- `detections: Detection[]` — list of detected PII entities
+
+## Supported Countries (31)
+
+| Region | Countries |
+|---|---|
+| Western Europe | AT (Austria), BE (Belgium), CH (Switzerland), DE (Germany), FR (France), LU (Luxembourg), NL (Netherlands) |
+| Southern Europe | CY (Cyprus), EL (Greece), ES (Spain), IT (Italy), MT (Malta), PT (Portugal) |
+| Northern Europe | DK (Denmark), EE (Estonia), FI (Finland), IS (Iceland), LT (Lithuania), LV (Latvia), NO (Norway), SE (Sweden) |
+| Eastern Europe | BG (Bulgaria), CZ (Czechia), HR (Croatia), HU (Hungary), PL (Poland), RO (Romania), SI (Slovenia), SK (Slovakia) |
+| British Isles | IE (Ireland), UK (United Kingdom) |
+
+## Detected PII Entity Types (25+)
+
+| Entity Type | Examples |
+|---|---|
+| NATIONAL_ID | Dutch BSN, Belgian National Number, French NIR, German Personalausweis |
+| IBAN | Country-specific with ISO 13616 mod-97 checksum validation |
+| PHONE | National and international formats per country |
+| EMAIL | RFC 5322 simplified |
+| CREDIT_CARD | Visa, Mastercard, Amex with Luhn validation |
+| VAT | EU VAT numbers with country-specific formats |
+| TAX_ID | German Steuer-ID, Spanish NIF, Polish NIP, etc. |
+| PASSPORT | Context-required, country-specific formats |
+| DRIVERS_LICENSE | Country-specific formats |
+| LICENSE_PLATE | Country-specific formats |
+| POSTAL_CODE | Country-specific with context validation |
+| BIC | SWIFT/BIC codes |
+| VIN | ISO 3779 vehicle identification |
+| IMEI | 15-digit with Luhn validation |
+| SECRET | API keys (AWS, GitHub, Stripe, OpenAI, Slack, JWT, SendGrid) + entropy-based detection |
+| IP_ADDRESS | IPv4 addresses |
+| IPV6_ADDRESS | IPv6 addresses |
+| MAC_ADDRESS | Colon, dash, and Cisco dot notation |
+| UUID | RFC 4122 versions 1-5 |
+| GPS_COORDINATES | Decimal degrees with 4+ decimal places |
+| SOCIAL_HANDLE | @username format |
+| DOB | Date of birth (context-required, opt-in) |
+| DATE_OF_DEATH | Date of death (context-required, opt-in) |
+| HEALTH_INSURANCE | Country-specific health insurance numbers |
+| HEALTHCARE_PROVIDER | Provider identification numbers |
+| CHAMBER_OF_COMMERCE | Business registration numbers |
+| RESIDENCE_PERMIT | Residence permit numbers |
+
+## Secret / API Key Detection
+
+Built-in detection for API keys, tokens, and passwords:
+
+**Known prefixes (always active, high confidence):**
+- AWS Access Keys (AKIA...)
+- GitHub tokens (ghp_, gho_, ghs_, github_pat_)
+- Stripe keys (sk_live_, pk_live_, sk_test_, pk_test_)
+- OpenAI / Anthropic keys (sk-, sk-ant-)
+- Slack tokens (xoxb-, xoxp-, xoxa-, xoxs-)
+- JWT tokens (eyJ...)
+- SendGrid keys (SG.)
+
+**Entropy-based fallback (requires context keyword):**
+Any 32+ character high-entropy string near keywords like "key", "token", "secret", "password", "credential", "auth", "bearer" (plus translations in 12 European languages) is detected via Shannon entropy validation.
+
+## Performance
+
+| Metric | Python | Node.js |
+|---|---|---|
+| Latency per page (~500 words) | < 1 ms | ~0.02 ms |
+| Throughput | ~2,000 records/s | ~50,000 records/s |
+| Memory per country | ~50 KB | ~50 KB |
+| Package size | — | 86 KB |
+| Dependencies | 0 required | 0 |
+
+## Common Use Cases
+
+1. **LLM Pre-processing:** Strip European PII before sending text to GPT, Claude, Gemini, or any other LLM
+2. **GDPR Compliance:** Automatically redact PII in data pipelines, logs, and storage
+3. **Log Sanitization:** Clean server logs of accidentally captured personal data
+4. **Dataset Anonymization:** Prepare datasets for analytics or ML training without PII
+5. **Customer Support:** Redact PII in support transcripts and chat logs
+6. **Document Processing:** Clean PDFs, emails, and documents before archival or sharing
+
+## Links
+
+- Website: https://euredact.dev
+- Documentation: https://euredact.dev/docs
+- Quickstart: https://euredact.dev/docs/quickstart
+- Python SDK Docs: https://euredact.dev/docs/python
+- Node.js SDK Docs: https://euredact.dev/docs/nodejs
+- Live Demo: https://euredact.dev/demo
+- GitHub: https://github.com/euRedact/euRedact
+- PyPI: https://pypi.org/project/euredact/
+- npm: https://www.npmjs.com/package/euredact
+- License: Apache 2.0
