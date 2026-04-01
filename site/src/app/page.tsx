@@ -182,7 +182,7 @@ export default function Page() {
                 "25+ Structured PII entity types with checksum validation",
                 "Secret & API key detection (AWS, GitHub, Stripe, ...)",
                 "Custom pattern support",
-                "Pseudonymization mode",
+                "Referential integrity mode",
                 "0.02ms per page — zero dependencies",
                 "Python & Node.js / TypeScript",
               ].map((f) => (
@@ -218,8 +218,8 @@ export default function Page() {
               {[
                 { icon: "auto_awesome", text: "Everything in Core, plus:" },
                 { icon: "done", text: "Fine-tuned Privacy LLM" },
-                { icon: "done", text: "Dynamic pseudonymization" },
-                { icon: "done", text: "99.9% SLA uptime" },
+                { icon: "done", text: "Referential integrity" },
+                { icon: "done", text: "EU-hosted infrastructure" },
                 { icon: "done", text: "Dedicated support" },
               ].map((f) => (
                 <li key={f.text} className="flex items-center gap-4 text-white font-bold text-lg">

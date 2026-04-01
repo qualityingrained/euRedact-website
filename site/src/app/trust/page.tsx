@@ -45,9 +45,9 @@ export default function TrustPage() {
             Security &amp; Compliance
           </h1>
           <p className="mx-auto mt-6 max-w-2xl text-lg text-white/70 leading-relaxed">
-            euRedact is compliant by design. Every architectural choice -- from
-            local rule engines to hash-based segment routing -- exists to keep
-            personal data safe and your organisation audit-ready.
+            euRedact is built with privacy as a core architectural principle.
+            Local processing, open-source rules, and zero data transmission
+            give you full control over how personal data is handled.
           </p>
           <div className="mx-auto mt-8 h-1 w-20 rounded-full bg-secondary" />
         </div>
@@ -132,61 +132,58 @@ export default function TrustPage() {
       <section className="bg-slate-50 px-6 py-24">
         <div className="mx-auto max-w-5xl">
           <h2 className="mb-14 text-center text-3xl font-black text-primary tracking-tight">
-            Built for European Compliance
+            Why You Can Trust euRedact
           </h2>
 
           <div className="grid gap-8 sm:grid-cols-2">
-            {/* GDPR */}
+            {/* 100% Local */}
             <div className="rounded-[3rem] bg-white p-12 shadow-xl">
               <span className="material-symbols-outlined text-5xl text-secondary mb-4">
-                flag
+                lock
               </span>
-              <h3 className="text-xl font-black text-primary mb-3">GDPR Compliant</h3>
+              <h3 className="text-xl font-black text-primary mb-3">100% Local Processing</h3>
               <p className="text-on-surface-variant leading-relaxed">
-                Data Processing Agreement available on request. Pseudonymization
-                implementation meets EDPB Guidelines 04/2020 on the use of
-                anonymisation and pseudonymisation techniques.
+                euRedact Rules runs entirely on your machine. No data is sent
+                to any external server. Your text never leaves your infrastructure.
               </p>
             </div>
 
-            {/* EU AI Act */}
+            {/* Open Source */}
             <div className="rounded-[3rem] bg-white p-12 shadow-xl">
               <span className="material-symbols-outlined text-5xl text-secondary mb-4">
-                balance
+                code
               </span>
-              <h3 className="text-xl font-black text-primary mb-3">
-                EU AI Act — Minimal Risk
-              </h3>
+              <h3 className="text-xl font-black text-primary mb-3">Open Source &amp; Auditable</h3>
               <p className="text-on-surface-variant leading-relaxed">
-                PII redaction is classified as a minimal-risk application under
-                the EU AI Act. No high-risk obligations, no conformity
-                assessment required.
+                The full rule engine is open source under Apache 2.0. Every regex
+                pattern, checksum validator, and suppression rule is visible and
+                auditable on GitHub.
               </p>
             </div>
 
-            {/* EU Data Residency */}
+            {/* No Vendor Lock-in */}
             <div className="rounded-[3rem] bg-white p-12 shadow-xl">
               <span className="material-symbols-outlined text-5xl text-secondary mb-4">
-                cloud_lock
+                swap_horiz
               </span>
-              <h3 className="text-xl font-black text-primary mb-3">EU Data Residency</h3>
+              <h3 className="text-xl font-black text-primary mb-3">No Vendor Lock-in</h3>
               <p className="text-on-surface-variant leading-relaxed">
-                All cloud infrastructure will be hosted exclusively within the
-                European Union. No data will ever leave EU jurisdiction -- at rest
-                or in transit.
+                euRedact is a library, not a service. Your redaction rules,
+                custom patterns, and configuration are yours. No accounts, no
+                API keys, no data retention.
               </p>
             </div>
 
-            {/* EU Data Act */}
+            {/* Zero Dependencies */}
             <div className="rounded-[3rem] bg-white p-12 shadow-xl">
               <span className="material-symbols-outlined text-5xl text-secondary mb-4">
-                description
+                package_2
               </span>
-              <h3 className="text-xl font-black text-primary mb-3">EU Data Act Ready</h3>
+              <h3 className="text-xl font-black text-primary mb-3">Zero Required Dependencies</h3>
               <p className="text-on-surface-variant leading-relaxed">
-                Two-month termination notice. Full data portability. No vendor
-                lock-in -- your redaction rules, configuration, and data remain
-                yours at all times.
+                No external packages required in either Python or Node.js.
+                Minimal attack surface, no transitive dependency risks, easy
+                to audit and deploy.
               </p>
             </div>
           </div>

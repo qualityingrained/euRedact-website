@@ -111,7 +111,7 @@ export default function PricingPage() {
                 <FeatureItem>Contextual PII detection</FeatureItem>
                 <FeatureItem>Fine-tuned privacy model</FeatureItem>
                 <FeatureItem>98&ndash;99% blended recall</FeatureItem>
-                <FeatureItem>Basic pseudonymization</FeatureItem>
+                <FeatureItem>Referential integrity</FeatureItem>
                 <FeatureItem>Email support</FeatureItem>
               </ul>
               <p className="text-xs text-on-surface-variant mb-6">

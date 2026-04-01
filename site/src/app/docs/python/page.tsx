@@ -185,7 +185,7 @@ export default function PythonSDKPage() {
               <span className="text-amber-300">&quot;rules&quot;</span>
               <span className="text-white">,</span>
               {"\n"}
-              <span className="text-white">    pseudonymize: </span>
+              <span className="text-white">    referential_integrity: </span>
               <span className="text-blue-300">bool</span>
               <span className="text-white"> = </span>
               <span className="text-amber-300">False</span>
@@ -230,11 +230,11 @@ export default function PythonSDKPage() {
                       'Detection mode (currently only "rules").',
                   },
                   {
-                    name: "pseudonymize",
+                    name: "referential_integrity",
                     type: "bool",
                     default: "False",
                     description:
-                      "Replace PII with consistent pseudonyms instead of [TYPE] labels.",
+                      "Replace PII with consistent labels (NAME_1, IBAN_1) instead of generic [TYPE] labels.",
                   },
                   {
                     name: "detect_dates",
@@ -326,7 +326,7 @@ export default function PythonSDKPage() {
                     name: "**kwargs",
                     type: "",
                     description:
-                      "Same keyword arguments as redact() (countries, mode, pseudonymize, detect_dates, cache).",
+                      "Same keyword arguments as redact() (countries, mode, referential_integrity, detect_dates, cache).",
                   },
                 ]}
               />

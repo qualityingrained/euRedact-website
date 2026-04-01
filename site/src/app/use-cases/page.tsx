@@ -34,7 +34,7 @@ response = llm.chat(clean.redacted_text)`,
       "Legal teams, insurance companies, and government agencies process thousands of documents containing personal data. euRedact detects and replaces PII across 32 European country formats — from Dutch BSNs to German Steuer-IDs — in a single function call.",
     benefits: [
       "Checksum-validated detection eliminates false positives on national IDs",
-      "Pseudonymization mode preserves document readability (NAME_1, IBAN_1)",
+      "Referential integrity preserves document readability (NAME_1, IBAN_1)",
       "Process PDFs, Word documents, and plain text with consistent results",
     ],
     code: `from euredact import redact
@@ -90,9 +90,9 @@ df["notes"] = df["notes"].apply(
     title: "Research & Training Data",
     subtitle: "De-identify datasets for ML training and academic research.",
     description:
-      "Machine learning teams and researchers need real-world data without real-world PII. euRedact's pseudonymization preserves data structure and relationships while replacing all identifiable information — enabling compliant model training on European datasets.",
+      "Machine learning teams and researchers need real-world data without real-world PII. euRedact's referential integrity mode preserves data structure and relationships while replacing all identifiable information — enabling compliant model training on European datasets.",
     benefits: [
-      "Consistent pseudonyms across documents (NAME_1 stays NAME_1)",
+      "Consistent labels across documents (NAME_1 stays NAME_1)",
       "Preserves statistical properties of the underlying data",
       "Supports GDPR Article 89 research exemption workflows",
     ],
@@ -100,7 +100,7 @@ df["notes"] = df["notes"].apply(
 
 for doc in research_corpus:
     result = redact(doc, country="FR",
-                    pseudonymize=True)
+                    referential_integrity=True)
     clean_corpus.append(result.redacted_text)`,
     audiences: ["Researchers", "ML Engineers", "Universities"],
   },
@@ -186,77 +186,98 @@ export default function UseCasesPage() {
       </section>
 
       {/* ===== USE CASE CARDS ===== */}
-      <section className="bg-white px-8 py-32">
-        <div className="max-w-7xl mx-auto space-y-20">
-          {useCases.map((uc, i) => (
-            <div
-              key={uc.title}
-              className={`grid lg:grid-cols-2 gap-16 items-start ${
-                i % 2 === 1 ? "lg:direction-rtl" : ""
-              }`}
-            >
-              {/* Text side */}
-              <div className={i % 2 === 1 ? "lg:order-2" : ""}>
-                <div className="flex items-center gap-4 mb-6">
-                  <div className="w-14 h-14 bg-secondary/10 rounded-2xl flex items-center justify-center">
-                    <span className="material-symbols-outlined text-2xl text-secondary">
-                      {uc.icon}
-                    </span>
-                  </div>
-                  <div className="flex flex-wrap gap-2">
+      {useCases.map((uc, i) => {
+        const isOdd = i % 2 === 1;
+        const bgOptions = ["bg-white", "bg-slate-50", "bg-white", "bg-slate-50", "bg-white", "bg-slate-50"];
+        const darkBg = i % 3 === 1;
+
+        return (
+          <section
+            key={uc.title}
+            className={`px-8 py-28 ${
+              darkBg
+                ? "bg-primary hero-pattern text-white"
+                : bgOptions[i]
+            }`}
+          >
+            <div className="max-w-7xl mx-auto">
+              <div className="grid lg:grid-cols-2 gap-20 items-center">
+                {/* Text side */}
+                <div className={isOdd ? "lg:order-2" : ""}>
+                  <div className="flex flex-wrap items-center gap-2 mb-6">
                     {uc.audiences.map((a) => (
                       <span
                         key={a}
-                        className="px-3 py-1 rounded-full bg-slate-100 text-slate-500 text-[10px] font-black uppercase tracking-widest"
+                        className={`px-3 py-1 rounded-full text-[10px] font-black uppercase tracking-widest ${
+                          darkBg
+                            ? "bg-white/10 text-slate-300"
+                            : "bg-slate-100 text-slate-500"
+                        }`}
                       >
                         {a}
                       </span>
                     ))}
                   </div>
+
+                  <h2
+                    className={`font-black text-4xl tracking-tight mb-3 ${
+                      darkBg ? "text-white" : "text-primary"
+                    }`}
+                  >
+                    {uc.title}
+                  </h2>
+                  <p className="text-lg text-secondary font-bold mb-6">
+                    {uc.subtitle}
+                  </p>
+                  <p
+                    className={`leading-relaxed mb-8 ${
+                      darkBg ? "text-slate-300" : "text-on-surface-variant"
+                    }`}
+                  >
+                    {uc.description}
+                  </p>
+
+                  <ul className="space-y-4">
+                    {uc.benefits.map((b) => (
+                      <li
+                        key={b}
+                        className={`flex items-start gap-3 font-medium ${
+                          darkBg ? "text-slate-200" : "text-slate-700"
+                        }`}
+                      >
+                        <span className="material-symbols-outlined text-secondary text-lg mt-0.5 shrink-0">
+                          check_circle
+                        </span>
+                        {b}
+                      </li>
+                    ))}
+                  </ul>
                 </div>
 
-                <h2 className="font-black text-4xl text-primary tracking-tight mb-3">
-                  {uc.title}
-                </h2>
-                <p className="text-lg text-secondary font-bold mb-6">
-                  {uc.subtitle}
-                </p>
-                <p className="text-on-surface-variant leading-relaxed mb-8">
-                  {uc.description}
-                </p>
-
-                <ul className="space-y-4">
-                  {uc.benefits.map((b) => (
-                    <li
-                      key={b}
-                      className="flex items-start gap-3 text-slate-700 font-medium"
-                    >
-                      <span className="material-symbols-outlined text-secondary text-lg mt-0.5 shrink-0">
-                        check_circle
-                      </span>
-                      {b}
-                    </li>
-                  ))}
-                </ul>
-              </div>
-
-              {/* Code side */}
-              <div className={i % 2 === 1 ? "lg:order-1" : ""}>
-                <div className="bg-slate-950 rounded-[2rem] p-8 border border-white/10 shadow-2xl">
-                  <div className="flex items-center gap-2 mb-6">
-                    <div className="w-3 h-3 rounded-full bg-red-500/60" />
-                    <div className="w-3 h-3 rounded-full bg-amber-400/60" />
-                    <div className="w-3 h-3 rounded-full bg-green-500/60" />
+                {/* Code side */}
+                <div className={isOdd ? "lg:order-1" : ""}>
+                  <div
+                    className={`rounded-[2rem] p-8 shadow-2xl ${
+                      darkBg
+                        ? "bg-black/40 border border-white/10"
+                        : "bg-slate-950 border border-white/10"
+                    }`}
+                  >
+                    <div className="flex items-center gap-2 mb-6">
+                      <div className="w-3 h-3 rounded-full bg-red-500/60" />
+                      <div className="w-3 h-3 rounded-full bg-amber-400/60" />
+                      <div className="w-3 h-3 rounded-full bg-green-500/60" />
+                    </div>
+                    <pre className="text-sm text-slate-300 font-mono leading-relaxed overflow-x-auto">
+                      <code>{uc.code}</code>
+                    </pre>
                   </div>
-                  <pre className="text-sm text-slate-300 font-mono leading-relaxed overflow-x-auto">
-                    <code>{uc.code}</code>
-                  </pre>
                 </div>
               </div>
             </div>
-          ))}
-        </div>
-      </section>
+          </section>
+        );
+      })}
 
       {/* ===== INDUSTRIES ===== */}
       <section className="py-32 px-8 bg-accent-indigo text-white relative overflow-hidden">

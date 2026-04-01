@@ -192,11 +192,11 @@ export default function NodejsSDKPage() {
                       "Country codes (e.g. [\"NL\", \"BE\"]). Recommended for best precision. Omit to detect all supported countries.",
                   },
                   {
-                    name: "pseudonymize",
+                    name: "referentialIntegrity",
                     type: "boolean",
                     default: "false",
                     description:
-                      "Replace PII with consistent pseudonyms (ENTITY_1, ENTITY_2, ...) instead of type labels.",
+                      "Replace PII with consistent labels (ENTITY_1, ENTITY_2, ...) instead of generic type labels.",
                   },
                   {
                     name: "detectDates",

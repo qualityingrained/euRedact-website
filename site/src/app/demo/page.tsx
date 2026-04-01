@@ -202,7 +202,7 @@ export default function DemoPage() {
                       />
                     </span>
                     <span className="text-sm font-medium text-on-surface-variant">
-                      Pseudonymize
+                      Referential integrity
                     </span>
                   </label>
 
