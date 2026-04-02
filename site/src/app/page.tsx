@@ -11,7 +11,7 @@ export default function Page() {
           {/* Version badge */}
           <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-secondary/10 text-secondary text-xs font-black tracking-widest uppercase mb-12 border border-secondary/30">
             <span className="w-2 h-2 rounded-full bg-secondary animate-pulse" />
-            v0.1 — Now supporting 31 European countries
+            v0.2 — Now supporting 31 European countries
           </div>
 
           {/* Headline */}

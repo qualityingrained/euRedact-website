@@ -11,10 +11,10 @@ import { redact, availableCountries, type Detection } from "euredact";
 function buildSegments(
   text: string,
   detections: Detection[],
-  pseudonymize: boolean
+  referentialIntegrity: boolean
 ): { text: string; detection?: Detection }[] {
-  if (pseudonymize) {
-    // When pseudonymize is on, the redactedText already has replacements,
+  if (referentialIntegrity) {
+    // When referentialIntegrity is on, the redactedText already has replacements,
     // so we just show that as plain text — no highlights needed.
     return [];
   }
@@ -91,12 +91,12 @@ function PillBadge({ type }: { type: string }) {
 export default function DemoPage() {
   const [inputText, setInputText] = useState(SAMPLE_TEXT);
   const [activeCountries, setActiveCountries] = useState<string[]>([]);
-  const [pseudonymize, setPseudonymize] = useState(false);
+  const [referentialIntegrity, setReferentialIntegrity] = useState(false);
   const [detectDates, setDetectDates] = useState(true);
 
   // Run initial redaction
   const initialResult = redact(SAMPLE_TEXT, {
-    pseudonymize: false,
+    referentialIntegrity: false,
     detectDates: true,
   });
   const [detections, setDetections] = useState<Detection[]>(
@@ -116,16 +116,16 @@ export default function DemoPage() {
   const handleRedact = useCallback(() => {
     const result = redact(inputText, {
       countries: activeCountries.length > 0 ? activeCountries : undefined,
-      pseudonymize,
+      referentialIntegrity,
       detectDates,
     });
     setDetections(result.detections as unknown as Detection[]);
     setRedactedText(result.redactedText);
     setSegments(
-      buildSegments(inputText, result.detections as unknown as Detection[], pseudonymize)
+      buildSegments(inputText, result.detections as unknown as Detection[], referentialIntegrity)
     );
     setHasResults(true);
-  }, [inputText, activeCountries, pseudonymize, detectDates]);
+  }, [inputText, activeCountries, referentialIntegrity, detectDates]);
 
   const toggleCountry = (code: string) => {
     setActiveCountries((prev) =>
@@ -184,7 +184,7 @@ export default function DemoPage() {
                         const result = redact(s.text, { detectDates });
                         setDetections(result.detections as unknown as Detection[]);
                         setRedactedText(result.redactedText);
-                        setSegments(buildSegments(s.text, result.detections as unknown as Detection[], pseudonymize));
+                        setSegments(buildSegments(s.text, result.detections as unknown as Detection[], referentialIntegrity));
                         setHasResults(true);
                       }}
                       className="px-3 py-1.5 rounded-lg text-xs font-bold bg-slate-100 text-slate-600 hover:bg-secondary hover:text-primary transition-all"
@@ -226,24 +226,24 @@ export default function DemoPage() {
                 </div>
 
                 <div className="flex flex-col sm:flex-row sm:items-center gap-4">
-                  {/* Pseudonymize toggle */}
+                  {/* Referential integrity toggle */}
                   <label className="flex items-center gap-2 cursor-pointer select-none">
                     <span
                       role="switch"
-                      aria-checked={pseudonymize}
+                      aria-checked={referentialIntegrity}
                       tabIndex={0}
-                      onClick={() => setPseudonymize(!pseudonymize)}
+                      onClick={() => setReferentialIntegrity(!referentialIntegrity)}
                       onKeyDown={(e) => {
                         if (e.key === " " || e.key === "Enter")
-                          setPseudonymize(!pseudonymize);
+                          setReferentialIntegrity(!referentialIntegrity);
                       }}
                       className={`relative inline-flex h-6 w-11 shrink-0 rounded-full border-2 border-transparent transition-colors duration-200 ${
-                        pseudonymize ? "bg-secondary" : "bg-slate-300"
+                        referentialIntegrity ? "bg-secondary" : "bg-slate-300"
                       }`}
                     >
                       <span
                         className={`pointer-events-none inline-block h-5 w-5 rounded-full bg-white shadow-sm transition-transform duration-200 ${
-                          pseudonymize ? "translate-x-5" : "translate-x-0"
+                          referentialIntegrity ? "translate-x-5" : "translate-x-0"
                         }`}
                       />
                     </span>
@@ -300,7 +300,7 @@ export default function DemoPage() {
 
               <div className="bg-[#1E293B] rounded-2xl border border-white/10 p-5 min-h-[12rem] font-mono text-sm leading-relaxed">
                 {hasResults ? (
-                  pseudonymize ? (
+                  referentialIntegrity ? (
                     <p className="text-slate-300 whitespace-pre-wrap">
                       {redactedText}
                     </p>
