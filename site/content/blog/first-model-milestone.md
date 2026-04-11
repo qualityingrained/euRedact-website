@@ -30,7 +30,7 @@ Inference speed is also fast enough for interactive use. You paste a document, y
 
 The interesting part has been the evaluation process itself. We built tooling that computes precision and recall per entity type, so we can see exactly where the model is strong and where it struggles.
 
-One thing we didn't expect: a good chunk of the "failures" turned out to be problems with our training labels, not the model. The model was finding real PII that the original annotations had missed. We're now using those insights to clean up the training data for the next iteration.
+A good chunk of the "failures" turned out to be problems with our training labels, not the model. The model was finding real PII that the original annotations had missed -- exactly the kind of signal we want from a first iteration. We're using those insights to clean up the training data for the next round.
 
 We also built an automated review pipeline where a separate AI reviews each disagreement and flags the ambiguous cases for human review. It's a surprisingly effective way to improve data quality without manually reviewing thousands of records.
 
