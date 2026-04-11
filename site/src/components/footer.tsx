@@ -81,6 +81,14 @@ export function Footer() {
                   Sample Code
                 </Link>
               </li>
+              <li>
+                <Link
+                  href="/blog"
+                  className="text-slate-500 hover:text-secondary transition-colors text-sm font-bold"
+                >
+                  Blog
+                </Link>
+              </li>
             </ul>
           </div>
           <div>

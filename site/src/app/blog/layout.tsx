@@ -1,9 +1,14 @@
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "Blog — euRedact",
+  title: "Blog",
   description:
-    "Technical deep-dives, GDPR guides, and product updates from the euRedact team.",
+    "Technical deep-dives, GDPR guides, and development updates from the euRedact team.",
+  openGraph: {
+    title: "Blog — euRedact",
+    description:
+      "Technical deep-dives, GDPR guides, and development updates from the euRedact team.",
+  },
 };
 
 export default function BlogLayout({

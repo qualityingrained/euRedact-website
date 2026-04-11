@@ -40,6 +40,12 @@ export function Nav() {
             Docs
           </Link>
           <Link
+            href="/blog"
+            className="text-slate-400 hover:text-white transition-colors"
+          >
+            Blog
+          </Link>
+          <Link
             href="/pricing"
             className="text-slate-400 hover:text-white transition-colors"
           >
@@ -98,6 +104,13 @@ export function Nav() {
               onClick={() => setMobileOpen(false)}
             >
               Docs
+            </Link>
+            <Link
+              href="/blog"
+              className="text-slate-400 hover:text-white font-bold text-sm uppercase tracking-[0.2em] transition-colors"
+              onClick={() => setMobileOpen(false)}
+            >
+              Blog
             </Link>
             <Link
               href="/pricing"

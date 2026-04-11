@@ -65,3 +65,184 @@ body {
 ::selection {
   background: rgba(16, 185, 129, 0.3);
 }
+
+/* ── Blog prose styles ── */
+.prose {
+  color: #cbd5e1; /* slate-300 */
+  line-height: 1.8;
+  font-size: 1.0625rem;
+}
+
+.prose h2 {
+  color: #fff;
+  font-weight: 900;
+  font-size: 1.75rem;
+  margin-top: 2.5rem;
+  margin-bottom: 1rem;
+  letter-spacing: -0.02em;
+}
+
+.prose h3 {
+  color: #fff;
+  font-weight: 900;
+  font-size: 1.25rem;
+  margin-top: 2rem;
+  margin-bottom: 0.75rem;
+}
+
+.prose h4 {
+  color: #e2e8f0;
+  font-weight: 700;
+  font-size: 1.1rem;
+  margin-top: 1.5rem;
+  margin-bottom: 0.5rem;
+}
+
+.prose p {
+  margin-bottom: 1.25rem;
+}
+
+.prose a {
+  color: #10b981;
+  font-weight: 700;
+  text-decoration: none;
+  transition: color 0.15s;
+}
+
+.prose a:hover {
+  color: #6ee7b7;
+}
+
+.prose strong {
+  color: #f1f5f9;
+  font-weight: 700;
+}
+
+.prose em {
+  font-style: italic;
+}
+
+.prose ul, .prose ol {
+  margin-bottom: 1.25rem;
+  padding-left: 1.5rem;
+}
+
+.prose ul {
+  list-style-type: disc;
+}
+
+.prose ol {
+  list-style-type: decimal;
+}
+
+.prose li {
+  margin-bottom: 0.375rem;
+}
+
+.prose li::marker {
+  color: #10b981;
+}
+
+.prose blockquote {
+  border-left: 3px solid #10b981;
+  padding-left: 1.25rem;
+  margin: 1.5rem 0;
+  color: #94a3b8;
+  font-style: italic;
+}
+
+.prose hr {
+  border: none;
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+  margin: 2rem 0;
+}
+
+.prose img {
+  border-radius: 1rem;
+  margin: 2rem 0;
+  max-width: 100%;
+}
+
+/* Tables */
+.prose table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 1.5rem 0;
+  font-size: 0.875rem;
+}
+
+.prose thead th {
+  color: #fff;
+  font-weight: 900;
+  text-align: left;
+  padding: 0.75rem 1rem;
+  border-bottom: 2px solid rgba(255, 255, 255, 0.15);
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+}
+
+.prose tbody td {
+  padding: 0.625rem 1rem;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+.prose tbody tr:hover {
+  background: rgba(255, 255, 255, 0.03);
+}
+
+/* Inline code */
+.prose code {
+  font-family: var(--font-mono);
+  font-size: 0.875em;
+  color: #10b981;
+  background: rgba(16, 185, 129, 0.1);
+  padding: 0.15em 0.4em;
+  border-radius: 0.25rem;
+}
+
+/* Code blocks */
+.prose pre {
+  background: #020617; /* slate-950 */
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 1rem;
+  padding: 1.5rem;
+  overflow-x: auto;
+  margin: 1.5rem 0;
+  font-size: 0.875rem;
+  line-height: 1.7;
+}
+
+.prose pre code {
+  color: #e2e8f0;
+  background: none;
+  padding: 0;
+  font-size: inherit;
+  border-radius: 0;
+}
+
+/* highlight.js overrides for dark theme */
+.hljs { color: #e2e8f0; }
+.hljs-keyword { color: #c084fc; }
+.hljs-string { color: #86efac; }
+.hljs-number { color: #fbbf24; }
+.hljs-built_in { color: #67e8f9; }
+.hljs-function { color: #93c5fd; }
+.hljs-title { color: #93c5fd; }
+.hljs-params { color: #e2e8f0; }
+.hljs-comment { color: #64748b; font-style: italic; }
+.hljs-meta { color: #fb923c; }
+.hljs-attr { color: #67e8f9; }
+.hljs-attribute { color: #67e8f9; }
+.hljs-selector-tag { color: #c084fc; }
+.hljs-selector-class { color: #86efac; }
+.hljs-variable { color: #f9a8d4; }
+.hljs-literal { color: #fbbf24; }
+.hljs-property { color: #67e8f9; }
+.hljs-type { color: #fbbf24; }
+.hljs-name { color: #f87171; }
+.hljs-symbol { color: #10b981; }
+.hljs-bullet { color: #10b981; }
+.hljs-addition { color: #86efac; background: rgba(134, 239, 172, 0.1); }
+.hljs-deletion { color: #fca5a5; background: rgba(252, 165, 165, 0.1); }
+.hljs-section { color: #93c5fd; font-weight: 700; }
