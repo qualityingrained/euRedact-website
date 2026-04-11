@@ -20,7 +20,7 @@ So we trained our own model. One that does one thing well: find PII in European 
 
 We're running the model against thousands of annotated documents right now -- things like insurance correspondence, government forms, HR files, banking letters. Multiple languages, multiple countries.
 
-It's good. It picks up compound Dutch surnames that our rules engine misses. It knows that "Rue du Champ de Mars 23" is a street address but "RPM Bruxelles RPR Brussel" is a legal jurisdiction reference, not PII. It catches employee IDs and dates of birth buried in the middle of dense paragraphs.
+It's good. It picks up compound Dutch surnames that our rules engine misses. It knows that "Boulevard Anspach 47" is a street address but "RPM Bruxelles RPR Brussel" is a legal jurisdiction reference, not PII. It catches employee IDs and dates of birth buried in the middle of dense paragraphs.
 
 The cost difference compared to using a general-purpose model is stark. We're talking orders of magnitude cheaper per document. That's not a rounding error -- it's the difference between "viable at scale" and "nice demo."
 
@@ -43,4 +43,4 @@ This is the first model, not the last. We're using what we've learned to:
 - Add more languages and document types
 - Work towards the reliability bar we need for production
 
-We'll share benchmark numbers when we're further along. If European PII detection is something you're dealing with, we'd love to hear from you -- [hello@euredact.dev](mailto:hello@euredact.dev).
+We'll share benchmark numbers when we're further along.
