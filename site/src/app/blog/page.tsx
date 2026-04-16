@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { getAllPosts } from "@/lib/blog";
+import { BlogSubscribe } from "@/components/blog-subscribe";
 
 const tagColors: Record<string, string> = {
   GDPR: "bg-emerald-100 text-emerald-700",
@@ -83,24 +84,7 @@ export default function BlogPage() {
       </section>
 
       {/* Newsletter Signup */}
-      <section className="mx-auto max-w-7xl px-8 pb-20">
-        <div className="bg-accent-indigo rounded-[3rem] p-16 text-center">
-          <h2 className="font-black text-3xl text-white mb-4">Stay Updated</h2>
-          <p className="text-slate-300 mb-8">
-            Get notified about new features and GDPR guides.
-          </p>
-          <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
-            <input
-              type="email"
-              placeholder="you@company.com"
-              className="bg-white/10 text-white placeholder:text-white/40 border border-white/20 rounded-xl px-6 py-4 flex-1 max-w-md w-full focus:outline-none focus:border-secondary"
-            />
-            <button className="bg-secondary text-primary font-black rounded-xl px-8 py-4 hover:brightness-110 transition-all">
-              Subscribe
-            </button>
-          </div>
-        </div>
-      </section>
+      <BlogSubscribe />
     </>
   );
 }
