@@ -113,9 +113,15 @@ export default function BenchmarksPage() {
           <h1 className="font-black text-5xl text-white mb-6">
             Accuracy Benchmarks
           </h1>
-          <p className="text-white/70 text-xl max-w-2xl mx-auto mb-8">
+          <p className="text-white/70 text-xl max-w-2xl mx-auto mb-6">
             Transparent, independently verifiable detection rates. 147,300
             records across 31 countries.
+          </p>
+          <p className="text-white/50 text-sm max-w-2xl mx-auto mb-8 leading-relaxed">
+            These figures measure structured-PII recall and precision on our
+            open test corpus. They are not a guarantee of real-world accuracy
+            on your data: detection rates depend on your text, and PII
+            detection is inherently imperfect.
           </p>
           <div className="w-20 h-1.5 bg-secondary rounded-full mx-auto" />
         </div>
@@ -316,6 +322,34 @@ export default function BenchmarksPage() {
               </table>
             </div>
           </div>
+          <p className="text-on-surface-variant text-sm max-w-3xl mx-auto mt-8 leading-relaxed">
+            Competitor capabilities assessed July 2026 from each vendor&apos;s
+            public documentation:{" "}
+            <a
+              href="https://microsoft.github.io/presidio/supported_entities/"
+              className="text-primary font-semibold hover:underline"
+            >
+              Presidio supported entities
+            </a>
+            ,{" "}
+            <a
+              href="https://docs.aws.amazon.com/comprehend/latest/dg/how-pii.html"
+              className="text-primary font-semibold hover:underline"
+            >
+              AWS Comprehend PII
+            </a>
+            , and{" "}
+            <a
+              href="https://learn.microsoft.com/en-us/azure/ai-services/language-service/personally-identifiable-information/language-support"
+              className="text-primary font-semibold hover:underline"
+            >
+              Azure AI Language PII
+            </a>
+            . Recall and precision figures for other tools are approximate and
+            indicative only; vendors may score differently under other
+            configurations. These products change frequently — check their
+            current documentation before relying on this table.
+          </p>
         </div>
       </section>
 

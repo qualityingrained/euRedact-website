@@ -11,22 +11,22 @@ const FAQ_ITEMS = [
   {
     question: "Can I switch between plans?",
     answer:
-      "Yes, you can upgrade or downgrade your plan at any time. When you upgrade, you get immediate access to the higher token limit and the difference is prorated. Downgrades take effect at the start of your next billing cycle.",
+      "That's the plan for the cloud tiers when they launch: upgrade or downgrade at any time, with immediate access to the higher token limit and the difference prorated on upgrade, and downgrades taking effect at the start of the next billing cycle. There are no paid plans to switch between yet.",
   },
   {
     question: "What happens if I exceed my token limit?",
     answer:
-      "Your service continues uninterrupted. Any tokens beyond your plan's monthly allocation are billed at the overage rate listed on your plan (e.g., \u20AC0.10/1K for Starter, \u20AC0.08/1K for Professional). You can set spending alerts in your dashboard to avoid surprises.",
+      "The cloud tiers are not open yet, so nothing is billed today. The pricing we are planning: service continues uninterrupted, and tokens beyond your plan's monthly allocation are billed at the overage rate listed on your plan (e.g., \u20AC0.10/1K for Starter, \u20AC0.08/1K for Professional). Final terms will be confirmed at launch.",
   },
   {
     question: "Is the free tier really unlimited?",
     answer:
-      "Absolutely. The Rules tier runs entirely on your own machine using our open-source Python package. There are no API calls, no metering, and no limits. You get structured PII detection with >99% recall on common European PII types, forever, for free. Our cloud-powered tiers for contextual detection are coming soon -- join the waitlist to be the first to know when they launch.",
+      "Absolutely. The Rules tier runs entirely on your own machine using our open-source Python package. There are no API calls, no metering, and no limits. It detects structured PII with >99% recall on our published benchmark corpus, forever, for free. Our cloud-powered tiers for contextual detection are coming soon -- join the waitlist to be the first to know when they launch.",
   },
   {
     question: "Do you offer annual billing?",
     answer:
-      "Yes. Annual billing gives you two months free (pay for 10 months, get 12). Contact our sales team or toggle to annual pricing in your account dashboard to switch.",
+      "We plan to offer annual billing at two months free (pay for 10 months, get 12) when the cloud tiers launch. Billing is not live yet — join the waitlist and we will confirm the final terms before you are asked to pay for anything.",
   },
   {
     question: "When will the cloud tiers launch?",
@@ -34,9 +34,9 @@ const FAQ_ITEMS = [
       "Our cloud-powered contextual detection tiers (Starter, Professional, and Enterprise) are currently in development. We are finalizing our fine-tuned models and infrastructure to ensure the highest quality PII detection before opening access. Join the waitlist on this page to be notified as soon as they are available.",
   },
   {
-    question: "What\u2019s in the DPA?",
+    question: "Will there be a DPA?",
     answer:
-      "Our Data Processing Agreement covers GDPR Article 28 requirements including purpose limitation, data minimization, sub-processor lists, breach notification timelines, and audit rights. Enterprise customers receive a pre-signed DPA; other plans can request one through support.",
+      "Yes. A Data Processing Agreement meeting GDPR Article 28 requirements will be in place before the cloud tiers launch \u2014 the tiers process no customer data today, so no DPA applies yet. The euRedact Rules SDK runs entirely on your own machine and does not make us a processor of your data at all.",
   },
 ];
 

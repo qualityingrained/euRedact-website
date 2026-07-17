@@ -24,7 +24,7 @@ export default function Page() {
             Open-source SDK that detects and redacts structured PII
             across 31 European countries. Available for Python and Node.js.{" "}
             <br className="hidden md:block" />
-            Local-only, deterministic, zero data leakage.
+            Local-only and deterministic — the SDK makes no network calls.
           </p>
 
           <HeroCodeBlock />
@@ -69,7 +69,7 @@ export default function Page() {
                 icon: "cloud_off",
                 title: "Cloud API Risks",
                 description:
-                  "Sending unredacted data to US-based LLMs creates GDPR compliance debt. euRedact ensures PII never leaves your jurisdiction.",
+                  "Sending unredacted data to US-based LLMs creates GDPR compliance debt. euRedact detects and redacts structured PII locally, before your data leaves your infrastructure.",
               },
               {
                 icon: "extension",
@@ -121,7 +121,7 @@ export default function Page() {
               { icon: "terminal", label: "Input", sublabel: "Raw logs or user text.", accent: false, comingSoon: false },
               { icon: "memory", label: "Local Engine", sublabel: "Deterministic pattern matching.", accent: true, comingSoon: false },
               { icon: "psychology", label: "AI Model", sublabel: "Contextual AI analysis.", accent: false, comingSoon: true },
-              { icon: "verified", label: "Secure Output", sublabel: "Cleaned, GDPR-ready data.", accent: false, comingSoon: false },
+              { icon: "verified", label: "Redacted Output", sublabel: "Detected PII replaced with placeholders.", accent: false, comingSoon: false },
             ].map((step) => (
               <div key={step.label} className="relative group z-10">
                 <div className="flex flex-col items-center text-center">
@@ -177,7 +177,7 @@ export default function Page() {
             </div>
             <ul className="space-y-6 mb-16 flex-grow">
               {[
-                "100% local execution — zero data leakage",
+                "100% local execution — no network calls",
                 "31 European country configurations",
                 "30+ Structured PII entity types with checksum validation",
                 "Secret & API key detection (AWS, GitHub, Stripe, ...)",

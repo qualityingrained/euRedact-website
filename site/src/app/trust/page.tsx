@@ -46,8 +46,8 @@ export default function TrustPage() {
           </h1>
           <p className="mx-auto mt-6 max-w-2xl text-lg text-white/70 leading-relaxed">
             euRedact is built with privacy as a core architectural principle.
-            Local processing, open-source rules, and zero data transmission
-            give you full control over how personal data is handled.
+            Local processing and open-source rules are designed to give you
+            control over how personal data is handled.
           </p>
           <div className="mx-auto mt-8 h-1 w-20 rounded-full bg-secondary" />
         </div>
@@ -121,7 +121,8 @@ export default function TrustPage() {
                 verified_user
               </span>
               <p className="text-sm font-semibold text-secondary">
-                Structured PII never leaves your device.
+                Structured PII the rule engine detects is redacted locally,
+                before any cloud call.
               </p>
             </div>
           </div>
@@ -214,9 +215,10 @@ export default function TrustPage() {
                   Hash-Based Segment Routing
                 </h3>
                 <p className="text-on-surface-variant leading-relaxed">
-                  Text is split into segments and routed via one-way hashes.
-                  The cloud model never sees the full document -- only isolated,
-                  unlinkable fragments that cannot be reassembled server-side.
+                  Text is split into segments and routed via one-way hashes, so
+                  the cloud model is not sent the full document -- only isolated
+                  fragments. The design goal is that fragments cannot be
+                  reassembled server-side.
                 </p>
               </div>
             </div>
@@ -234,8 +236,9 @@ export default function TrustPage() {
                 </h3>
                 <p className="text-on-surface-variant leading-relaxed">
                   Segments from different clients are shuffled together in each
-                  inference batch. Even if an attacker compromises a batch, no
-                  single client&apos;s text can be isolated.
+                  inference batch. This is designed to make it substantially
+                  harder to isolate any single client&apos;s text from a
+                  compromised batch.
                 </p>
               </div>
             </div>
@@ -253,8 +256,8 @@ export default function TrustPage() {
                 </h3>
                 <p className="text-on-surface-variant leading-relaxed">
                   The model is constrained to emit only structured JSON with
-                  entity labels and offsets -- never free-form text. This
-                  eliminates the risk of the model echoing or leaking input
+                  entity labels and offsets, rather than free-form text. This is
+                  designed to prevent the model from echoing or leaking input
                   data.
                 </p>
               </div>
