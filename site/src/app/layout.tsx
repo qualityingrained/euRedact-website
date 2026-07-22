@@ -4,6 +4,7 @@ import "./globals.css";
 import { Nav } from "@/components/nav";
 import { Footer } from "@/components/footer";
 import { WaitlistProvider } from "@/components/waitlist-provider";
+import { AnalyticsScript } from "@/components/analytics-script";
 
 const inter = Inter({
   variable: "--font-inter",
@@ -136,6 +137,7 @@ export default function RootLayout({
           <main>{children}</main>
           <Footer />
         </WaitlistProvider>
+        <AnalyticsScript />
       </body>
     </html>
   );

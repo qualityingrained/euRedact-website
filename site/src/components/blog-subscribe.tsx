@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useCallback } from "react";
+import { trackEvent } from "@/lib/analytics";
 
 const FORMSPREE_URL = "https://formspree.io/f/xgopydoa";
 
@@ -23,6 +24,7 @@ export function BlogSubscribe() {
         if (res.ok) {
           setStatus("success");
           setEmail("");
+          trackEvent("blog-subscribed");
         } else {
           setStatus("error");
         }

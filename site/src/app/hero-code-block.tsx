@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useSyncExternalStore } from "react";
 
 type Lang = "python" | "node";
 
@@ -185,28 +185,61 @@ const EXAMPLES: Record<string, CountryExample> = {
   },
 };
 
-/* ISO alpha-2 → our country code mapping for geolocation results */
+/* ISO alpha-2 region → our country code */
 const ISO_TO_CODE: Record<string, string> = {
   NL: "NL", DE: "DE", FR: "FR", BE: "BE", ES: "ES", IT: "IT",
   SE: "SE", GB: "UK", PL: "PL", AT: "AT",
 };
 
+/* Language subtag → our country code, for locales carrying no region (e.g. "de") */
+const LANG_TO_CODE: Record<string, string> = {
+  nl: "NL", de: "DE", fr: "FR", es: "ES", it: "IT",
+  sv: "SE", en: "UK", pl: "PL",
+};
+
 const DEFAULT_COUNTRY = "NL";
 
+/*
+  Pick the example from the browser's own locale preferences. This is
+  deliberately not an IP geolocation lookup: resolving the visitor's country
+  server-side would mean sending their IP to a third party, which is precisely
+  what euRedact exists to avoid.
+*/
+function countryFromLocales(locales: readonly string[]): string | undefined {
+  for (const locale of locales) {
+    const [lang, ...rest] = locale.split("-");
+    const region = rest.find((part) => /^[A-Za-z]{2}$/.test(part));
+
+    const byRegion = region && ISO_TO_CODE[region.toUpperCase()];
+    if (byRegion && byRegion in EXAMPLES) return byRegion;
+
+    const byLang = LANG_TO_CODE[lang.toLowerCase()];
+    if (byLang && byLang in EXAMPLES) return byLang;
+  }
+  return undefined;
+}
+
+/*
+  The visitor's locale is an external store that React does not own, so it is
+  read through useSyncExternalStore rather than an effect. That also gives us
+  the hydration behaviour we need for a static export: the server has no locale,
+  so it renders DEFAULT_COUNTRY, and the client re-reads on hydration.
+*/
+const subscribeToLocale = () => () => {}; // languages cannot change mid-session
+const getLocaleCountry = () => {
+  const locales = navigator.languages?.length
+    ? navigator.languages
+    : [navigator.language];
+  return countryFromLocales(locales.filter(Boolean)) ?? DEFAULT_COUNTRY;
+};
+const getServerLocaleCountry = () => DEFAULT_COUNTRY;
+
 function useDetectedCountry(): string {
-  const [country, setCountry] = useState(DEFAULT_COUNTRY);
-
-  useEffect(() => {
-    fetch("https://ipapi.co/json/", { signal: AbortSignal.timeout(3000) })
-      .then((r) => r.json())
-      .then((data) => {
-        const code = ISO_TO_CODE[data?.country_code];
-        if (code && code in EXAMPLES) setCountry(code);
-      })
-      .catch(() => {});
-  }, []);
-
-  return country;
+  return useSyncExternalStore(
+    subscribeToLocale,
+    getLocaleCountry,
+    getServerLocaleCountry
+  );
 }
 
 /* ------------------------------------------------------------------ */

@@ -33,6 +33,13 @@ jobs:
       - name: Build static export
         working-directory: site
         run: npm run build
+        env:
+          # Self-hosted Umami. Set these as repository variables (Settings →
+          # Secrets and variables → Actions → Variables) to switch analytics on.
+          # While unset, the build simply omits the tracker — see site/ANALYTICS.md.
+          # Not secrets: both values are public in the page source.
+          NEXT_PUBLIC_UMAMI_SRC: ${{ vars.NEXT_PUBLIC_UMAMI_SRC }}
+          NEXT_PUBLIC_UMAMI_WEBSITE_ID: ${{ vars.NEXT_PUBLIC_UMAMI_WEBSITE_ID }}
 
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3

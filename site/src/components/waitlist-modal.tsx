@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useEffect, useCallback } from "react";
+import { trackEvent } from "@/lib/analytics";
 
 const FORMSPREE_URL = "https://formspree.io/f/xgopydoa";
 
@@ -51,6 +52,8 @@ export function WaitlistModal({
         if (res.ok) {
           setStatus("success");
           setEmail("");
+          // Count the signup, never the address.
+          trackEvent("waitlist-submitted");
         } else {
           setStatus("error");
         }

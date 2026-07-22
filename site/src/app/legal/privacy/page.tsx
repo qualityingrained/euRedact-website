@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { analyticsEnabled, analyticsHost } from "@/lib/analytics";
 
 export const metadata: Metadata = {
   title: "Privacy Policy — euRedact",
@@ -46,11 +47,81 @@ export default function PrivacyPolicyPage() {
             functioning website (Art. 6(1)(f) GDPR).
           </p>
           <p className="text-on-surface-variant leading-relaxed mb-6">
+            Browsing this website sends no data to third parties. Fonts, icons,
+            and the map on our homepage are served from this website rather than
+            from a content delivery network, and we do not use any IP
+            geolocation service — the homepage code example is chosen from your
+            browser&apos;s own language settings, which are never sent to us.
+            {analyticsEnabled && (
+              <>
+                {" "}
+                The only request outside this site is to our own analytics
+                server, described below; it is infrastructure we operate
+                ourselves, not a third-party service.
+              </>
+            )}
+          </p>
+          <p className="text-on-surface-variant leading-relaxed mb-6">
             The live demo runs entirely in your browser: it loads our
             open-source JavaScript package and redacts locally, so no text you
-            enter into it is sent to any server. Fonts and icons are served from
-            this website, not from a third-party CDN.
+            enter into it is sent to any server.
           </p>
+
+          {analyticsEnabled && (
+            <>
+              <h2 className="font-black text-2xl text-primary mb-4">
+                Website Analytics
+              </h2>
+              <p className="text-on-surface-variant leading-relaxed mb-6">
+                To understand which pages are useful, we run{" "}
+                <a
+                  href="https://umami.is/"
+                  className="text-secondary font-bold hover:underline"
+                >
+                  Umami
+                </a>
+                , an open-source analytics tool, on our own infrastructure
+                {analyticsHost() ? ` (${analyticsHost()})` : ""}. We chose it so
+                that visitor data stays with us: it is not Google Analytics, and
+                no analytics provider receives your data.
+              </p>
+              <ul className="text-on-surface-variant leading-relaxed mb-6 list-disc pl-6 space-y-2">
+                <li>
+                  <strong>No cookies, no fingerprinting.</strong> Nothing is
+                  stored on your device and you are not tracked across sites or
+                  across visits.
+                </li>
+                <li>
+                  <strong>No IP addresses stored.</strong> Umami derives an
+                  anonymous, rotating identifier from a hash of your IP address
+                  and browser, and discards the address itself. We cannot
+                  identify you from it.
+                </li>
+                <li>
+                  <strong>What we record:</strong> the page you viewed, the site
+                  that referred you, your country, and your browser and device
+                  type — all in aggregate. We also count four actions: opening
+                  and submitting the waitlist form, subscribing to the blog, and
+                  running the demo. The demo event records only how many items
+                  were detected, never the text you entered.
+                </li>
+                <li>
+                  <strong>We honour Do Not Track.</strong> If your browser sends
+                  a Do Not Track signal, nothing is recorded at all.
+                </li>
+                <li>
+                  <strong>Legal basis:</strong> our legitimate interest in
+                  understanding how our website is used (Art. 6(1)(f) GDPR). As
+                  the data is aggregate and cannot identify you, we do not ask
+                  for consent, and there is no cookie banner.
+                </li>
+                <li>
+                  <strong>Retention:</strong> aggregate statistics are kept for
+                  up to 24 months. They are never sold or shared.
+                </li>
+              </ul>
+            </>
+          )}
 
           <h2 className="font-black text-2xl text-primary mb-4">
             Waitlist &amp; Blog Subscription

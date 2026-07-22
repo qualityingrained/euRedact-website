@@ -3,6 +3,7 @@
 import { useState, useCallback } from "react";
 import Link from "next/link";
 import { redact, availableCountries, type Detection } from "euredact";
+import { trackEvent } from "@/lib/analytics";
 
 /* ------------------------------------------------------------------ */
 /*  Helpers                                                            */
@@ -125,6 +126,14 @@ export default function DemoPage() {
       buildSegments(inputText, result.detections as unknown as Detection[], referentialIntegrity)
     );
     setHasResults(true);
+
+    /*
+      Record that the demo was used, and nothing about what was pasted into it.
+      The demo's whole promise is that the text never leaves the browser, so the
+      payload carries a count only — never inputText, redactedText, or any
+      detection value.
+    */
+    trackEvent("demo-redacted", { detectionCount: result.detections.length });
   }, [inputText, activeCountries, referentialIntegrity, detectDates]);
 
   const toggleCountry = (code: string) => {

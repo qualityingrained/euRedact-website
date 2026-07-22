@@ -8,7 +8,10 @@ import {
   ZoomableGroup,
 } from "react-simple-maps";
 
-const GEO_URL = "https://cdn.jsdelivr.net/npm/world-atlas@2/countries-50m.json";
+/* Self-hosted copy of world-atlas@2 countries-50m.json (ISC). Served from our
+   own origin rather than a CDN so that rendering the map sends no visitor data
+   to a third party. See SELF-HOSTED-ASSETS.md. */
+const GEO_URL = "/countries-50m.json";
 
 /*
   world-atlas uses numeric ISO 3166-1 codes as the `id` field.
