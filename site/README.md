@@ -20,6 +20,27 @@ You can start editing the page by modifying `app/page.tsx`. The page auto-update
 
 This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
 
+## Testing the published claims
+
+The site advertises concrete numbers — 31 countries, 27 entity types, per-page
+latency, checksum coverage. Those are checked against the installed `euredact`
+package rather than trusted:
+
+```bash
+npm test        # claim tests: fast, deterministic
+npm run test:perf   # latency tests: real timing, machine-dependent
+```
+
+`npm test` fails if a page states a country or entity count that disagrees with
+the engine, if the SDK docs list entity types the engine never emits, if a
+checksum-invalid identifier gets redacted, or if a retired figure (the 0.02 ms
+cache-hit latency) reappears. `test:perf` is kept separate because it measures
+real work; it is a tripwire for order-of-magnitude drift, not a benchmark.
+
+Python-specific figures on the site (`~3 ms per page`, `345 pattern
+definitions`, `44 checksum validators`) are **not** covered — the Python engine
+is not a dependency of this repo, so those stay manually verified.
+
 ## Learn More
 
 To learn more about Next.js, take a look at the following resources:

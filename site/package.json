@@ -6,7 +6,9 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "eslint"
+    "lint": "eslint",
+    "test": "node --test tests/claims.test.mjs",
+    "test:perf": "node --test tests/performance.test.mjs"
   },
   "dependencies": {
     "@types/react-simple-maps": "^3.0.6",
