@@ -41,6 +41,28 @@ Python-specific figures on the site (`~3 ms per page`, `345 pattern
 definitions`, `44 checksum validators`) are **not** covered — the Python engine
 is not a dependency of this repo, so those stay manually verified.
 
+## The react-simple-maps override
+
+`package.json` pins `react-simple-maps`'s React peers to ours:
+
+```json
+"overrides": {
+  "react-simple-maps": { "react": "$react", "react-dom": "$react-dom" }
+}
+```
+
+`react-simple-maps@3.0.0` declares `react ^16.8.0 || 17.x || 18.x` and has not
+shipped a stable release since; the 4.x betas declare the same range. Without
+the override, `npm install` and `npm ci` fail with `ERESOLVE` against React 19.
+
+It renders correctly under React 19 — geographies draw and the console is
+clean — so this is stale metadata, not a real incompatibility. The override is
+deliberately scoped to that one package: `legacy-peer-deps=true` in `.npmrc`
+would fix the same symptom by disabling peer resolution for the whole tree,
+hiding any genuine conflict that appears later.
+
+Remove it if the library ships React 19 support or is replaced.
+
 ## Learn More
 
 To learn more about Next.js, take a look at the following resources:
