@@ -8,7 +8,7 @@ import { useState } from "react";
 
 interface Span {
   text: string;
-  pii?: string; // e.g. "BANK_ACCOUNT", "BSN", "EMAIL" — if set, this span is PII
+  pii?: string; // e.g. "BANK_ACCOUNT", "NATIONAL_ID", "EMAIL" — if set, this span is PII
 }
 
 interface DocMockupProps {

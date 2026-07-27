@@ -3,7 +3,7 @@ import type { Metadata } from "next";
 export const metadata: Metadata = {
   title: "Accuracy Benchmarks — euRedact",
   description:
-    "Transparent, independently verifiable PII detection rates. 147,300 records tested across 31 European countries.",
+    "Transparent, independently verifiable PII detection rates. 152,300 records tested across 31 European countries.",
 };
 
 const countryData = [
@@ -49,15 +49,15 @@ const entityTypes = [
   { name: "POSTAL_CODE", recall: 96.2 },
   { name: "CREDIT_CARD", recall: 100.0 },
   { name: "VIN", recall: 100.0 },
-  { name: "DOB", recall: 98.1 },
+  { name: "DOB", recall: 40.6 },
   { name: "TAX_ID", recall: 99.4 },
 ];
 
 const comparisonData = [
   {
     tool: "euRedact",
-    recall: "99.1%",
-    precision: "99.3%",
+    recall: "98.3%",
+    precision: "98.9%",
     entities: "31 countries",
     local: "Yes",
     price: "Free / Cloud waitlist",
@@ -114,14 +114,22 @@ export default function BenchmarksPage() {
             Accuracy Benchmarks
           </h1>
           <p className="text-white/70 text-xl max-w-2xl mx-auto mb-6">
-            Transparent, independently verifiable detection rates. 147,300
+            Transparent, independently verifiable detection rates. 152,300
             records across 31 countries.
           </p>
           <p className="text-white/50 text-sm max-w-2xl mx-auto mb-8 leading-relaxed">
-            These figures measure structured-PII recall and precision on our
-            open test corpus. They are not a guarantee of real-world accuracy
-            on your data: detection rates depend on your text, and PII
-            detection is inherently imperfect.
+            These figures measure structured-PII recall and precision on a
+            generated evaluation set of 152,300 records (666,490 non-DOB PII
+            labels), measured 27 July 2026. Generated data measures pattern
+            coverage, not real-world messiness such as OCR noise or broken
+            layouts — these are not production documents, and they are not a
+            guarantee of real-world accuracy on your data. Headline figures
+            assume the optional <span className="font-mono">countries</span>{" "}
+            parameter is supplied; without it recall is 94.4% and false
+            positives 4.8%. Date-of-birth detection is excluded from the
+            headline numbers and sits at 40.6% by design — bare dates carry too
+            little structure to separate from ordinary dates, so they are
+            deferred to the LLM tier.
           </p>
           <div className="w-20 h-1.5 bg-secondary rounded-full mx-auto" />
         </div>
@@ -132,8 +140,8 @@ export default function BenchmarksPage() {
         <div className="max-w-7xl mx-auto px-6">
           <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
             {[
-              { value: "99.1%", label: "Recall" },
-              { value: "99.3%", label: "Precision" },
+              { value: "98.3%", label: "Recall" },
+              { value: "98.9%", label: "Precision" },
               { value: "0.992", label: "F1 Score" },
               { value: "31", label: "Countries Tested" },
             ].map((stat) => (
@@ -147,6 +155,13 @@ export default function BenchmarksPage() {
               </div>
             ))}
           </div>
+          <p className="text-on-surface-variant text-center text-sm max-w-2xl mx-auto mt-12 leading-relaxed">
+            Passing the optional <span className="font-mono">countries</span>{" "}
+            parameter lifts recall from 94.4% to 98.3% and precision from 95.2%
+            to 98.9%, and runs 3.5x faster. Narrowing the pattern set to the
+            countries you actually process is the single highest-leverage
+            setting in the SDK.
+          </p>
         </div>
       </section>
 

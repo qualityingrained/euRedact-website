@@ -35,10 +35,10 @@ export default function Page() {
       <section className="bg-white border-y border-slate-200 py-20">
         <div className="max-w-7xl mx-auto px-8 grid grid-cols-2 md:grid-cols-4 gap-8 md:gap-12">
           {[
-            { value: ">99%", label: "Recall Rate" },
+            { value: "98.3%", label: "Recall Rate" },
             { value: "31", label: "Countries" },
-            { value: "0.02ms", label: "Per Page" },
-            { value: "<2%", label: "False Positives" },
+            { value: "0.3ms", label: "Per Page" },
+            { value: "1.1%", label: "False Positives" },
           ].map((m) => (
             <div key={m.label} className="text-center group cursor-default">
               <div className="text-4xl md:text-6xl font-black text-primary mb-3 transition-transform group-hover:-translate-y-1">
@@ -50,6 +50,17 @@ export default function Page() {
             </div>
           ))}
         </div>
+        <p className="max-w-3xl mx-auto px-8 mt-12 text-center text-xs text-slate-500 leading-relaxed">
+          Measured 27 July 2026 on a generated evaluation set of 152,300 records
+          (666,490 non-DOB PII labels) — it measures pattern coverage, not
+          real-world messiness such as OCR noise or broken layouts. Accuracy
+          figures assume the optional{" "}
+          <span className="font-mono">countries</span> parameter is supplied;
+          without it recall is 94.4% and false positives 4.8%. Date-of-birth
+          detection is excluded from these figures and sits at 40.6% by design —
+          bare dates are deferred to the LLM tier. Latency is the Node package
+          on a 2,000-character page.
+        </p>
       </section>
 
       {/* ── PROBLEM ── */}
@@ -179,11 +190,11 @@ export default function Page() {
               {[
                 "100% local execution — no network calls",
                 "31 European country configurations",
-                "30+ Structured PII entity types with checksum validation",
+                "27 Structured PII entity types with checksum validation",
                 "Secret & API key detection (AWS, GitHub, Stripe, ...)",
                 "Custom pattern support",
                 "Referential integrity mode",
-                "0.02ms per page — zero dependencies",
+                "0.3ms per page (Node) — zero dependencies",
                 "Python & Node.js / TypeScript",
               ].map((f) => (
                 <li key={f} className="flex items-center gap-4 text-slate-800 font-bold text-lg">
@@ -403,8 +414,8 @@ export default function Page() {
                 <tr>
                   <td className="py-4 pr-2 text-white font-bold text-sm border-b border-white/5">Published EU Benchmark</td>
                   <td className="py-4 px-3 text-center bg-secondary/10 border-b border-white/5">
-                    <span className="text-secondary font-black">99.1% recall</span>
-                    <span className="block text-slate-400 text-[10px] mt-0.5">147K records</span>
+                    <span className="text-secondary font-black">98.3% recall</span>
+                    <span className="block text-slate-400 text-[10px] mt-0.5">152,300 records</span>
                   </td>
                   <td className="py-4 px-3 text-center bg-secondary/5 border-b border-white/5">
                     <span className="text-slate-500 font-bold">&mdash;</span>
@@ -472,7 +483,7 @@ export default function Page() {
               </span>
               <p className="text-indigo-200 font-medium max-w-2xl">
                 euRedact Rules benchmarks are independently verifiable — our full test suite of{" "}
-                <span className="text-white font-bold">147,300 records across 31 countries</span> is open source.
+                <span className="text-white font-bold">152,300 records across 31 countries</span> is open source.
               </p>
             </div>
             <a

@@ -3,7 +3,7 @@ import type { Metadata } from "next";
 export const metadata: Metadata = {
   title: "Node.js SDK — euRedact Docs",
   description:
-    "Complete API reference for the euRedact Node.js SDK. Zero dependencies, 86KB, 0.02ms per redaction.",
+    "Complete API reference for the euRedact Node.js SDK. Zero dependencies, 86KB, 0.3ms per page.",
 };
 
 function CodeBlock({
@@ -89,12 +89,12 @@ const countries = [
 ];
 
 const entities = [
-  "NAME", "ADDRESS", "BANK_ACCOUNT", "BIC", "CREDIT_CARD", "PHONE", "EMAIL",
+  "BANK_ACCOUNT", "BIC", "CREDIT_CARD", "PHONE", "EMAIL",
   "DOB", "DATE_OF_DEATH", "NATIONAL_ID", "SSN", "TAX_ID", "PASSPORT",
-  "DRIVERS_LICENSE", "RESIDENCE_PERMIT", "LICENSE_PLATE", "VIN", "VAT",
+  "DRIVERS_LICENSE", "LICENSE_PLATE", "VIN", "VAT",
   "POSTAL_CODE", "IP_ADDRESS", "IPV6_ADDRESS", "MAC_ADDRESS",
   "HEALTH_INSURANCE", "HEALTHCARE_PROVIDER", "CHAMBER_OF_COMMERCE",
-  "IMEI", "GPS_COORDINATES", "UUID", "SOCIAL_HANDLE", "SECRET", "OTHER",
+  "IMEI", "GPS_COORDINATES", "UUID", "SOCIAL_HANDLE", "SECRET",
 ];
 
 export default function NodejsSDKPage() {
@@ -110,8 +110,8 @@ export default function NodejsSDKPage() {
             Node.js SDK
           </h1>
           <p className="mt-4 text-lg text-slate-300 leading-relaxed max-w-2xl">
-            Zero-dependency PII redaction for Node.js. 86KB package, 0.02ms per
-            redaction.
+            Zero-dependency PII redaction for Node.js. 86KB package, 0.3ms per
+            page.
           </p>
           <div className="mt-6 flex gap-4">
             <a
@@ -189,7 +189,7 @@ export default function NodejsSDKPage() {
                     type: "string[]",
                     default: "undefined",
                     description:
-                      "Country codes (e.g. [\"NL\", \"BE\"]). Recommended for best precision. Omit to detect all supported countries.",
+                      "Country codes (e.g. [\"NL\", \"BE\"]). Optional, but strongly recommended: passing it lifts recall from 94.4% to 98.3% and precision from 95.2% to 98.9%, and runs 3.5x faster. Omit to detect all supported countries.",
                   },
                   {
                     name: "referentialIntegrity",
@@ -582,15 +582,15 @@ export default function NodejsSDKPage() {
             <div className="grid sm:grid-cols-3 gap-6">
               <div className="rounded-2xl bg-slate-50 border-2 border-slate-200 p-8">
                 <div className="text-4xl font-black text-primary mb-2">
-                  ~0.02ms
+                  0.3ms
                 </div>
                 <div className="text-xs font-black text-slate-400 uppercase tracking-[0.2em]">
-                  Per page (~500 words)
+                  Per page (2,000 chars)
                 </div>
               </div>
               <div className="rounded-2xl bg-slate-50 border-2 border-slate-200 p-8">
                 <div className="text-4xl font-black text-primary mb-2">
-                  ~50,000
+                  ~25,000
                 </div>
                 <div className="text-xs font-black text-slate-400 uppercase tracking-[0.2em]">
                   Records per second

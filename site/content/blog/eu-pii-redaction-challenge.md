@@ -35,7 +35,7 @@ And those are just the "simple" ones. Here's a taste of the variety:
 
 That's 10 countries. We support 31. Each format has its own regex pattern, its own checksum algorithm, and its own edge cases (like France's special handling for people born in Corsica, or Belgium's different modulo calculation for people born before and after 2000).
 
-Now multiply that by the other structured PII types that appear in European documents: IBANs (country-specific lengths and formats), VAT numbers (different prefixes and validation per country), driving licence numbers, passport numbers, health insurance identifiers. We're tracking over 30 entity types across those 31 countries.
+Now multiply that by the other structured PII types that appear in European documents: IBANs (country-specific lengths and formats), VAT numbers (different prefixes and validation per country), driving licence numbers, passport numbers, health insurance identifiers. We're tracking 27 entity types across those 31 countries, defined by 300+ patterns and 40+ checksum validators.
 
 ## Why regex alone isn't enough (but you still need it)
 
@@ -64,7 +64,7 @@ print(result.text)
 
 The number `123456782` passes the [elfproef](https://nl.wikipedia.org/wiki/Elfproef) (eleven-test) checksum — it's a structurally valid BSN. But `123456789` would not pass and wouldn't be flagged as a BSN.
 
-This approach gives us **99%+ recall on structured entities** with very low false-positive rates. The checksum validation is the key: it's what separates "this 9-digit number could be anything" from "this 9-digit number is mathematically consistent with the BSN format."
+This approach gives us **98.3% recall on structured entities** with a 1.1% false-positive rate, measured on a generated evaluation set of 152,300 records with the optional `countries` parameter supplied. The checksum validation is the key: it's what separates "this 9-digit number could be anything" from "this 9-digit number is mathematically consistent with the BSN format."
 
 ### Contextual PII: the NLP layer
 
@@ -85,9 +85,9 @@ This is why we're building euRedact as a two-layer system:
 
 **Layer 1: Rules engine (open-source, runs locally)**
 - Regex patterns + checksum validation for structured PII
-- Sub-millisecond latency (~0.02ms per page)
+- 0.3ms per page in Node, 4.6ms in Python (2,000-character page)
 - Zero network calls, zero dependencies
-- 99%+ recall on structured entities
+- 98.3% recall, 98.9% precision on structured entities
 - Available now on [PyPI](https://pypi.org/project/euredact/) and [npm](https://www.npmjs.com/package/euredact)
 
 **Layer 2: Fine-tuned LLM (cloud tier, coming soon)**
@@ -127,6 +127,8 @@ The structured entities are at perfect scores — this is the rules engine doing
 The weak spot is date-of-birth detection (F1 86), where the challenge is distinguishing birth dates from other dates that appear in documents (document dates, event dates, deadline dates). This is an area we're actively improving.
 
 We're being transparent about these numbers because we think the PII detection space has too much hand-waving. If a tool claims "99% accuracy" without specifying what entity types, what languages, and what test methodology — that number is meaningless.
+
+So, our own methodology, stated plainly: the rules-engine figures above come from a **generated** evaluation set, not production documents. Generated data measures pattern coverage — it does not capture real-world messiness like OCR noise or broken layouts, and you should expect lower numbers on scanned or malformed input. Date-of-birth detection is excluded from our headline rules-engine figures and sits at 40.6% by design: a bare date carries too little structure to separate a birth date from an invoice date, so we defer it to the LLM tier rather than guess. And the headline accuracy assumes you pass the optional `countries` parameter — without it, recall drops to 94.4% and false positives rise to 4.8%.
 
 ## What's next
 

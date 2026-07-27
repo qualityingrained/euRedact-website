@@ -89,12 +89,12 @@ const countries = [
 ];
 
 const entities = [
-  "NAME", "ADDRESS", "BANK_ACCOUNT", "BIC", "CREDIT_CARD", "PHONE", "EMAIL",
+  "BANK_ACCOUNT", "BIC", "CREDIT_CARD", "PHONE", "EMAIL",
   "DOB", "DATE_OF_DEATH", "NATIONAL_ID", "SSN", "TAX_ID", "PASSPORT",
-  "DRIVERS_LICENSE", "RESIDENCE_PERMIT", "LICENSE_PLATE", "VIN", "VAT",
+  "DRIVERS_LICENSE", "LICENSE_PLATE", "VIN", "VAT",
   "POSTAL_CODE", "IP_ADDRESS", "IPV6_ADDRESS", "MAC_ADDRESS",
   "HEALTH_INSURANCE", "HEALTHCARE_PROVIDER", "CHAMBER_OF_COMMERCE",
-  "IMEI", "GPS_COORDINATES", "UUID", "SOCIAL_HANDLE", "SECRET", "OTHER",
+  "IMEI", "GPS_COORDINATES", "UUID", "SOCIAL_HANDLE", "SECRET",
 ];
 
 export default function PythonSDKPage() {
@@ -111,7 +111,7 @@ export default function PythonSDKPage() {
           </h1>
           <p className="mt-4 text-lg text-slate-300 leading-relaxed max-w-2xl">
             High-performance PII redaction for Python. Sync and async support,
-            {"<"} 1 ms per page, ~2,000 records/second.
+            ~4.6 ms per page.
           </p>
           <div className="mt-6 flex gap-4">
             <a
@@ -220,7 +220,7 @@ export default function PythonSDKPage() {
                     type: "list[str] | None",
                     default: "None",
                     description:
-                      "ISO country codes to restrict detection. None = all 31 supported countries.",
+                      "ISO country codes to restrict detection. None = all 31 supported countries. Optional, but strongly recommended: passing it lifts recall from 94.4% to 98.3% and precision from 95.2% to 98.9%, and runs 3.5x faster.",
                   },
                   {
                     name: "mode",
@@ -872,10 +872,10 @@ export default function PythonSDKPage() {
             <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
               <div className="rounded-2xl bg-slate-50 border-2 border-slate-200 p-8">
                 <div className="text-4xl font-black text-primary mb-2">
-                  {"<"} 1 ms
+                  ~4.6 ms
                 </div>
                 <div className="text-xs font-black text-slate-400 uppercase tracking-[0.2em]">
-                  Per page (~500 words)
+                  Per page (2,000 chars)
                 </div>
               </div>
               <div className="rounded-2xl bg-slate-50 border-2 border-slate-200 p-8">
@@ -931,7 +931,11 @@ export default function PythonSDKPage() {
             Entity Types
           </h2>
           <p className="text-on-surface-variant leading-relaxed mb-6">
-            31 entity types detected across all supported countries.
+            27 entity types detected across all supported countries, backed by
+            345 pattern definitions and 44 checksum validators.{" "}
+            <span className="font-mono">IBAN</span> is still accepted as a
+            legacy alias on input, but detections are emitted as{" "}
+            <span className="font-mono">BANK_ACCOUNT</span>.
           </p>
           <div className="flex flex-wrap gap-2">
             {entities.map((entity) => (

@@ -57,7 +57,7 @@ export default function AboutPage() {
           </p>
           <p className="text-on-surface-variant leading-relaxed mb-6">
             euRedact was born from that frustration. What started as an internal
-            tool became a comprehensive SDK covering 31 countries with &gt;99%
+            tool became a comprehensive SDK covering 31 countries with 98.3%
             recall on structured PII. We open-sourced the rule engine because we
             believe every European developer should have access to reliable PII
             detection, regardless of budget.
