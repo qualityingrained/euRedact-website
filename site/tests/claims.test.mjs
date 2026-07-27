@@ -272,18 +272,32 @@ describe("accuracy figures stay consistent across the site", () => {
     );
   });
 
-  test("pages quoting headline accuracy also state the countries caveat", () => {
-    // Recall is 98.3% only when `countries` is supplied; 94.4% without it.
-    // Quoting the better number without the condition is the failure mode.
-    const offenders = [];
-    for (const { path, text } of claimBearingFiles()) {
-      if (!text.includes(`${HEADLINE.recall}%`)) continue;
-      if (!/countries/i.test(text)) offenders.push({ file: path, line: 0, text: path });
-    }
-    assert.deepEqual(
-      offenders,
-      [],
-      `these quote headline accuracy without mentioning the countries parameter:\n${formatHits(offenders)}`,
+  test("the footer carries the measurement footnote", () => {
+    // The footnote is rendered site-wide from the shared footer, so every page
+    // quoting a headline figure carries its conditions. Each element below is
+    // load-bearing: drop one and the remaining numbers read better than they
+    // are.
+    const footer = readSiteFile("src/components/footer.tsx");
+    const required = [
+      ['the "*" anchor the stats link to', /id="accuracy-note"/],
+      ["the evaluation set size", /152,300 records/],
+      ["that the data is generated", /generated evaluation set/i],
+      ["the countries condition", /countries.{0,80}parameter is\s+supplied/is],
+      ["recall without countries", /94\.4%/],
+      ["false positives without countries", /4\.8%/],
+      ["the excluded DOB figure", /40\.6%/],
+    ];
+    const missing = required
+      .filter(([, pattern]) => !pattern.test(footer))
+      .map(([what]) => what);
+    assert.deepEqual(missing, [], `the footnote no longer states: ${missing.join(", ")}`);
+  });
+
+  test("headline stats point readers at the footnote", () => {
+    const home = readSiteFile("src/app/page.tsx");
+    assert.ok(
+      home.includes("#accuracy-note"),
+      "the homepage quotes headline figures without linking them to the footnote",
     );
   });
 });

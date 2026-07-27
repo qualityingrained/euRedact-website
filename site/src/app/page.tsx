@@ -35,14 +35,23 @@ export default function Page() {
       <section className="bg-white border-y border-slate-200 py-20">
         <div className="max-w-7xl mx-auto px-8 grid grid-cols-2 md:grid-cols-4 gap-8 md:gap-12">
           {[
-            { value: "98.3%", label: "Recall Rate" },
-            { value: "31", label: "Countries" },
-            { value: "0.3ms", label: "Per Page" },
-            { value: "1.1%", label: "False Positives" },
+            { value: "98.3%", label: "Recall Rate", note: true },
+            { value: "31", label: "Countries", note: false },
+            { value: "0.3ms", label: "Per Page", note: true },
+            { value: "1.1%", label: "False Positives", note: true },
           ].map((m) => (
             <div key={m.label} className="text-center group cursor-default">
               <div className="text-4xl md:text-6xl font-black text-primary mb-3 transition-transform group-hover:-translate-y-1">
                 {m.value}
+                {m.note && (
+                  <a
+                    href="#accuracy-note"
+                    aria-label="See measurement note"
+                    className="text-lg md:text-2xl align-super text-slate-400 hover:text-secondary transition-colors"
+                  >
+                    *
+                  </a>
+                )}
               </div>
               <div className="text-[10px] md:text-xs font-black text-slate-400 uppercase tracking-[0.25em]">
                 {m.label}
@@ -50,17 +59,6 @@ export default function Page() {
             </div>
           ))}
         </div>
-        <p className="max-w-3xl mx-auto px-8 mt-12 text-center text-xs text-slate-500 leading-relaxed">
-          Measured 27 July 2026 on a generated evaluation set of 152,300 records
-          (666,490 non-DOB PII labels) — it measures pattern coverage, not
-          real-world messiness such as OCR noise or broken layouts. Accuracy
-          figures assume the optional{" "}
-          <span className="font-mono">countries</span> parameter is supplied;
-          without it recall is 94.4% and false positives 4.8%. Date-of-birth
-          detection is excluded from these figures and sits at 40.6% by design —
-          bare dates are deferred to the LLM tier. Latency is the Node package
-          on a 2,000-character page.
-        </p>
       </section>
 
       {/* ── PROBLEM ── */}
@@ -248,235 +246,11 @@ export default function Page() {
         </div>
       </section>
 
-      {/* ── COMPARISON TABLE ── */}
+      {/* ── BENCHMARK & CLOUD TIER ── */}
       <section className="py-32 px-8 bg-slate-950">
         <div className="max-w-7xl mx-auto">
-          <div className="flex flex-col items-center text-center mb-20">
-            <h2 className="text-5xl font-black text-white tracking-tight mb-6">
-              How euRedact Compares
-            </h2>
-            <p className="text-slate-400 font-bold text-lg max-w-2xl">
-              The only PII detection SDK purpose-built for European data.
-            </p>
-            <div className="w-20 h-1.5 bg-secondary rounded-full mt-6" />
-          </div>
-
-          {/* Table */}
-          <div className="bg-primary rounded-[3rem] p-6 md:p-10 border border-white/10 overflow-x-auto">
-            <table className="w-full text-sm border-separate border-spacing-x-1.5 border-spacing-y-0 min-w-[900px]">
-              <colgroup>
-                <col className="w-[18%]" />
-                <col className="w-[16%]" />
-                <col className="w-[16%]" />
-                <col className="w-[16%]" />
-                <col className="w-[17%]" />
-                <col className="w-[17%]" />
-              </colgroup>
-              <thead>
-                <tr>
-                  <th className="pb-5 pr-2 text-left text-slate-400 font-black uppercase tracking-widest text-[10px] align-bottom">
-                    Feature
-                  </th>
-                  <th className="pb-5 px-3 text-center rounded-t-2xl bg-secondary/10 align-bottom">
-                    <div className="text-secondary font-black text-[11px] uppercase tracking-wider">
-                      euRedact Rules
-                    </div>
-                  </th>
-                  <th className="pb-5 px-3 text-center rounded-t-2xl bg-secondary/5 align-bottom">
-                    <div className="text-secondary font-black text-[11px] uppercase tracking-wider mb-1">
-                      euRedact Cloud
-                    </div>
-                    <span className="inline-block px-2 py-0.5 rounded-full bg-amber-500/20 text-amber-400 text-[9px] font-black uppercase tracking-widest">
-                      Coming Soon
-                    </span>
-                  </th>
-                  <th className="pb-5 px-3 text-center bg-white/5 rounded-t-2xl align-bottom">
-                    <div className="text-slate-400 font-bold text-[11px]">Presidio</div>
-                  </th>
-                  <th className="pb-5 px-3 text-center bg-white/5 rounded-t-2xl align-bottom">
-                    <div className="text-slate-400 font-bold text-[11px]">AWS Comprehend</div>
-                  </th>
-                  <th className="pb-5 px-3 text-center bg-white/5 rounded-t-2xl align-bottom">
-                    <div className="text-slate-400 font-bold text-[11px]">Azure AI Language</div>
-                  </th>
-                </tr>
-              </thead>
-              <tbody className="text-xs">
-                {/* Row 1: EU National ID Detection */}
-                <tr>
-                  <td className="py-4 pr-2 text-white font-bold text-sm border-b border-white/5">EU National ID Detection</td>
-                  <td className="py-4 px-3 text-center bg-secondary/10 border-b border-white/5">
-                    <span className="text-secondary font-black">31 countries</span>
-                  </td>
-                  <td className="py-4 px-3 text-center bg-secondary/5 border-b border-white/5">
-                    <span className="text-slate-400 font-bold">TBD</span>
-                  </td>
-                  <td className="py-4 px-3 text-center bg-white/5 border-b border-white/5">
-                    <span className="text-slate-500 font-bold">None built-in</span>
-                  </td>
-                  <td className="py-4 px-3 text-center bg-white/5 border-b border-white/5">
-                    <span className="text-slate-500 font-bold">UK + India only</span>
-                  </td>
-                  <td className="py-4 px-3 text-center bg-white/5 border-b border-white/5">
-                    <span className="text-slate-500 font-bold">Limited</span>
-                  </td>
-                </tr>
-
-                {/* Row 2: Checksum Validation */}
-                <tr>
-                  <td className="py-4 pr-2 text-white font-bold text-sm border-b border-white/5">
-                    Checksum Validation
-                    <span className="block text-slate-500 text-[11px] font-medium mt-0.5">BSN, NIR, Steuer-ID, IBAN</span>
-                  </td>
-                  <td className="py-4 px-3 text-center bg-secondary/10 border-b border-white/5">
-                    <span className="material-symbols-outlined text-secondary text-lg">check_circle</span>
-                  </td>
-                  <td className="py-4 px-3 text-center bg-secondary/5 border-b border-white/5">
-                    <span className="text-slate-500 font-bold">&mdash;</span>
-                  </td>
-                  <td className="py-4 px-3 text-center bg-white/5 border-b border-white/5">
-                    <span className="material-symbols-outlined text-red-400/60 text-lg">cancel</span>
-                  </td>
-                  <td className="py-4 px-3 text-center bg-white/5 border-b border-white/5">
-                    <span className="material-symbols-outlined text-red-400/60 text-lg">cancel</span>
-                  </td>
-                  <td className="py-4 px-3 text-center bg-white/5 border-b border-white/5">
-                    <span className="material-symbols-outlined text-red-400/60 text-lg">cancel</span>
-                  </td>
-                </tr>
-
-                {/* Row 3: Contextual PII */}
-                <tr>
-                  <td className="py-4 pr-2 text-white font-bold text-sm border-b border-white/5">
-                    Contextual PII
-                    <span className="block text-slate-500 text-[11px] font-medium mt-0.5">Names, addresses</span>
-                  </td>
-                  <td className="py-4 px-3 text-center bg-secondary/10 border-b border-white/5">
-                    <span className="text-slate-500 font-bold">&mdash;</span>
-                    <span className="block text-slate-600 text-[10px] mt-0.5">Structured only</span>
-                  </td>
-                  <td className="py-4 px-3 text-center bg-secondary/5 border-b border-white/5">
-                    <span className="text-secondary font-bold">Coming soon</span>
-                    <span className="block text-slate-400 text-[10px] mt-0.5">Fine-tuned EU model</span>
-                  </td>
-                  <td className="py-4 px-3 text-center bg-white/5 border-b border-white/5">
-                    <span className="text-slate-400 font-bold">Via spaCy NER</span>
-                  </td>
-                  <td className="py-4 px-3 text-center bg-white/5 border-b border-white/5">
-                    <span className="material-symbols-outlined text-secondary/60 text-lg">check_circle</span>
-                  </td>
-                  <td className="py-4 px-3 text-center bg-white/5 border-b border-white/5">
-                    <span className="material-symbols-outlined text-secondary/60 text-lg">check_circle</span>
-                  </td>
-                </tr>
-
-                {/* Row 4: Processing Location */}
-                <tr>
-                  <td className="py-4 pr-2 text-white font-bold text-sm border-b border-white/5">Processing Location</td>
-                  <td className="py-4 px-3 text-center bg-secondary/10 border-b border-white/5">
-                    <span className="text-secondary font-black">100% local</span>
-                  </td>
-                  <td className="py-4 px-3 text-center bg-secondary/5 border-b border-white/5">
-                    <span className="text-slate-400 font-bold">Local + EU cloud</span>
-                  </td>
-                  <td className="py-4 px-3 text-center bg-white/5 border-b border-white/5">
-                    <span className="text-slate-400 font-bold">Local</span>
-                  </td>
-                  <td className="py-4 px-3 text-center bg-white/5 border-b border-white/5">
-                    <span className="text-amber-400 font-bold">US cloud</span>
-                  </td>
-                  <td className="py-4 px-3 text-center bg-white/5 border-b border-white/5">
-                    <span className="text-amber-400 font-bold">Cloud</span>
-                  </td>
-                </tr>
-
-                {/* Row 5: EU Language Support */}
-                <tr>
-                  <td className="py-4 pr-2 text-white font-bold text-sm border-b border-white/5">EU Language Support</td>
-                  <td className="py-4 px-3 text-center bg-secondary/10 border-b border-white/5">
-                    <span className="text-secondary font-bold">31 countries</span>
-                  </td>
-                  <td className="py-4 px-3 text-center bg-secondary/5 border-b border-white/5">
-                    <span className="text-slate-400 font-bold">TBD</span>
-                  </td>
-                  <td className="py-4 px-3 text-center bg-white/5 border-b border-white/5">
-                    <span className="text-slate-400 font-bold">Custom setup</span>
-                  </td>
-                  <td className="py-4 px-3 text-center bg-white/5 border-b border-white/5">
-                    <span className="text-slate-500 font-bold">EN + ES</span>
-                  </td>
-                  <td className="py-4 px-3 text-center bg-white/5 border-b border-white/5">
-                    <span className="text-slate-500 font-bold">~8 languages</span>
-                  </td>
-                </tr>
-
-                {/* Row 6: Published EU Benchmark */}
-                <tr>
-                  <td className="py-4 pr-2 text-white font-bold text-sm border-b border-white/5">Published EU Benchmark</td>
-                  <td className="py-4 px-3 text-center bg-secondary/10 border-b border-white/5">
-                    <span className="text-secondary font-black">98.3% recall</span>
-                    <span className="block text-slate-400 text-[10px] mt-0.5">152,300 records</span>
-                  </td>
-                  <td className="py-4 px-3 text-center bg-secondary/5 border-b border-white/5">
-                    <span className="text-slate-500 font-bold">&mdash;</span>
-                  </td>
-                  <td className="py-4 px-3 text-center bg-white/5 border-b border-white/5">
-                    <span className="text-slate-500 font-bold">None published</span>
-                  </td>
-                  <td className="py-4 px-3 text-center bg-white/5 border-b border-white/5">
-                    <span className="text-slate-500 font-bold">None EU-specific</span>
-                  </td>
-                  <td className="py-4 px-3 text-center bg-white/5 border-b border-white/5">
-                    <span className="text-slate-500 font-bold">None EU-specific</span>
-                  </td>
-                </tr>
-
-                {/* Row 7: Open Source */}
-                <tr>
-                  <td className="py-4 pr-2 text-white font-bold text-sm border-b border-white/5">Open Source</td>
-                  <td className="py-4 px-3 text-center bg-secondary/10 border-b border-white/5">
-                    <span className="material-symbols-outlined text-secondary text-lg">check_circle</span>
-                    <span className="block text-slate-400 text-[10px] mt-0.5">Apache 2.0</span>
-                  </td>
-                  <td className="py-4 px-3 text-center bg-secondary/5 border-b border-white/5">
-                    <span className="material-symbols-outlined text-red-400/60 text-lg">cancel</span>
-                  </td>
-                  <td className="py-4 px-3 text-center bg-white/5 border-b border-white/5">
-                    <span className="material-symbols-outlined text-secondary/60 text-lg">check_circle</span>
-                  </td>
-                  <td className="py-4 px-3 text-center bg-white/5 border-b border-white/5">
-                    <span className="material-symbols-outlined text-red-400/60 text-lg">cancel</span>
-                  </td>
-                  <td className="py-4 px-3 text-center bg-white/5 border-b border-white/5">
-                    <span className="material-symbols-outlined text-red-400/60 text-lg">cancel</span>
-                  </td>
-                </tr>
-
-                {/* Row 8: Price */}
-                <tr>
-                  <td className="py-4 pr-2 text-white font-bold text-sm">Price</td>
-                  <td className="py-4 px-3 text-center bg-secondary/10 rounded-b-2xl">
-                    <span className="text-secondary font-black">Free</span>
-                  </td>
-                  <td className="py-4 px-3 text-center bg-secondary/5 rounded-b-2xl">
-                    <span className="text-slate-400 font-bold">Waitlist</span>
-                  </td>
-                  <td className="py-4 px-3 text-center bg-white/5 rounded-b-2xl">
-                    <span className="text-white font-bold">Free</span>
-                  </td>
-                  <td className="py-4 px-3 text-center bg-white/5 rounded-b-2xl">
-                    <span className="text-slate-400 font-bold">Pay-per-use</span>
-                  </td>
-                  <td className="py-4 px-3 text-center bg-white/5 rounded-b-2xl">
-                    <span className="text-slate-400 font-bold">Pay-per-use</span>
-                  </td>
-                </tr>
-              </tbody>
-            </table>
-          </div>
-
           {/* Verifiable benchmark callout */}
-          <div className="bg-accent-indigo rounded-[2rem] p-8 mt-8 flex flex-col md:flex-row items-center justify-between gap-6">
+          <div className="bg-accent-indigo rounded-[2rem] p-8 flex flex-col md:flex-row items-center justify-between gap-6">
             <div className="flex items-center gap-4">
               <span className="material-symbols-outlined text-secondary text-3xl">
                 verified_user

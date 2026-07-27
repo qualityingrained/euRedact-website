@@ -146,7 +146,21 @@ export function Footer() {
             </ul>
           </div>
         </div>
-        <div className="pt-12 border-t border-white/5 flex flex-col md:flex-row items-center justify-between gap-10">
+        <p
+          id="accuracy-note"
+          className="pt-12 border-t border-white/5 text-slate-500 text-xs leading-relaxed max-w-4xl scroll-mt-24"
+        >
+          <span className="text-secondary font-black">*</span> Measured 27 July
+          2026 on a generated evaluation set of 152,300 records (666,490 non-DOB
+          PII labels) — it measures pattern coverage, not real-world messiness
+          such as OCR noise or broken layouts. Accuracy figures assume the
+          optional <span className="font-mono">countries</span> parameter is
+          supplied; without it recall is 94.4% and false positives 4.8%.
+          Date-of-birth detection is excluded from these figures and sits at
+          40.6% by design — bare dates are deferred to the LLM tier. Latency is
+          the Node package on a 2,000-character page.
+        </p>
+        <div className="pt-12 mt-12 border-t border-white/5 flex flex-col md:flex-row items-center justify-between gap-10">
           <div className="text-slate-600 text-[10px] font-black uppercase tracking-[0.3em]">
             &copy; 2026 euRedact. Apache 2.0 License.
           </div>
