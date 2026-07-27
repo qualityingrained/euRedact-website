@@ -203,17 +203,37 @@ describe("packaging claims", () => {
     assert.deepEqual(deps, []);
   });
 
-  test('the site\'s advertised version matches the installed engine', () => {
-    assert.ok(
-      enginePackage.version.startsWith("0.2"),
-      `installed euredact is ${enginePackage.version}`,
-    );
+  test("the site's advertised version matches the installed engine", () => {
+    // Deliberately not pinned to a literal version: this must track whatever
+    // is installed, or it becomes a snapshot that fails on every release.
     const layout = readSiteFile("src/app/layout.tsx");
     const [, advertised] = layout.match(/softwareVersion:\s*"([^"]+)"/) ?? [];
     assert.ok(advertised, "layout.tsx no longer declares a softwareVersion");
     assert.ok(
       enginePackage.version.startsWith(advertised),
       `site advertises v${advertised}, installed engine is ${enginePackage.version}`,
+    );
+
+    const home = readSiteFile("src/app/page.tsx");
+    assert.ok(
+      home.includes(`v${advertised} —`),
+      `the hero version badge disagrees with softwareVersion "${advertised}"`,
+    );
+  });
+
+  test("the declared dependency range can actually resolve the engine", () => {
+    // npm's caret is patch-only below 1.0, so a "^0.2.0" range silently keeps
+    // 0.3.0 out: `npm update` reports nothing to do and the site drifts ahead
+    // of the package it documents.
+    const declared = JSON.parse(
+      readFileSync(join(SITE_ROOT, "package.json"), "utf8"),
+    ).dependencies.euredact;
+    const [, range] = declared.match(/^\^?(\d+\.\d+)\./) ?? [];
+    const [installedMinor] = enginePackage.version.match(/^\d+\.\d+/) ?? [];
+    assert.equal(
+      range,
+      installedMinor,
+      `package.json declares "${declared}" but ${enginePackage.version} is installed`,
     );
   });
 

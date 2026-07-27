@@ -87,7 +87,7 @@ const jsonLd = {
     "Open-source PII detection and redaction SDK for Python and Node.js. Covers 31 European countries with 27 entity types, checksum validation, and 0.3ms-per-page redaction in Node.",
   url: "https://euredact.dev",
   downloadUrl: "https://pypi.org/project/euredact/",
-  softwareVersion: "0.2",
+  softwareVersion: "0.3",
   license: "https://opensource.org/licenses/Apache-2.0",
   offers: {
     "@type": "Offer",
