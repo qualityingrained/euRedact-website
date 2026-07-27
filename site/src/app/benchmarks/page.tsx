@@ -43,7 +43,7 @@ const countryData = [
 
 const entityTypes = [
   { name: "EMAIL", recall: 100.0 },
-  { name: "IBAN", recall: 99.8 },
+  { name: "BANK_ACCOUNT", recall: 99.8 },
   { name: "NATIONAL_ID", recall: 100.0 },
   { name: "PHONE", recall: 97.5 },
   { name: "POSTAL_CODE", recall: 96.2 },

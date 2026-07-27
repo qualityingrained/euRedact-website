@@ -35,7 +35,7 @@ const useCases = [
             { text: ". Mijn BSN is " },
             { text: "111222333", pii: "NATIONAL_ID" },
             { text: " en mijn IBAN is " },
-            { text: "NL91ABNA0417164300", pii: "IBAN" },
+            { text: "NL91ABNA0417164300", pii: "BANK_ACCOUNT" },
             { text: ". Kun je mijn saldo controleren?" },
           ],
         ]}
@@ -49,7 +49,7 @@ const useCases = [
       "Legal teams, insurance companies, and government agencies process thousands of documents containing personal data. euRedact detects and replaces PII across 31 European country formats — from Dutch BSNs to German Steuer-IDs — in a single function call.",
     benefits: [
       "Checksum-validated detection eliminates false positives on national IDs",
-      "Referential integrity preserves document readability (NAME_1, IBAN_1)",
+      "Referential integrity preserves document readability (NAME_1, BANK_ACCOUNT_1)",
       "Process PDFs, Word documents, and plain text with consistent results",
     ],
     audiences: ["Legal Teams", "Compliance Officers", "DPOs"],
@@ -79,7 +79,7 @@ const useCases = [
           ],
           [
             { text: "" },
-            { text: "DE89370400440532013000", pii: "IBAN" },
+            { text: "DE89370400440532013000", pii: "BANK_ACCOUNT" },
             { text: "." },
           ],
           [{ text: "" }],
@@ -129,7 +129,7 @@ const useCases = [
             { text: "2026-04-01 09:14:07 " },
             { text: "INFO  " },
             { text: "Payment to " },
-            { text: "NL91ABNA0417164300", pii: "IBAN" },
+            { text: "NL91ABNA0417164300", pii: "BANK_ACCOUNT" },
             { text: " — €2,450" },
           ],
           [
@@ -184,7 +184,7 @@ const useCases = [
               { text: "Luc Peeters", pii: "NAME" },
               { text: "Enterprise" },
               { text: "luc@voorbeeld.be", pii: "EMAIL" },
-              { text: "IBAN BE68539007547034", pii: "IBAN" },
+              { text: "IBAN BE68539007547034", pii: "BANK_ACCOUNT" },
             ],
           },
           {
@@ -284,7 +284,7 @@ const useCases = [
           ],
           [
             { text: "" },
-            { text: "FR7630006000011234567890189", pii: "IBAN" },
+            { text: "FR7630006000011234567890189", pii: "BANK_ACCOUNT" },
             { text: "." },
           ],
           [{ text: "" }],

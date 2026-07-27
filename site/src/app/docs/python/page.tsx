@@ -89,7 +89,7 @@ const countries = [
 ];
 
 const entities = [
-  "NAME", "ADDRESS", "IBAN", "BIC", "CREDIT_CARD", "PHONE", "EMAIL",
+  "NAME", "ADDRESS", "BANK_ACCOUNT", "BIC", "CREDIT_CARD", "PHONE", "EMAIL",
   "DOB", "DATE_OF_DEATH", "NATIONAL_ID", "SSN", "TAX_ID", "PASSPORT",
   "DRIVERS_LICENSE", "RESIDENCE_PERMIT", "LICENSE_PLATE", "VIN", "VAT",
   "POSTAL_CODE", "IP_ADDRESS", "IPV6_ADDRESS", "MAC_ADDRESS",
@@ -234,7 +234,7 @@ export default function PythonSDKPage() {
                     type: "bool",
                     default: "False",
                     description:
-                      "Replace PII with consistent labels (NAME_1, IBAN_1) instead of generic [TYPE] labels.",
+                      "Replace PII with consistent labels (NAME_1, BANK_ACCOUNT_1) instead of generic [TYPE] labels.",
                   },
                   {
                     name: "detect_dates",
@@ -278,7 +278,7 @@ export default function PythonSDKPage() {
               <span className="text-secondary">print</span>
               <span className="text-white">(result.redacted_text){"\n"}</span>
               <span className="text-slate-500">
-                # &quot;Mijn BSN is [NATIONAL_ID] en IBAN [IBAN].&quot;
+                # &quot;Mijn BSN is [NATIONAL_ID] en IBAN [BANK_ACCOUNT].&quot;
               </span>
               {"\n\n"}
               <span className="text-secondary">print</span>
@@ -680,7 +680,7 @@ export default function PythonSDKPage() {
                   name: "redacted_text",
                   type: "str",
                   description:
-                    "The text with PII replaced by labels like [NATIONAL_ID], [IBAN], etc.",
+                    "The text with PII replaced by labels like [NATIONAL_ID], [BANK_ACCOUNT], etc.",
                 },
                 {
                   name: "detections",
@@ -716,7 +716,7 @@ export default function PythonSDKPage() {
                 {
                   name: "entity_type",
                   type: "EntityType | str",
-                  description: "The type of PII detected (e.g., NATIONAL_ID, IBAN).",
+                  description: "The type of PII detected (e.g., NATIONAL_ID, BANK_ACCOUNT).",
                 },
                 {
                   name: "start",

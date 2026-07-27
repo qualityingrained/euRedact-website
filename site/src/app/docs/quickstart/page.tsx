@@ -90,7 +90,7 @@ export default function QuickstartPage() {
               <span className="text-secondary">print</span>
               <span className="text-white">(result.redacted_text){"\n"}</span>
               <span className="text-slate-500">
-                # &quot;Mijn BSN is [NATIONAL_ID] en IBAN [IBAN].&quot;
+                # &quot;Mijn BSN is [NATIONAL_ID] en IBAN [BANK_ACCOUNT].&quot;
               </span>
               <span className="text-white">{"\n\n"}</span>
               <span className="text-secondary">print</span>
@@ -159,7 +159,7 @@ export default function QuickstartPage() {
               <span className="text-secondary">log</span>
               <span className="text-white">(result.redactedText);{"\n"}</span>
               <span className="text-slate-500">
-                // &quot;Mijn BSN is [NATIONAL_ID] en IBAN [IBAN].&quot;
+                // &quot;Mijn BSN is [NATIONAL_ID] en IBAN [BANK_ACCOUNT].&quot;
               </span>
               <span className="text-white">{"\n\n"}</span>
               <span className="text-white">console.</span>

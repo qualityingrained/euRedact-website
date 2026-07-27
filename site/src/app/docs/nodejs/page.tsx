@@ -89,7 +89,7 @@ const countries = [
 ];
 
 const entities = [
-  "NAME", "ADDRESS", "IBAN", "BIC", "CREDIT_CARD", "PHONE", "EMAIL",
+  "NAME", "ADDRESS", "BANK_ACCOUNT", "BIC", "CREDIT_CARD", "PHONE", "EMAIL",
   "DOB", "DATE_OF_DEATH", "NATIONAL_ID", "SSN", "TAX_ID", "PASSPORT",
   "DRIVERS_LICENSE", "RESIDENCE_PERMIT", "LICENSE_PLATE", "VIN", "VAT",
   "POSTAL_CODE", "IP_ADDRESS", "IPV6_ADDRESS", "MAC_ADDRESS",
@@ -232,7 +232,7 @@ export default function NodejsSDKPage() {
                   name: "redactedText",
                   type: "string",
                   description:
-                    'The text with PII replaced by labels like [NATIONAL_ID], [IBAN], etc.',
+                    'The text with PII replaced by labels like [NATIONAL_ID], [BANK_ACCOUNT], etc.',
                 },
                 {
                   name: "detections",
@@ -333,7 +333,7 @@ export default function NodejsSDKPage() {
               <span className="text-secondary">log</span>
               <span className="text-white">(result.redactedText);{"\n"}</span>
               <span className="text-slate-500">
-                // &quot;Mijn BSN is [NATIONAL_ID] en IBAN [IBAN].&quot;
+                // &quot;Mijn BSN is [NATIONAL_ID] en IBAN [BANK_ACCOUNT].&quot;
               </span>
               {"\n\n"}
               <span className="text-white">console.</span>
