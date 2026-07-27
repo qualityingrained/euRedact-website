@@ -56,6 +56,17 @@ describe("country coverage", () => {
     );
   });
 
+  test("the homepage map highlights exactly the countries the engine loads", () => {
+    // The map shipped with 32 entries against a legend reading "31 Supported
+    // Countries" — a country the engine does not carry, painted as supported.
+    const source = readSiteFile("src/app/europe-map.tsx");
+    const painted = [...source.matchAll(/code:\s*"([A-Z]{2})"/g)]
+      .map((m) => m[1])
+      .sort();
+    const engine = [...euredact.availableCountries()].sort();
+    assert.deepEqual(painted, engine);
+  });
+
   test("the SDK docs list the same country codes the engine loads", () => {
     const engine = [...euredact.availableCountries()].sort();
     for (const page of ["docs/python", "docs/nodejs"]) {

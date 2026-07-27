@@ -14,12 +14,24 @@ import {
 const GEO_URL = "/countries-50m.json";
 
 /*
-  world-atlas uses numeric ISO 3166-1 codes as the `id` field.
-  Map from numeric id → { code, name } for our 31 supported countries.
+  Cloud-tier coverage is derived from the languages the model handles — de, en,
+  fr, nl — checked against each country's administrative languages, meaning the
+  ones government and business documents are actually written in. Minority
+  co-official languages (Romansh in Switzerland) are out of scope by that
+  definition; Irish, Luxembourgish and Maltese are not, which is why those
+  countries read as partial.
+
+  The cloud tier has not launched. Every cloud state below is a statement about
+  planned coverage, and the legend and tooltips label it as such.
 */
-const SUPPORTED: Record<string, { code: string; name: string }> = {
-  "040": { code: "AT", name: "Austria" },
-  "056": { code: "BE", name: "Belgium" },
+type Cloud = { tier: "full" | "partial"; missing?: string };
+
+type Country = { code: string; name: string; cloud?: Cloud };
+
+/* world-atlas uses numeric ISO 3166-1 codes as the `id` field. */
+const SUPPORTED: Record<string, Country> = {
+  "040": { code: "AT", name: "Austria", cloud: { tier: "full" } },
+  "056": { code: "BE", name: "Belgium", cloud: { tier: "full" } },
   "100": { code: "BG", name: "Bulgaria" },
   "191": { code: "HR", name: "Croatia" },
   "196": { code: "CY", name: "Cyprus" },
@@ -27,19 +39,30 @@ const SUPPORTED: Record<string, { code: string; name: string }> = {
   "208": { code: "DK", name: "Denmark" },
   "233": { code: "EE", name: "Estonia" },
   "246": { code: "FI", name: "Finland" },
-  "250": { code: "FR", name: "France" },
-  "276": { code: "DE", name: "Germany" },
+  "250": { code: "FR", name: "France", cloud: { tier: "full" } },
+  "276": { code: "DE", name: "Germany", cloud: { tier: "full" } },
   "300": { code: "EL", name: "Greece" },
   "348": { code: "HU", name: "Hungary" },
   "352": { code: "IS", name: "Iceland" },
-  "372": { code: "IE", name: "Ireland" },
+  "372": {
+    code: "IE",
+    name: "Ireland",
+    cloud: { tier: "partial", missing: "Irish" },
+  },
   "380": { code: "IT", name: "Italy" },
   "428": { code: "LV", name: "Latvia" },
-  "438": { code: "LI", name: "Liechtenstein" },
   "440": { code: "LT", name: "Lithuania" },
-  "442": { code: "LU", name: "Luxembourg" },
-  "470": { code: "MT", name: "Malta" },
-  "528": { code: "NL", name: "Netherlands" },
+  "442": {
+    code: "LU",
+    name: "Luxembourg",
+    cloud: { tier: "partial", missing: "Luxembourgish" },
+  },
+  "470": {
+    code: "MT",
+    name: "Malta",
+    cloud: { tier: "partial", missing: "Maltese" },
+  },
+  "528": { code: "NL", name: "Netherlands", cloud: { tier: "full" } },
   "578": { code: "NO", name: "Norway" },
   "616": { code: "PL", name: "Poland" },
   "620": { code: "PT", name: "Portugal" },
@@ -48,16 +71,92 @@ const SUPPORTED: Record<string, { code: string; name: string }> = {
   "705": { code: "SI", name: "Slovenia" },
   "724": { code: "ES", name: "Spain" },
   "752": { code: "SE", name: "Sweden" },
-  "756": { code: "CH", name: "Switzerland" },
-  "826": { code: "UK", name: "United Kingdom" },
+  "756": {
+    code: "CH",
+    name: "Switzerland",
+    cloud: { tier: "partial", missing: "Italian" },
+  },
+  "826": { code: "UK", name: "United Kingdom", cloud: { tier: "full" } },
 };
 
+/* One hue, three steps: deeper green means deeper coverage. Rules-only sits at
+   the pale end, cloud with every administrative language at the brand green. */
+const RULES = "#A7F3D0";
+const CLOUD_PARTIAL = "#34D399";
+const CLOUD_FULL = "#10B981";
+const UNSUPPORTED = "#1e293b";
+
+/* Counted from the data rather than written by hand: the previous legend read
+   "31 Supported Countries" while the map painted 32. */
+const countries = Object.values(SUPPORTED);
+const COUNTS = {
+  rules: countries.length,
+  full: countries.filter((c) => c.cloud?.tier === "full").length,
+  partial: countries.filter((c) => c.cloud?.tier === "partial").length,
+  /* Legend rows must be mutually exclusive, or the counts appear to sum to
+     more than the countries on the map. */
+  get rulesOnly() {
+    return this.rules - this.full - this.partial;
+  },
+};
+
+function fillFor(country: Country | undefined) {
+  if (!country) return UNSUPPORTED;
+  if (country.cloud?.tier === "full") return CLOUD_FULL;
+  if (country.cloud?.tier === "partial") return CLOUD_PARTIAL;
+  return RULES;
+}
+
+function LegendHeading({ children }: { children: React.ReactNode }) {
+  return (
+    <div className="col-span-3 text-[10px] font-black uppercase tracking-[0.25em] text-slate-400 first:mt-0 mt-4">
+      {children}
+    </div>
+  );
+}
+
+function LegendRow({
+  fill,
+  count,
+  muted,
+  children,
+}: {
+  fill: string;
+  count?: number;
+  muted?: boolean;
+  children: React.ReactNode;
+}) {
+  return (
+    <>
+      <span
+        className="w-4 h-4 rounded shrink-0"
+        style={{ backgroundColor: fill }}
+        aria-hidden="true"
+      />
+      <span
+        className={`text-sm font-bold ${muted ? "text-slate-400" : "text-slate-600"}`}
+      >
+        {children}
+      </span>
+      <span className="text-sm font-black tabular-nums text-primary text-right">
+        {count ?? ""}
+      </span>
+    </>
+  );
+}
+
 export function EuropeMap() {
-  const [tooltip, setTooltip] = useState<{ name: string; code: string; x: number; y: number } | null>(null);
+  const [tooltip, setTooltip] = useState<
+    (Country & { x: number; y: number }) | null
+  >(null);
 
   return (
-    <div className="relative w-full max-w-4xl mx-auto">
-      <ComposableMap
+    <div className="relative w-full max-w-6xl mx-auto">
+      {/* Wide viewports put the legend beside the map; below it once there is
+          no longer room for both. */}
+      <div className="flex flex-col lg:flex-row lg:items-center gap-4 lg:gap-12">
+        <div className="flex-1 min-w-0">
+          <ComposableMap
         projection="geoAzimuthalEqualArea"
         projectionConfig={{
           rotate: [-10, -52, 0],
@@ -71,9 +170,8 @@ export function EuropeMap() {
           <Geographies geography={GEO_URL}>
             {({ geographies }) =>
               geographies.map((geo) => {
-                const numericId = geo.id;
-                const match = SUPPORTED[numericId];
-                const isSupported = !!match;
+                const match = SUPPORTED[geo.id];
+                const fill = fillFor(match);
 
                 return (
                   <Geography
@@ -81,67 +179,95 @@ export function EuropeMap() {
                     geography={geo}
                     onMouseEnter={(e) => {
                       if (match) {
-                        setTooltip({
-                          name: match.name,
-                          code: match.code,
-                          x: e.clientX,
-                          y: e.clientY,
-                        });
+                        setTooltip({ ...match, x: e.clientX, y: e.clientY });
                       }
                     }}
                     onMouseLeave={() => setTooltip(null)}
                     style={{
                       default: {
-                        fill: isSupported ? "#10B981" : "#1e293b",
+                        fill,
                         stroke: "#0f172a",
                         strokeWidth: 0.5,
                         outline: "none",
                       },
                       hover: {
-                        fill: isSupported ? "#34d399" : "#334155",
+                        fill: match ? fill : "#334155",
+                        opacity: match ? 0.8 : 1,
                         stroke: "#0f172a",
                         strokeWidth: 0.5,
                         outline: "none",
-                        cursor: isSupported ? "pointer" : "default",
+                        cursor: match ? "pointer" : "default",
                       },
-                      pressed: {
-                        fill: isSupported ? "#10b981" : "#1e293b",
-                        outline: "none",
-                      },
+                      pressed: { fill, outline: "none" },
                     }}
                   />
                 );
               })
             }
-          </Geographies>
-        </ZoomableGroup>
-      </ComposableMap>
+              </Geographies>
+            </ZoomableGroup>
+          </ComposableMap>
+        </div>
+
+        {/* Legend. Grouped by availability so "coming soon" is said once rather
+            than repeated per row, and ordered along the colour ramp: palest
+            (least coverage) at the top. */}
+        <div className="shrink-0 mx-auto lg:mx-0 w-fit text-left">
+          <div className="grid grid-cols-[auto_1fr_auto] items-center gap-x-4 gap-y-2.5">
+            <LegendHeading>Available now</LegendHeading>
+            <LegendRow fill={RULES} count={COUNTS.rulesOnly}>
+              Rules engine only
+            </LegendRow>
+
+            <LegendHeading>Cloud tier — coming soon</LegendHeading>
+            <LegendRow fill={CLOUD_PARTIAL} count={COUNTS.partial}>
+              Some administrative languages
+            </LegendRow>
+            <LegendRow fill={CLOUD_FULL} count={COUNTS.full}>
+              All administrative languages
+            </LegendRow>
+
+            <LegendHeading>Outside coverage</LegendHeading>
+            <LegendRow fill={UNSUPPORTED} muted>
+              Not yet supported
+            </LegendRow>
+          </div>
+        </div>
+      </div>
 
       {/* Tooltip */}
       {tooltip && (
         <div
-          className="fixed z-50 pointer-events-none bg-primary border border-secondary/40 text-white text-sm font-bold px-4 py-2 rounded-xl shadow-xl"
+          className="fixed z-50 pointer-events-none bg-primary border border-secondary/40 text-white text-sm font-bold px-4 py-3 rounded-xl shadow-xl max-w-xs"
           style={{ left: tooltip.x + 12, top: tooltip.y - 10 }}
         >
-          <span className="text-secondary">{tooltip.code}</span>{" "}
-          {tooltip.name}
-          <span className="ml-2 text-[10px] text-secondary font-black uppercase tracking-widest">
-            Supported
-          </span>
+          <div>
+            <span className="text-secondary">{tooltip.code}</span> {tooltip.name}
+          </div>
+          <div className="mt-2 text-[10px] font-black uppercase tracking-widest text-secondary">
+            Rules engine — available now
+          </div>
+          {tooltip.cloud && (
+            <div className="mt-1 text-[10px] font-black uppercase tracking-widest text-indigo-300">
+              {tooltip.cloud.tier === "full"
+                ? "Cloud — all administrative languages"
+                : `Cloud — partial, no ${tooltip.cloud.missing}`}
+              <span className="block text-slate-400 normal-case tracking-normal font-bold mt-0.5">
+                Coming soon
+              </span>
+            </div>
+          )}
         </div>
       )}
 
-      {/* Legend */}
-      <div className="flex items-center justify-center gap-8 mt-6">
-        <div className="flex items-center gap-2">
-          <div className="w-4 h-4 rounded bg-[#10B981]" />
-          <span className="text-sm font-bold text-slate-600">31 Supported Countries</span>
-        </div>
-        <div className="flex items-center gap-2">
-          <div className="w-4 h-4 rounded bg-[#1e293b]" />
-          <span className="text-sm font-bold text-slate-400">Not yet supported</span>
-        </div>
-      </div>
+      <p className="text-xs text-slate-500 leading-relaxed text-center max-w-2xl mx-auto mt-8">
+        The rules engine ships today across all {COUNTS.rules} countries. Cloud
+        coverage describes the contextual model still in development, which
+        handles Dutch, English, French and German; a country counts as fully
+        covered when every language its government and business documents are
+        written in is among those. Minority co-official languages are out of
+        scope.
+      </p>
     </div>
   );
 }
