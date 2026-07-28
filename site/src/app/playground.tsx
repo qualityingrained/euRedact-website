@@ -70,6 +70,7 @@ export function Playground() {
   const [lang, setLang] = useState<"python" | "node">("python");
   const [detections, setDetections] = useState<Detection[] | null>(null);
   const [auto, setAuto] = useState(true);
+  const [pressed, setPressed] = useState(false);
 
   /* Timers are collected so a user taking over cancels every pending step —
      otherwise a queued keystroke overwrites what they just typed. */
@@ -104,6 +105,22 @@ export function Playground() {
     setDetections(result.detections as unknown as Detection[]);
   }, []);
 
+  /* Flash the button so a simulated press is visible as a press, and swap the
+     runtime on every run — the point of the section is that both SDKs make the
+     same call, which only lands if the reader sees both. One path for the
+     scripted press and a real click, so they cannot drift apart. */
+  const flashAndRun = useCallback(
+    (text: string, country: string | null) => {
+      setPressed(true);
+      later(180, () => {
+        setPressed(false);
+        run(text, country);
+        setLang((l) => (l === "python" ? "node" : "python"));
+      });
+    },
+    [run]
+  );
+
   const takeOver = useCallback(() => {
     setAuto((wasAuto) => {
       if (wasAuto) clearTimers();
@@ -125,7 +142,7 @@ export function Playground() {
         later(TYPING_MS, type);
       } else {
         later(PAUSE_BEFORE_RUN, () => {
-          run(text, country);
+          flashAndRun(text, country);
           later(PAUSE_AFTER_RUN, () =>
             setSampleIndex((i) => (i + 1) % SAMPLES.length)
           );
@@ -140,7 +157,7 @@ export function Playground() {
     });
     later(360, type);
     return clearTimers;
-  }, [auto, sampleIndex, run]);
+  }, [auto, sampleIndex, flashAndRun]);
 
   /* Grow to fit the content instead of scrolling inside two rows, capped so a
      pasted document cannot push the rest of the page off screen. */
@@ -194,9 +211,13 @@ export function Playground() {
               /* Explicitly null, not activeCountry: takeOver() only flips the
                  flag on the next render, so reading it here would still use the
                  sample's country for the first manual run. */
-              run(input, null);
+              flashAndRun(input, null);
             }}
-            className="bg-brand text-white font-bold text-sm px-5 py-3 rounded-xl cursor-pointer hover:bg-brand-hover transition-colors whitespace-nowrap"
+            className={`text-white font-bold text-sm px-5 py-3 rounded-xl cursor-pointer whitespace-nowrap transition-all duration-150 motion-safe:will-change-transform ${
+              pressed
+                ? "bg-brand-hover ring-4 ring-secondary/30 motion-safe:scale-95"
+                : "bg-brand hover:bg-brand-hover"
+            }`}
           >
             Run redact()
           </button>
