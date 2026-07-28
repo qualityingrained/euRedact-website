@@ -131,16 +131,38 @@ body {
 
 .prose h2 {
   color: #fff;
-  font-weight: 900;
+  font-weight: 700;
   font-size: 1.75rem;
-  margin-top: 2.5rem;
+  margin-top: 3rem;
   margin-bottom: 1rem;
   letter-spacing: -0.02em;
 }
 
+/* Numbered sections, echoing the numbered archive list and the problem cards.
+   Gives a long essay a spine you can scan, and the mono index breaks up a
+   column that is otherwise unrelieved body text. */
+.prose {
+  counter-reset: prose-section;
+}
+
+.prose h2 {
+  counter-increment: prose-section;
+}
+
+.prose h2::before {
+  content: counter(prose-section, decimal-leading-zero) " /";
+  font-family: var(--font-mono);
+  font-size: 0.62em;
+  font-weight: 500;
+  letter-spacing: 0.08em;
+  color: var(--color-secondary);
+  vertical-align: 0.28em;
+  margin-right: 0.7rem;
+}
+
 .prose h3 {
   color: #fff;
-  font-weight: 900;
+  font-weight: 700;
   font-size: 1.25rem;
   margin-top: 2rem;
   margin-bottom: 0.75rem;
@@ -156,6 +178,12 @@ body {
 
 .prose p {
   margin-bottom: 1.25rem;
+}
+
+.prose > p:first-of-type {
+  font-size: 1.2rem;
+  line-height: 1.7;
+  color: #DDE6E8;
 }
 
 .prose a {
@@ -200,7 +228,7 @@ body {
 }
 
 .prose blockquote {
-  border-left: 3px solid #8FB4BC;
+  border-left: 3px solid var(--color-pii-highlight);
   padding-left: 1.25rem;
   margin: 1.5rem 0;
   color: #94a3b8;
@@ -209,8 +237,8 @@ body {
 
 .prose hr {
   border: none;
-  border-top: 1px solid rgba(255, 255, 255, 0.1);
-  margin: 2rem 0;
+  border-top: 1px solid var(--color-outline-variant);
+  margin: 2.5rem 0;
 }
 
 .prose img {
@@ -228,14 +256,24 @@ body {
 }
 
 .prose thead th {
-  color: #fff;
-  font-weight: 900;
+  color: var(--color-secondary);
+  font-weight: 700;
   text-align: left;
   padding: 0.75rem 1rem;
-  border-bottom: 2px solid rgba(255, 255, 255, 0.15);
+  border-bottom: 2px solid rgba(143, 180, 188, 0.45);
   font-size: 0.75rem;
   text-transform: uppercase;
   letter-spacing: 0.1em;
+}
+
+/* Figures in these tables are meant to be compared down the column. */
+.prose tbody td {
+  font-variant-numeric: tabular-nums;
+}
+
+.prose tbody td:first-child {
+  color: #DDE6E8;
+  font-weight: 600;
 }
 
 .prose tbody td {
@@ -277,28 +315,47 @@ body {
   border-radius: 0;
 }
 
-/* highlight.js overrides for dark theme */
-.hljs { color: #e2e8f0; }
-.hljs-keyword { color: #c084fc; }
-.hljs-string { color: #86efac; }
-.hljs-number { color: #fbbf24; }
-.hljs-built_in { color: #67e8f9; }
-.hljs-function { color: #93c5fd; }
-.hljs-title { color: #93c5fd; }
-.hljs-params { color: #e2e8f0; }
-.hljs-comment { color: #64748b; font-style: italic; }
-.hljs-meta { color: #fb923c; }
-.hljs-attr { color: #67e8f9; }
-.hljs-attribute { color: #67e8f9; }
-.hljs-selector-tag { color: #c084fc; }
-.hljs-selector-class { color: #86efac; }
-.hljs-variable { color: #f9a8d4; }
-.hljs-literal { color: #fbbf24; }
-.hljs-property { color: #67e8f9; }
-.hljs-type { color: #fbbf24; }
-.hljs-name { color: #f87171; }
-.hljs-symbol { color: #8FB4BC; }
-.hljs-bullet { color: #8FB4BC; }
-.hljs-addition { color: #86efac; background: rgba(134, 239, 172, 0.1); }
-.hljs-deletion { color: #fca5a5; background: rgba(252, 165, 165, 0.1); }
-.hljs-section { color: #93c5fd; font-weight: 700; }
+/* highlight.js, retuned to the site's three colours.
+
+   It shipped as eight unrelated hues — violet, mint, cyan, cornflower, pink,
+   orange — none of which appear anywhere else on the site. The scheme now
+   follows the same meanings as the rest: teal for structure, mustard for
+   literal values, red for the destructive end of a diff. */
+.hljs { color: #DDE6E8; }
+
+/* structure: keywords, tags, sections */
+.hljs-keyword,
+.hljs-selector-tag,
+.hljs-section { color: #8FB4BC; font-weight: 600; }
+
+/* names of things: functions, types, classes */
+.hljs-title,
+.hljs-function,
+.hljs-built_in,
+.hljs-class,
+.hljs-name { color: #B9D3D9; }
+
+/* literal values */
+.hljs-string,
+.hljs-number,
+.hljs-literal,
+.hljs-regexp,
+.hljs-symbol,
+.hljs-bullet { color: #FED766; }
+
+/* identifiers and keys */
+.hljs-attr,
+.hljs-attribute,
+.hljs-property,
+.hljs-variable,
+.hljs-params,
+.hljs-type { color: #DDE6E8; }
+
+.hljs-meta { color: #9FB3B9; }
+.hljs-comment,
+.hljs-quote { color: #6E8A92; font-style: italic; }
+
+.hljs-addition { color: #8FB4BC; background: rgba(143, 180, 188, 0.12); }
+.hljs-deletion { color: #FE4A49; background: rgba(254, 74, 73, 0.12); }
+.hljs-emphasis { font-style: italic; }
+.hljs-strong { font-weight: 700; }
