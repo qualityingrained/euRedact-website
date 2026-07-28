@@ -114,7 +114,7 @@ export default function BenchmarksPage() {
         title="Accuracy Benchmarks"
         subtitle="Transparent, independently verifiable detection rates. 152,300 records across 31 countries."
       >
-          <p className="text-on-surface-variant text-sm max-w-3xl leading-relaxed">
+          <p className="text-on-surface-variant text-sm max-w-3xl leading-relaxed border-l-2 border-pii-highlight/50 pl-4">
             These figures measure structured-PII recall and precision on a
             generated evaluation set of 152,300 records (666,490 non-DOB PII
             labels), measured 27 July 2026. Generated data measures pattern

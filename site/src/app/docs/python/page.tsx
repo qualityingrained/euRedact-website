@@ -168,31 +168,31 @@ export default function PythonSDKPage() {
               <span className="text-white"> | </span>
               <span className="text-blue-300">None</span>
               <span className="text-white"> = </span>
-              <span className="text-amber-300">None</span>
+              <span className="text-pii-highlight">None</span>
               <span className="text-white">,</span>
               {"\n"}
               <span className="text-white">    mode: </span>
               <span className="text-blue-300">str</span>
               <span className="text-white"> = </span>
-              <span className="text-amber-300">&quot;rules&quot;</span>
+              <span className="text-pii-highlight">&quot;rules&quot;</span>
               <span className="text-white">,</span>
               {"\n"}
               <span className="text-white">    referential_integrity: </span>
               <span className="text-blue-300">bool</span>
               <span className="text-white"> = </span>
-              <span className="text-amber-300">False</span>
+              <span className="text-pii-highlight">False</span>
               <span className="text-white">,</span>
               {"\n"}
               <span className="text-white">    detect_dates: </span>
               <span className="text-blue-300">bool</span>
               <span className="text-white"> = </span>
-              <span className="text-amber-300">False</span>
+              <span className="text-pii-highlight">False</span>
               <span className="text-white">,</span>
               {"\n"}
               <span className="text-white">    cache: </span>
               <span className="text-blue-300">bool</span>
               <span className="text-white"> = </span>
-              <span className="text-amber-300">True</span>
+              <span className="text-pii-highlight">True</span>
               <span className="text-white">,</span>
               {"\n"}
               <span className="text-white">) -&gt; </span>
@@ -257,13 +257,13 @@ export default function PythonSDKPage() {
               <span className="text-white">(</span>
               {"\n"}
               <span className="text-white">    </span>
-              <span className="text-amber-300">
+              <span className="text-pii-highlight">
                 &quot;Mijn BSN is 111222333 en IBAN NL91ABNA0417164300.&quot;
               </span>
               <span className="text-white">,</span>
               {"\n"}
               <span className="text-white">    countries=[</span>
-              <span className="text-amber-300">&quot;NL&quot;</span>
+              <span className="text-pii-highlight">&quot;NL&quot;</span>
               <span className="text-white">],</span>
               {"\n"}
               <span className="text-white">){"\n\n"}</span>
@@ -333,18 +333,18 @@ export default function PythonSDKPage() {
               <span className="text-white">texts = [</span>
               {"\n"}
               <span className="text-white">    </span>
-              <span className="text-amber-300">&quot;BSN 111222333&quot;</span>
+              <span className="text-pii-highlight">&quot;BSN 111222333&quot;</span>
               <span className="text-white">,</span>
               {"\n"}
               <span className="text-white">    </span>
-              <span className="text-amber-300">&quot;IBAN NL91ABNA0417164300&quot;</span>
+              <span className="text-pii-highlight">&quot;IBAN NL91ABNA0417164300&quot;</span>
               <span className="text-white">,</span>
               {"\n"}
               <span className="text-white">]{"\n\n"}</span>
               <span className="text-white">results = euredact.</span>
               <span className="text-secondary">redact_batch</span>
               <span className="text-white">(texts, countries=[</span>
-              <span className="text-amber-300">&quot;NL&quot;</span>
+              <span className="text-pii-highlight">&quot;NL&quot;</span>
               <span className="text-white">]){"\n"}</span>
               <span className="text-purple-400">for</span>
               <span className="text-white"> r </span>
@@ -399,7 +399,7 @@ export default function PythonSDKPage() {
               <span className="text-white"> euredact.</span>
               <span className="text-secondary">aredact</span>
               <span className="text-white">(</span>
-              <span className="text-amber-300">&quot;BSN 111222333&quot;</span>
+              <span className="text-pii-highlight">&quot;BSN 111222333&quot;</span>
               <span className="text-white">){"\n"}</span>
               <span className="text-white">    </span>
               <span className="text-secondary">print</span>
@@ -432,7 +432,7 @@ export default function PythonSDKPage() {
               <span className="text-white">    max_concurrency: </span>
               <span className="text-blue-300">int</span>
               <span className="text-white"> = </span>
-              <span className="text-amber-300">4</span>
+              <span className="text-pii-highlight">4</span>
               <span className="text-white">,</span>
               {"\n"}
               <span className="text-white">    **kwargs,</span>
@@ -496,9 +496,9 @@ export default function PythonSDKPage() {
               <span className="text-purple-400">import</span>
               <span className="text-white"> euredact{"\n\n"}</span>
               <span className="text-white">texts = [</span>
-              <span className="text-amber-300">&quot;BSN 111222333&quot;</span>
+              <span className="text-pii-highlight">&quot;BSN 111222333&quot;</span>
               <span className="text-white">, </span>
-              <span className="text-amber-300">&quot;IBAN DE89370400440532013000&quot;</span>
+              <span className="text-pii-highlight">&quot;IBAN DE89370400440532013000&quot;</span>
               <span className="text-white">]{"\n\n"}</span>
               <span className="text-purple-400">for</span>
               <span className="text-white"> result </span>
@@ -596,22 +596,22 @@ export default function PythonSDKPage() {
               <span className="text-white">instance.</span>
               <span className="text-secondary">add_custom_pattern</span>
               <span className="text-white">(</span>
-              <span className="text-amber-300">&quot;CASE_REF&quot;</span>
+              <span className="text-pii-highlight">&quot;CASE_REF&quot;</span>
               <span className="text-white">, </span>
-              <span className="text-amber-300">r&quot;CASE-\d{"{8}"}&quot;</span>
+              <span className="text-pii-highlight">r&quot;CASE-\d{"{8}"}&quot;</span>
               <span className="text-white">){"\n\n"}</span>
               <span className="text-white">result = instance.</span>
               <span className="text-secondary">redact</span>
               <span className="text-white">(</span>
               {"\n"}
               <span className="text-white">    </span>
-              <span className="text-amber-300">&quot;See CASE-20260401&quot;</span>
+              <span className="text-pii-highlight">&quot;See CASE-20260401&quot;</span>
               <span className="text-white">,</span>
               {"\n"}
               <span className="text-white">    countries=[</span>
-              <span className="text-amber-300">&quot;NL&quot;</span>
+              <span className="text-pii-highlight">&quot;NL&quot;</span>
               <span className="text-white">, </span>
-              <span className="text-amber-300">&quot;BE&quot;</span>
+              <span className="text-pii-highlight">&quot;BE&quot;</span>
               <span className="text-white">],</span>
               {"\n"}
               <span className="text-white">){"\n\n"}</span>
@@ -764,14 +764,14 @@ export default function PythonSDKPage() {
               <span className="text-white">euredact.</span>
               <span className="text-secondary">add_custom_pattern</span>
               <span className="text-white">(</span>
-              <span className="text-amber-300">&quot;EMPLOYEE_ID&quot;</span>
+              <span className="text-pii-highlight">&quot;EMPLOYEE_ID&quot;</span>
               <span className="text-white">, </span>
-              <span className="text-amber-300">r&quot;EMP-\d{"{6}"}&quot;</span>
+              <span className="text-pii-highlight">r&quot;EMP-\d{"{6}"}&quot;</span>
               <span className="text-white">){"\n\n"}</span>
               <span className="text-white">result = euredact.</span>
               <span className="text-secondary">redact</span>
               <span className="text-white">(</span>
-              <span className="text-amber-300">&quot;Contact EMP-123456 for details&quot;</span>
+              <span className="text-pii-highlight">&quot;Contact EMP-123456 for details&quot;</span>
               <span className="text-white">){"\n"}</span>
               <span className="text-secondary">print</span>
               <span className="text-white">(result.redacted_text){"\n"}</span>

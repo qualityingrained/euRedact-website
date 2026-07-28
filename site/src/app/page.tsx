@@ -48,9 +48,26 @@ const CLOUD_FEATURES = [
   "Availability and pricing to be announced",
 ];
 
-function SectionLabel({ children }: { children: React.ReactNode }) {
+/*
+  Three colours with three jobs, so colour carries meaning rather than
+  decoration:
+    brand teal  what ships today
+    red         PII, and the problem it creates
+    mustard     not shipped yet, and caveats on the numbers
+*/
+function SectionLabel({
+  children,
+  tone = "brand",
+}: {
+  children: React.ReactNode;
+  tone?: "brand" | "danger";
+}) {
   return (
-    <span className="inline-block bg-brand text-white text-[13px] font-bold uppercase tracking-[0.12em] px-3.5 py-1.5">
+    <span
+      className={`inline-block text-white text-[13px] font-bold uppercase tracking-[0.12em] px-3.5 py-1.5 ${
+        tone === "danger" ? "bg-pii-danger" : "bg-brand"
+      }`}
+    >
       {children}
     </span>
   );
@@ -141,7 +158,7 @@ export default function Page() {
                     <a
                       href="#accuracy-note"
                       aria-label="See measurement note"
-                      className="text-lg align-super text-on-surface-variant hover:text-secondary transition-colors"
+                      className="text-lg align-super text-pii-highlight hover:text-secondary-hover transition-colors"
                     >
                       *
                     </a>
@@ -158,14 +175,14 @@ export default function Page() {
 
       {/* ── PROBLEM ── */}
       <section className="max-w-[1180px] mx-auto px-8 py-20">
-        <SectionLabel>The European PII Problem</SectionLabel>
+        <SectionLabel tone="danger">The European PII Problem</SectionLabel>
         <div className="grid md:grid-cols-3 gap-5 mt-6">
           {PROBLEMS.map((p) => (
             <div
               key={p.n}
               className="bg-surface border border-outline-variant rounded-xl p-7"
             >
-              <div className="w-9 h-9 border border-outline-variant rounded-lg flex items-center justify-center font-mono text-xs text-secondary mb-5">
+              <div className="w-9 h-9 border border-pii-danger/40 rounded-lg flex items-center justify-center font-mono text-xs text-pii-danger mb-5">
                 {p.n}
               </div>
               <h3 className="text-[19px] font-bold mb-3">{p.title}</h3>
@@ -233,7 +250,7 @@ export default function Page() {
                   AI Model
                 </span>
               </div>
-              <span className="inline-block bg-secondary/10 text-secondary text-[11px] font-bold uppercase tracking-[0.08em] px-2.5 py-1 rounded-full mb-3">
+              <span className="inline-block bg-pii-highlight/15 text-pii-highlight text-[11px] font-bold uppercase tracking-[0.08em] px-2.5 py-1 rounded-full mb-3">
                 Coming Soon
               </span>
               <p className="text-sm leading-relaxed text-on-surface-variant">
@@ -302,7 +319,7 @@ export default function Page() {
           <div className="bg-surface border border-outline-variant rounded-xl p-8 flex flex-col">
             <div className="flex items-baseline justify-between gap-3">
               <h3 className="text-[22px] font-bold">Cloud Neural</h3>
-              <span className="inline-block bg-secondary/10 text-secondary text-[11px] font-bold uppercase tracking-[0.08em] px-2.5 py-1 rounded-full">
+              <span className="inline-block bg-pii-highlight/15 text-pii-highlight text-[11px] font-bold uppercase tracking-[0.08em] px-2.5 py-1 rounded-full">
                 Coming Soon
               </span>
             </div>

@@ -86,7 +86,7 @@ export default function PricingPage() {
             {/* Card 2: Cloud (Coming Soon) */}
             <div className="relative bg-code rounded-[3rem] border-4 border-secondary/40 p-12 flex flex-col overflow-hidden">
               <div className="mb-8">
-                <span className="inline-block bg-amber-500/20 text-amber-400 text-xs font-bold uppercase tracking-wider px-4 py-1.5 rounded-full mb-3">
+                <span className="inline-block bg-pii-highlight/15 text-pii-highlight text-xs font-bold uppercase tracking-wider px-4 py-1.5 rounded-full mb-3">
                   Coming Soon
                 </span>
                 <h3 className="text-2xl font-bold text-white mb-2">

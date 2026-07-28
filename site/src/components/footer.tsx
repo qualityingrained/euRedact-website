@@ -150,7 +150,7 @@ export function Footer() {
           id="accuracy-note"
           className="pt-12 border-t border-white/5 text-on-surface-variant text-xs leading-relaxed max-w-4xl scroll-mt-24"
         >
-          <span className="text-secondary font-black">*</span> Measured 27 July
+          <span className="text-pii-highlight font-black">*</span> Measured 27 July
           2026 on a generated evaluation set of 152,300 records (666,490 non-DOB
           PII labels) — it measures pattern coverage, not real-world messiness
           such as OCR noise or broken layouts. Accuracy figures assume the

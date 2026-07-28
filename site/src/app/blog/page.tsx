@@ -6,7 +6,7 @@ import { PageHero } from "@/components/page-hero";
 const tagColors: Record<string, string> = {
   GDPR: "bg-secondary/15 text-secondary",
   PII: "bg-indigo-400/15 text-indigo-300",
-  "open-source": "bg-amber-400/15 text-amber-300",
+  "open-source": "bg-pii-highlight/15 text-pii-highlight",
   NLP: "bg-sky-400/15 text-sky-300",
   benchmarks: "bg-violet-400/15 text-violet-300",
 };

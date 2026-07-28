@@ -31,7 +31,7 @@ function PiiSpan({ span, redacted }: { span: Span; redacted: boolean }) {
   return (
     <span className="inline-grid rounded px-0.5" style={{ gridTemplate: "1fr / 1fr" }}>
       <span
-        className={`transition-opacity duration-500 rounded px-0.5 bg-amber-400/20 text-amber-300 ${
+        className={`transition-opacity duration-500 rounded px-0.5 bg-pii-danger/20 text-pii-danger ${
           redacted ? "opacity-0" : "opacity-100"
         }`}
         style={{ gridArea: area }}
@@ -39,7 +39,7 @@ function PiiSpan({ span, redacted }: { span: Span; redacted: boolean }) {
         {span.text}
       </span>
       <span
-        className={`transition-opacity duration-500 rounded px-0.5 bg-pii-danger/25 text-pii-danger font-bold ${
+        className={`transition-opacity duration-500 rounded px-0.5 bg-brand text-white font-bold ${
           redacted ? "opacity-100" : "opacity-0"
         }`}
         style={{ gridArea: area }}

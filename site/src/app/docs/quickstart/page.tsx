@@ -74,7 +74,7 @@ export default function QuickstartPage() {
               <span className="text-white">result = </span>
               <span className="text-secondary">redact</span>
               <span className="text-white">(</span>
-              <span className="text-amber-300">
+              <span className="text-pii-highlight">
                 &quot;Mijn BSN is 111222333 en IBAN NL91ABNA0417164300.&quot;
               </span>
               <span className="text-white">){"\n\n"}</span>
@@ -131,18 +131,18 @@ export default function QuickstartPage() {
               <span className="text-white">redact</span>
               <span className="text-white">{" }"} </span>
               <span className="text-purple-400">from</span>
-              <span className="text-amber-300"> &quot;euredact&quot;</span>
+              <span className="text-pii-highlight"> &quot;euredact&quot;</span>
               <span className="text-white">;{"\n\n"}</span>
               <span className="text-purple-400">const</span>
               <span className="text-white"> result = </span>
               <span className="text-secondary">redact</span>
               <span className="text-white">(</span>
-              <span className="text-amber-300">
+              <span className="text-pii-highlight">
                 &quot;Mijn BSN is 111222333 en IBAN NL91ABNA0417164300.&quot;
               </span>
               <span className="text-white">, {"{\n"}</span>
               <span className="text-white">  countries: [</span>
-              <span className="text-amber-300">&quot;NL&quot;</span>
+              <span className="text-pii-highlight">&quot;NL&quot;</span>
               <span className="text-white">],{"\n"}</span>
               <span className="text-white">{"}"});</span>
               <span className="text-white">{"\n\n"}</span>

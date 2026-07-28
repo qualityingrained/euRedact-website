@@ -303,7 +303,7 @@ export default function NodejsSDKPage() {
               <span className="text-white">redact</span>
               <span className="text-white">{" }"} </span>
               <span className="text-purple-400">from</span>
-              <span className="text-amber-300"> &quot;euredact&quot;</span>
+              <span className="text-pii-highlight"> &quot;euredact&quot;</span>
               <span className="text-white">;{"\n\n"}</span>
               <span className="text-purple-400">const</span>
               <span className="text-white"> result = </span>
@@ -311,13 +311,13 @@ export default function NodejsSDKPage() {
               <span className="text-white">(</span>
               {"\n"}
               <span className="text-white">  </span>
-              <span className="text-amber-300">
+              <span className="text-pii-highlight">
                 &quot;Mijn BSN is 111222333 en IBAN NL91ABNA0417164300.&quot;
               </span>
               <span className="text-white">,</span>
               {"\n"}
               <span className="text-white">  {"{ "}countries: [</span>
-              <span className="text-amber-300">&quot;NL&quot;</span>
+              <span className="text-pii-highlight">&quot;NL&quot;</span>
               <span className="text-white">] {"}"}</span>
               {"\n"}
               <span className="text-white">);{"\n\n"}</span>
@@ -377,19 +377,19 @@ export default function NodejsSDKPage() {
               <span className="text-white">redactBatch</span>
               <span className="text-white">{" }"} </span>
               <span className="text-purple-400">from</span>
-              <span className="text-amber-300"> &quot;euredact&quot;</span>
+              <span className="text-pii-highlight"> &quot;euredact&quot;</span>
               <span className="text-white">;{"\n\n"}</span>
               <span className="text-purple-400">const</span>
               <span className="text-white"> results = </span>
               <span className="text-secondary">redactBatch</span>
               <span className="text-white">([{"\n"}</span>
               <span className="text-white">  </span>
-              <span className="text-amber-300">
+              <span className="text-pii-highlight">
                 &quot;BSN 111222333&quot;
               </span>
               <span className="text-white">,{"\n"}</span>
               <span className="text-white">  </span>
-              <span className="text-amber-300">
+              <span className="text-pii-highlight">
                 &quot;IBAN DE89370400440532013000&quot;
               </span>
               <span className="text-white">,{"\n"}</span>
@@ -458,19 +458,19 @@ export default function NodejsSDKPage() {
               <span className="text-white">addCustomPattern, redact</span>
               <span className="text-white">{" }"} </span>
               <span className="text-purple-400">from</span>
-              <span className="text-amber-300"> &quot;euredact&quot;</span>
+              <span className="text-pii-highlight"> &quot;euredact&quot;</span>
               <span className="text-white">;{"\n\n"}</span>
               <span className="text-secondary">addCustomPattern</span>
               <span className="text-white">(</span>
-              <span className="text-amber-300">&quot;EMPLOYEE_ID&quot;</span>
+              <span className="text-pii-highlight">&quot;EMPLOYEE_ID&quot;</span>
               <span className="text-white">, </span>
-              <span className="text-amber-300">&quot;EMP-\\d{"{6}"}&quot;</span>
+              <span className="text-pii-highlight">&quot;EMP-\\d{"{6}"}&quot;</span>
               <span className="text-white">);{"\n\n"}</span>
               <span className="text-purple-400">const</span>
               <span className="text-white"> result = </span>
               <span className="text-secondary">redact</span>
               <span className="text-white">(</span>
-              <span className="text-amber-300">
+              <span className="text-pii-highlight">
                 &quot;Contact EMP-123456 for details&quot;
               </span>
               <span className="text-white">);{"\n\n"}</span>
@@ -497,7 +497,7 @@ export default function NodejsSDKPage() {
               <span className="text-white">availableCountries</span>
               <span className="text-white">{" }"} </span>
               <span className="text-purple-400">from</span>
-              <span className="text-amber-300"> &quot;euredact&quot;</span>
+              <span className="text-pii-highlight"> &quot;euredact&quot;</span>
               <span className="text-white">;{"\n\n"}</span>
               <span className="text-white">console.</span>
               <span className="text-secondary">log</span>
@@ -544,7 +544,7 @@ export default function NodejsSDKPage() {
               <span className="text-white">redact</span>
               <span className="text-white">{" }"} </span>
               <span className="text-purple-400">from</span>
-              <span className="text-amber-300"> &quot;euredact&quot;</span>
+              <span className="text-pii-highlight"> &quot;euredact&quot;</span>
               <span className="text-white">;{"\n\n"}</span>
               <span className="text-purple-400">const</span>
               <span className="text-white"> result = </span>
@@ -552,7 +552,7 @@ export default function NodejsSDKPage() {
               <span className="text-white">(</span>
               {"\n"}
               <span className="text-white">  </span>
-              <span className="text-amber-300">
+              <span className="text-pii-highlight">
                 &quot;My API key is sk-proj-abc123def456ghi789&quot;
               </span>
               {"\n"}

@@ -89,7 +89,7 @@ export default function TrustPage() {
                 <span className="text-base font-black text-white mb-1">
                   euRedact Cloud
                 </span>
-                <span className="inline-block rounded-full bg-indigo-500/20 border border-indigo-400/40 px-2.5 py-0.5 text-[10px] font-bold uppercase tracking-wider text-indigo-300 mb-2">
+                <span className="inline-block rounded-full bg-pii-highlight/15 border border-pii-highlight/40 px-2.5 py-0.5 text-[10px] font-bold uppercase tracking-wider text-pii-highlight mb-2">
                   Coming Soon
                 </span>
                 <p className="text-xs leading-relaxed text-white/60">
