@@ -10,7 +10,8 @@ When people talk about PII breaches, they think of the spectacular failures — 
 
 Log files don't make headlines. But they're one of the most persistent, widespread, and quietly exploitable sources of PII leakage in production systems — and most engineering teams either don't know what's in them, or know and have quietly decided not to deal with it.
 
-That's a problem. And under GDPR, it's a liability.
+> [!RISK]
+> That's a problem. And under GDPR, it's a liability.
 
 ## How PII gets into logs in the first place
 

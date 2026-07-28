@@ -42,6 +42,29 @@ marked.setOptions({
   breaks: false,
 });
 
+/*
+  GitHub-style callouts: a blockquote whose first line is [!NOTE], [!CAVEAT] or
+  [!RISK] becomes a styled aside. Written as plain markdown so posts stay
+  portable — nothing here is a custom syntax a future editor has to learn.
+
+  The kinds map onto the site's colours: CAVEAT and NOTE are mustard, the
+  "read this number carefully" marker used everywhere else; RISK is red, the
+  colour reserved for PII and the problems it creates.
+*/
+const CALLOUT_KINDS: Record<string, string> = {
+  NOTE: "note",
+  CAVEAT: "caveat",
+  RISK: "risk",
+};
+
+function renderCallouts(html: string): string {
+  return html.replace(
+    /<blockquote>\s*<p>\s*\[!(NOTE|CAVEAT|RISK)\]\s*/g,
+    (_match, kind: string) =>
+      `<blockquote class="callout callout-${CALLOUT_KINDS[kind]}"><p>`
+  );
+}
+
 function calculateReadingTime(text: string): string {
   const words = text.trim().split(/\s+/).length;
   const minutes = Math.ceil(words / 230);
@@ -82,7 +105,7 @@ export function getPostBySlug(slug: string): Post | null {
 
   const fileContent = fs.readFileSync(filePath, "utf-8");
   const { data, content } = matter(fileContent);
-  const html = marked.parse(content) as string;
+  const html = renderCallouts(marked.parse(content) as string);
 
   return {
     slug,

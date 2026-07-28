@@ -43,4 +43,5 @@ This is the first model, not the last. We're using what we've learned to:
 - Add more languages and document types
 - Work towards the reliability bar we need for production
 
-We'll share benchmark numbers when we're further along.
+> [!CAVEAT]
+> We'll share benchmark numbers when we're further along.

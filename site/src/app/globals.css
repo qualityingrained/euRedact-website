@@ -235,6 +235,59 @@ body {
   font-style: italic;
 }
 
+/* Callouts. A tinted panel rather than a quote rule, because these are asides
+   the reader should not skip, not quotations. */
+.prose blockquote.callout {
+  font-style: normal;
+  color: #DDE6E8;
+  border-left-width: 3px;
+  border-radius: 0 0.75rem 0.75rem 0;
+  padding: 1.15rem 1.35rem;
+  margin: 2rem 0;
+}
+
+.prose blockquote.callout p:last-child {
+  margin-bottom: 0;
+}
+
+.prose blockquote.callout::before {
+  display: block;
+  font-family: var(--font-mono);
+  font-size: 0.68rem;
+  font-weight: 700;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  margin-bottom: 0.6rem;
+}
+
+/* Mustard: how to read a number, what a figure excludes. */
+.prose blockquote.callout-caveat,
+.prose blockquote.callout-note {
+  background: rgba(254, 215, 102, 0.08);
+  border-left-color: var(--color-pii-highlight);
+}
+
+.prose blockquote.callout-caveat::before {
+  content: "Caveat";
+  color: var(--color-pii-highlight);
+}
+
+.prose blockquote.callout-note::before {
+  content: "Note";
+  color: var(--color-pii-highlight);
+}
+
+/* Red: PII exposure and the consequences of getting it wrong. */
+.prose blockquote.callout-risk {
+  background: rgba(254, 74, 73, 0.08);
+  border-left-color: var(--color-pii-danger);
+}
+
+.prose blockquote.callout-risk::before {
+  content: "Risk";
+  color: var(--color-pii-danger);
+}
+
 .prose hr {
   border: none;
   border-top: 1px solid var(--color-outline-variant);

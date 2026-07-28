@@ -128,7 +128,8 @@ The weak spot is date-of-birth detection (F1 86), where the challenge is disting
 
 We're being transparent about these numbers because we think the PII detection space has too much hand-waving. If a tool claims "99% accuracy" without specifying what entity types, what languages, and what test methodology — that number is meaningless.
 
-So, our own methodology, stated plainly: the rules-engine figures above come from a **generated** evaluation set, not production documents. Generated data measures pattern coverage — it does not capture real-world messiness like OCR noise or broken layouts, and you should expect lower numbers on scanned or malformed input. Date-of-birth detection is excluded from our headline rules-engine figures and sits at 40.6% by design: a bare date carries too little structure to separate a birth date from an invoice date, so we defer it to the LLM tier rather than guess. And the headline accuracy assumes you pass the optional `countries` parameter — without it, recall drops to 94.4% and false positives rise to 4.8%.
+> [!CAVEAT]
+> So, our own methodology, stated plainly: the rules-engine figures above come from a **generated** evaluation set, not production documents. Generated data measures pattern coverage — it does not capture real-world messiness like OCR noise or broken layouts, and you should expect lower numbers on scanned or malformed input. Date-of-birth detection is excluded from our headline rules-engine figures and sits at 40.6% by design: a bare date carries too little structure to separate a birth date from an invoice date, so we defer it to the LLM tier rather than guess. And the headline accuracy assumes you pass the optional `countries` parameter — without it, recall drops to 94.4% and false positives rise to 4.8%.
 
 ## What's next
 

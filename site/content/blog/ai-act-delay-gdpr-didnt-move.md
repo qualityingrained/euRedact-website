@@ -14,7 +14,8 @@ On 29 June, the [Council of the EU gave its final green light](https://knowledge
 
 If your product touches hiring, credit scoring, insurance, education, or essential services — the Annex III categories — you just got a year and a half of breathing room.
 
-Before you exhale: it's worth being precise about what got delayed. Because the most important thing about this delay is what it _doesn't_ cover.
+> [!NOTE]
+> Before you exhale: it's worth being precise about what got delayed. Because the most important thing about this delay is what it _doesn't_ cover.
 
 ## What actually changed
 

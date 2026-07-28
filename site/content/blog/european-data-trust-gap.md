@@ -55,7 +55,8 @@ from euredact import redact
 result = redact(document_text)
 ```
 
-**The cloud tier we're building is EU-hosted, and local-first by design.** The open-source rules engine strips all structured PII *before* anything reaches the cloud model. The LLM only ever sees partially-redacted text. National IDs, IBANs, tax numbers -- already gone before the document leaves your infrastructure.
+> [!NOTE]
+> **The cloud tier we're building is EU-hosted, and local-first by design.** The open-source rules engine strips all structured PII *before* anything reaches the cloud model. The LLM only ever sees partially-redacted text. National IDs, IBANs, tax numbers -- already gone before the document leaves your infrastructure.
 
 This isn't a privacy feature bolted on after the fact. It's the core architecture: minimise what leaves your environment, and make sure what does leave it stays within the EU.
 
