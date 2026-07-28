@@ -71,11 +71,6 @@ export default function Page() {
       <section className="relative grid-pattern overflow-hidden pt-32 pb-14 px-8">
         <HeroRedactionLayer />
         <div className="relative z-10 max-w-[1180px] mx-auto">
-          <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-secondary/10 text-secondary text-xs font-black tracking-widest uppercase mb-10 border border-secondary/30">
-            <span className="w-2 h-2 rounded-full bg-secondary animate-pulse" />
-            v0.3 — Now supporting 31 European countries
-          </div>
-
           {/* Mark on the left, copy to its right, as in the design. Wraps to a
               stack below the `md` breakpoint so neither gets squeezed. */}
           <div className="flex flex-wrap items-center gap-10 md:gap-14">

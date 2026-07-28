@@ -225,10 +225,16 @@ describe("packaging claims", () => {
       `site advertises v${advertised}, installed engine is ${enginePackage.version}`,
     );
 
-    const home = readSiteFile("src/app/page.tsx");
-    assert.ok(
-      home.includes(`v${advertised} —`),
-      `the hero version badge disagrees with softwareVersion "${advertised}"`,
+    // The badge lives in the nav, so it is on every page rather than only the
+    // homepage. Matched as its own token so a stray "v0.3" elsewhere in the
+    // file cannot satisfy it.
+    const nav = readSiteFile("src/components/nav.tsx");
+    const badge = nav.match(/>\s*v(\d+\.\d+)\s*</);
+    assert.ok(badge, "nav.tsx no longer renders a version badge");
+    assert.equal(
+      badge[1],
+      advertised,
+      `the nav version badge disagrees with softwareVersion "${advertised}"`,
     );
   });
 

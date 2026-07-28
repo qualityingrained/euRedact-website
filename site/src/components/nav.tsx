@@ -10,9 +10,23 @@ export function Nav() {
   return (
     <nav className="fixed top-0 z-50 w-full bg-code border-b border-white/10 h-16 flex items-center">
       <div className="max-w-screen-2xl mx-auto w-full px-6 md:px-8 flex justify-between items-center">
-        <Link href="/" aria-label="euRedact home" className="flex items-center">
-          <Wordmark id="nav" className="h-7 w-auto text-white" />
-        </Link>
+        <div className="flex items-center gap-4">
+          <Link href="/" aria-label="euRedact home" className="flex items-center">
+            <Wordmark id="nav" className="h-7 w-auto text-white" />
+          </Link>
+
+          {/* Version and coverage, joined into one unit as in the design. The
+              version string is the SDK's, and the claim tests hold it to the
+              softwareVersion in layout.tsx and to the installed package. */}
+          <div className="hidden sm:flex items-stretch font-mono text-[11.5px] tracking-[0.04em]">
+            <span className="bg-brand text-white font-bold px-2.5 py-1.5 flex items-center">
+              v0.3
+            </span>
+            <span className="border border-l-0 border-outline-variant text-on-surface-variant px-2.5 py-1.5 flex items-center whitespace-nowrap">
+              31 countries
+            </span>
+          </div>
+        </div>
 
         {/* Desktop nav */}
         <div className="hidden md:flex items-center gap-8 font-bold text-xs uppercase tracking-[0.2em]">
