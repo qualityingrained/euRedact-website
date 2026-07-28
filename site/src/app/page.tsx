@@ -1,350 +1,334 @@
-import { HeroCodeBlock } from "./hero-code-block";
 import { EuropeMap } from "./europe-map";
+import { InstallTabs } from "./install-tabs";
+import { Playground } from "./playground";
 import { WaitlistButton } from "@/components/waitlist-button";
+
+/* Every figure below is the measured one. The asterisks lead to the
+   measurement note in the footer (#accuracy-note), which carries the
+   conditions: generated evaluation set, `countries` supplied, DOB excluded. */
+const STATS = [
+  { value: "98.3%", label: "Recall rate", note: "152,300-record set", ref: true },
+  { value: "31", label: "Countries", note: "Maintained rulesets", ref: false },
+  { value: "0.3ms", label: "Per page", note: "Node, 2,000 chars", ref: true },
+  { value: "1.1%", label: "False positives", note: "With countries set", ref: true },
+];
+
+const PROBLEMS = [
+  {
+    n: "01",
+    title: "Cloud API Risks",
+    body: "Sending documents to a third-party redaction API means personal data leaves your infrastructure — creating a new processor relationship and transfer surface under the GDPR.",
+  },
+  {
+    n: "02",
+    title: "Localization Gaps",
+    body: "US-centric tools miss European identifiers: BSN, codice fiscale, NHS number, and the national ID and IBAN formats used across 31 countries.",
+  },
+  {
+    n: "03",
+    title: "Slow Development",
+    body: "Building and maintaining per-country detection rules in-house is slow and hard to verify. Most teams ship late, or ship incomplete coverage.",
+  },
+];
+
+const CORE_FEATURES = [
+  "Deterministic rules engine — same input, same output",
+  "31 European country rulesets, 27 entity types",
+  "345 pattern definitions, 44 checksum validators",
+  "Python and Node.js SDKs, zero dependencies",
+  "Local-only — makes no network calls",
+];
+
+const CLOUD_FEATURES = [
+  "Neural detection for unstructured and contextual PII",
+  "Managed, EU-hosted API",
+  "Structured PII stripped locally before anything is sent",
+  "Availability and pricing to be announced",
+];
+
+function SectionLabel({ children }: { children: React.ReactNode }) {
+  return (
+    <span className="inline-block bg-brand text-white text-[13px] font-bold uppercase tracking-[0.12em] px-3.5 py-1.5">
+      {children}
+    </span>
+  );
+}
+
+function StepNumber({ n }: { n: string }) {
+  return (
+    <span className="w-6 h-6 border border-secondary rounded-full flex items-center justify-center font-mono text-[10.5px] text-secondary shrink-0">
+      {n}
+    </span>
+  );
+}
 
 export default function Page() {
   return (
     <>
       {/* ── HERO ── */}
-      <section className="relative bg-primary hero-pattern overflow-hidden pt-48 pb-32 px-8">
-        <div className="max-w-7xl mx-auto text-center relative z-10">
-          {/* Version badge */}
-          <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-secondary/10 text-secondary text-xs font-black tracking-widest uppercase mb-12 border border-secondary/30">
+      <section className="relative grid-pattern overflow-hidden pt-32 pb-14 px-8">
+        <div className="relative max-w-[1180px] mx-auto">
+          <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-secondary/10 text-secondary text-xs font-black tracking-widest uppercase mb-10 border border-secondary/30">
             <span className="w-2 h-2 rounded-full bg-secondary animate-pulse" />
             v0.3 — Now supporting 31 European countries
           </div>
 
-          {/* Headline */}
-          <h1 className="text-7xl md:text-9xl font-black tracking-tighter text-white mb-8 leading-[0.85]">
-            European PII <br />
-            <span className="text-secondary">Redaction.</span>
+          <h1 className="text-5xl md:text-6xl font-bold tracking-tight leading-[1.05] mb-5">
+            European PII Redaction.
+            <span className="text-secondary font-normal ml-3">/</span>
           </h1>
-
-          <p className="max-w-3xl mx-auto text-xl text-slate-300 leading-relaxed mb-14 font-medium">
-            Open-source SDK that detects and redacts structured PII
-            across 31 European countries. Available for Python and Node.js.{" "}
-            <br className="hidden md:block" />
-            Local-only and deterministic — the SDK makes no network calls.
+          <p className="text-lg leading-relaxed text-on-surface-variant max-w-2xl">
+            Open-source SDK that detects and redacts structured PII across 31
+            European countries. Available for Python and Node.js. Local-only and
+            deterministic — the SDK makes no network calls.
           </p>
 
-          <HeroCodeBlock />
+          <Playground />
         </div>
       </section>
 
-      {/* ── TRUST BAR ── */}
-      <section className="bg-white border-y border-slate-200 py-20">
-        <div className="max-w-7xl mx-auto px-8 grid grid-cols-2 md:grid-cols-4 gap-8 md:gap-12">
-          {[
-            { value: "98.3%", label: "Recall Rate", note: true },
-            { value: "31", label: "Countries", note: false },
-            { value: "0.3ms", label: "Per Page", note: true },
-            { value: "1.1%", label: "False Positives", note: true },
-          ].map((m) => (
-            <div key={m.label} className="text-center group cursor-default">
-              <div className="text-4xl md:text-6xl font-black text-primary mb-3 transition-transform group-hover:-translate-y-1">
-                {m.value}
-                {m.note && (
-                  <a
-                    href="#accuracy-note"
-                    aria-label="See measurement note"
-                    className="text-lg md:text-2xl align-super text-slate-400 hover:text-secondary transition-colors"
-                  >
-                    *
-                  </a>
-                )}
+      {/* ── GET STARTED + KEY METRICS ── */}
+      <section className="bg-surface border-t border-outline-variant">
+        <div className="max-w-[1180px] mx-auto px-8 pt-20">
+          <div className="font-mono text-[11px] font-medium uppercase tracking-[0.14em] text-on-surface-variant mb-5">
+            <span className="text-secondary mr-2">/</span>Get started
+          </div>
+          <h2 className="text-4xl font-bold tracking-tight mb-7">
+            Redaction in 30 Seconds.
+            <span className="text-secondary font-normal ml-3">/</span>
+          </h2>
+          <div className="flex flex-wrap items-center gap-3.5">
+            <InstallTabs />
+            <a
+              href="/demo"
+              className="bg-brand text-white font-mono text-xs font-medium uppercase tracking-[0.12em] px-5 py-4 rounded-xl hover:bg-brand-hover transition-colors"
+            >
+              Try Live Demo →
+            </a>
+            <a
+              href="/docs"
+              className="text-secondary font-mono text-xs font-medium uppercase tracking-[0.12em] px-5 py-4 border border-secondary rounded-xl hover:bg-secondary/10 transition-colors"
+            >
+              View Documentation →
+            </a>
+          </div>
+        </div>
+
+        <div className="max-w-[1180px] mx-auto px-8 pb-20">
+          <div className="grid grid-cols-2 lg:grid-cols-4 mt-16 border border-outline-variant rounded-xl overflow-hidden">
+            {STATS.map((s) => (
+              <div
+                key={s.label}
+                className="p-6 border-l border-outline-variant flex flex-col gap-5"
+              >
+                <div className="flex items-baseline gap-2.5">
+                  <span className="font-mono text-[10.5px] font-medium uppercase tracking-[0.14em] text-on-surface-variant">
+                    {s.label}
+                  </span>
+                  <span className="flex-1 h-px bg-outline-variant" />
+                </div>
+                <div className="text-[40px] font-bold tracking-tight leading-none">
+                  {s.value}
+                  {s.ref && (
+                    <a
+                      href="#accuracy-note"
+                      aria-label="See measurement note"
+                      className="text-lg align-super text-on-surface-variant hover:text-secondary transition-colors"
+                    >
+                      *
+                    </a>
+                  )}
+                </div>
+                <div className="font-mono text-[10.5px] font-medium uppercase tracking-[0.1em] text-on-surface-variant">
+                  {s.note}
+                </div>
               </div>
-              <div className="text-[10px] md:text-xs font-black text-slate-400 uppercase tracking-[0.25em]">
-                {m.label}
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* ── PROBLEM ── */}
+      <section className="max-w-[1180px] mx-auto px-8 py-20">
+        <SectionLabel>The European PII Problem</SectionLabel>
+        <div className="grid md:grid-cols-3 gap-5 mt-6">
+          {PROBLEMS.map((p) => (
+            <div
+              key={p.n}
+              className="bg-surface border border-outline-variant rounded-xl p-7"
+            >
+              <div className="w-9 h-9 border border-outline-variant rounded-lg flex items-center justify-center font-mono text-xs text-secondary mb-5">
+                {p.n}
               </div>
+              <h3 className="text-[19px] font-bold mb-3">{p.title}</h3>
+              <p className="text-[15px] leading-relaxed text-on-surface-variant">
+                {p.body}
+              </p>
             </div>
           ))}
         </div>
       </section>
 
-      {/* ── PROBLEM ── */}
-      <section className="py-32 px-8 bg-accent-indigo text-white relative overflow-hidden">
-        <div className="absolute top-0 left-0 w-full h-full hero-pattern opacity-5" />
-        <div className="max-w-7xl mx-auto relative z-10">
-          <div className="flex flex-col items-center text-center mb-20">
-            <h2 className="text-5xl md:text-6xl font-black tracking-tight text-white mb-6">
-              The European PII Problem
-            </h2>
-            <div className="w-24 h-2 bg-secondary rounded-full" />
-          </div>
-
-          <div className="grid md:grid-cols-3 gap-10">
-            {[
-              {
-                icon: "cloud_off",
-                title: "Cloud API Risks",
-                description:
-                  "Sending unredacted data to US-based LLMs creates GDPR compliance debt. euRedact detects and redacts structured PII locally, before your data leaves your infrastructure.",
-              },
-              {
-                icon: "extension",
-                title: "Localization Gaps",
-                description:
-                  "US tools miss localized patterns like German Tax IDs or Dutch BSNs. We focus exclusively on the European regulatory landscape.",
-              },
-              {
-                icon: "bolt",
-                title: "Slow Development",
-                description:
-                  "Stop building custom regex for 31 countries. One library covers the entire continent with consistent performance.",
-              },
-            ].map((card) => (
-              <div
-                key={card.title}
-                className="group p-12 bg-white/5 rounded-[2.5rem] hover:bg-white/10 transition-all duration-500 border border-white/10 hover:border-secondary/50"
-              >
-                <div className="w-16 h-16 bg-secondary rounded-2xl flex items-center justify-center mb-10 shadow-lg electric-glow">
-                  <span className="material-symbols-outlined text-primary text-4xl">
-                    {card.icon}
-                  </span>
-                </div>
-                <h3 className="text-3xl font-black text-white mb-6">{card.title}</h3>
-                <p className="text-slate-300 text-lg leading-relaxed font-medium">
-                  {card.description}
-                </p>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
       {/* ── ARCHITECTURE ── */}
-      <section className="py-32 bg-slate-950 text-white relative overflow-hidden">
-        <div className="max-w-7xl mx-auto px-8 relative z-10">
-          <div className="flex flex-col items-center text-center mb-24">
-            <h2 className="text-5xl font-black text-white mb-6">
-              Processing Architecture
-            </h2>
-            <div className="w-20 h-1.5 bg-secondary rounded-full" />
-          </div>
-
-          <div className="relative grid grid-cols-1 md:grid-cols-4 gap-12">
-            {/* Connector line behind the icons */}
-            <div className="hidden md:block absolute top-14 left-[12.5%] right-[12.5%] h-[2px] bg-secondary/30" />
-
-            {[
-              { icon: "terminal", label: "Input", sublabel: "Raw logs or user text.", accent: false, comingSoon: false },
-              { icon: "memory", label: "Local Engine", sublabel: "Deterministic pattern matching.", accent: true, comingSoon: false },
-              { icon: "psychology", label: "AI Model", sublabel: "Contextual AI analysis.", accent: false, comingSoon: true },
-              { icon: "verified", label: "Redacted Output", sublabel: "Detected PII replaced with placeholders.", accent: false, comingSoon: false },
-            ].map((step) => (
-              <div key={step.label} className="relative group z-10">
-                <div className="flex flex-col items-center text-center">
-                  <div
-                    className={`w-28 h-28 rounded-[2rem] flex items-center justify-center shadow-2xl mb-8 ${
-                      step.accent
-                        ? "bg-secondary electric-glow border border-secondary/50"
-                        : "bg-slate-950 border border-white/10 group-hover:border-secondary transition-colors"
-                    }`}
-                  >
-                    <span
-                      className={`material-symbols-outlined ${
-                        step.accent ? "text-primary text-6xl" : "text-secondary text-6xl"
-                      }`}
-                    >
-                      {step.icon}
-                    </span>
-                  </div>
-                  <div className={`font-black text-2xl uppercase tracking-wider mb-2 ${step.accent ? "text-secondary" : ""}`}>
-                    {step.label}
-                  </div>
-                  <div className="text-base text-slate-400 font-medium leading-relaxed">
-                    {step.sublabel}
-                  </div>
-                  {step.comingSoon && (
-                    <div className="mt-3 inline-block px-3 py-1 rounded-full bg-amber-400/20 text-amber-400 text-[10px] font-black uppercase tracking-widest border border-amber-400/30">
-                      Coming Soon
-                    </div>
-                  )}
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* ── DEPLOYMENT OPTIONS ── */}
-      <section className="py-32 px-8 max-w-7xl mx-auto">
-        <div className="flex flex-col items-center text-center mb-24">
-          <h2 className="text-5xl font-black text-primary mb-6">Deployment Options</h2>
-          <div className="w-20 h-1.5 bg-secondary rounded-full" />
-        </div>
-
-        <div className="grid md:grid-cols-2 gap-12">
-          {/* Rules Core */}
-          <div className="p-16 bg-slate-50 rounded-[3rem] border-2 border-slate-200 flex flex-col shadow-xl hover:shadow-2xl transition-all">
-            <div className="mb-12">
-              <div className="inline-block px-4 py-1.5 rounded-full bg-slate-200 text-slate-600 text-[10px] font-black uppercase tracking-[0.3em] mb-8">
-                Open Source SDK
-              </div>
-              <h3 className="text-5xl font-black text-primary mb-4">Rules Core</h3>
-              <p className="text-slate-500 font-bold text-xl">Apache 2.0 local redaction.</p>
-            </div>
-            <ul className="space-y-6 mb-16 flex-grow">
-              {[
-                "100% local execution — no network calls",
-                "31 European country configurations",
-                "27 Structured PII entity types with checksum validation",
-                "Secret & API key detection (AWS, GitHub, Stripe, ...)",
-                "Custom pattern support",
-                "Referential integrity mode",
-                "0.3ms per page (Node) — zero dependencies",
-                "Python & Node.js / TypeScript",
-              ].map((f) => (
-                <li key={f} className="flex items-center gap-4 text-slate-800 font-bold text-lg">
-                  <span className="material-symbols-outlined text-secondary font-black">done</span>
-                  {f}
-                </li>
-              ))}
-            </ul>
-            <a
-              href="/docs/quickstart"
-              className="block w-full py-5 rounded-2xl border-4 border-primary text-primary font-black uppercase tracking-widest text-sm hover:bg-primary hover:text-white transition-all text-center"
-            >
-              Install via pip / npm
-            </a>
-          </div>
-
-          {/* Cloud Neural */}
-          <div className="p-16 bg-primary rounded-[3rem] border-4 border-secondary/50 flex flex-col relative overflow-hidden shadow-2xl opacity-75">
-            <div className="absolute top-10 right-[-45px] bg-amber-400 text-primary text-[10px] font-black px-16 py-2 rotate-45 shadow-lg">
-              COMING SOON
-            </div>
-            <div className="mb-12">
-              <div className="inline-block px-4 py-1.5 rounded-full bg-amber-400/80 text-primary text-[10px] font-black uppercase tracking-[0.3em] mb-8 shadow-sm">
-                Coming Soon
-              </div>
-              <h3 className="text-5xl font-black text-white mb-4">Cloud Neural</h3>
-              <p className="text-slate-400 font-bold text-xl">
-                Contextual AI detection — coming soon.
-              </p>
-            </div>
-            <ul className="space-y-6 mb-16 flex-grow">
-              {[
-                { icon: "auto_awesome", text: "Everything in Core, plus:" },
-                { icon: "done", text: "Fine-tuned Privacy LLM" },
-                { icon: "done", text: "Referential integrity" },
-                { icon: "done", text: "EU-hosted infrastructure" },
-                { icon: "done", text: "Dedicated support" },
-              ].map((f) => (
-                <li key={f.text} className="flex items-center gap-4 text-white font-bold text-lg">
-                  <span className="material-symbols-outlined text-secondary font-black">
-                    {f.icon}
-                  </span>
-                  {f.text}
-                </li>
-              ))}
-            </ul>
-            <WaitlistButton className="w-full py-5 rounded-2xl bg-secondary/60 text-primary font-black uppercase tracking-widest text-sm hover:bg-secondary transition-all shadow-xl cursor-pointer">
-              Join Waitlist
-            </WaitlistButton>
-          </div>
-        </div>
-      </section>
-
-      {/* ── BENCHMARK & CLOUD TIER ── */}
-      <section className="py-32 px-8 bg-slate-950">
-        <div className="max-w-7xl mx-auto">
-          {/* Verifiable benchmark callout */}
-          <div className="bg-accent-indigo rounded-[2rem] p-8 flex flex-col md:flex-row items-center justify-between gap-6">
-            <div className="flex items-center gap-4">
-              <span className="material-symbols-outlined text-secondary text-3xl">
-                verified_user
-              </span>
-              <p className="text-indigo-200 font-medium max-w-2xl">
-                euRedact Rules benchmarks are independently verifiable — our full test suite of{" "}
-                <span className="text-white font-bold">152,300 records across 31 countries</span> is open source.
-              </p>
-            </div>
-            <a
-              href="https://github.com/euRedact/euRedact"
-              className="shrink-0 inline-flex items-center gap-2 text-secondary font-black text-sm uppercase tracking-wider hover:text-emerald-400 transition-colors"
-            >
-              View on GitHub
-              <span className="material-symbols-outlined text-lg">arrow_forward</span>
-            </a>
-          </div>
-
-          {/* Cloud tier highlight */}
-          <div className="bg-secondary/5 border border-secondary/20 rounded-[2rem] p-8 mt-6 flex flex-col md:flex-row items-center justify-between gap-8">
-            <div className="flex items-start gap-4">
-              <div className="flex gap-1 shrink-0 mt-1">
-                <span className="material-symbols-outlined text-secondary text-2xl">cloud</span>
-                <span className="material-symbols-outlined text-secondary text-2xl">auto_awesome</span>
-              </div>
-              <div>
-                <h3 className="text-white font-black text-lg mb-2">
-                  euRedact Cloud — Coming Soon
-                </h3>
-                <p className="text-slate-400 font-medium leading-relaxed max-w-2xl">
-                  Rules catch structured PII locally. The cloud tier adds a fine-tuned model
-                  for contextual detection — names, addresses, and implied identifiers that
-                  patterns can&apos;t reach. Structured PII is stripped before anything leaves your device.
-                </p>
-              </div>
-            </div>
-            <WaitlistButton className="shrink-0 bg-secondary text-primary px-8 py-4 rounded-2xl font-black uppercase tracking-widest text-sm hover:bg-emerald-400 hover:scale-105 transition-all electric-glow text-center cursor-pointer">
-              Join the Waitlist &rarr;
-            </WaitlistButton>
-          </div>
-        </div>
-      </section>
-
-      {/* ── EUROPE MAP ── */}
-      <section className="py-32 px-8 max-w-7xl mx-auto">
-        <div className="flex flex-col items-center text-center mb-16">
-          <h2 className="text-5xl font-black text-primary mb-4">Built for Europe</h2>
-          <p className="text-slate-400 font-black uppercase tracking-[0.4em] text-xs">
-            Regulatory coverage across the continent
+      <section className="bg-surface border-y border-outline-variant">
+        <div className="max-w-[1180px] mx-auto px-8 py-20">
+          <SectionLabel>Processing Architecture</SectionLabel>
+          <p className="text-base text-on-surface-variant max-w-2xl mt-3 mb-9">
+            Every stage runs on your infrastructure. The engine is
+            deterministic; the same input always produces the same redaction.
           </p>
-        </div>
-
-        <EuropeMap />
-      </section>
-
-      {/* ── FINAL CTA ── */}
-      <section className="py-32 px-8">
-        <div className="max-w-6xl mx-auto bg-primary rounded-[4rem] p-20 md:p-32 text-center relative overflow-hidden shadow-2xl electric-glow">
-          <div className="absolute inset-0 hero-pattern opacity-10" />
-          <div className="relative z-10">
-            <h2 className="text-6xl md:text-8xl font-black text-white mb-12 tracking-tighter leading-none">
-              Redaction in <br />{" "}
-              <span className="text-secondary">30 Seconds.</span>
-            </h2>
-            <div className="max-w-md mx-auto mb-16">
-              <div className="bg-black/60 rounded-2xl p-6 flex items-center justify-between border-2 border-secondary/30 group cursor-pointer hover:border-secondary transition-colors">
-                <div className="flex items-center gap-4">
-                  <span className="text-secondary font-mono font-black">$</span>
-                  <span className="text-white font-mono font-bold tracking-tight text-lg">
-                    pip install euredact
-                  </span>
-                </div>
-                <span className="material-symbols-outlined text-secondary transition-colors">
-                  content_copy
+          <div className="flex flex-wrap items-stretch gap-3.5">
+            {/* 1 — input */}
+            <div className="flex-1 min-w-[220px] bg-primary border border-outline-variant rounded-xl p-5">
+              <div className="flex items-center gap-2.5 mb-3.5">
+                <StepNumber n="1" />
+                <span className="text-xs font-bold uppercase tracking-[0.1em] text-on-surface-variant">
+                  Input
+                </span>
+              </div>
+              <div className="font-mono text-[13px] leading-loose">
+                Betaling aan Jan de Vries, BSN{" "}
+                <span className="bg-pii-danger text-white font-bold px-1.5 rounded">
+                  111222333
+                </span>
+                , vanaf{" "}
+                <span className="bg-pii-danger text-white font-bold px-1.5 rounded">
+                  NL91ABNA0417164300
                 </span>
               </div>
             </div>
-            <div className="flex flex-col md:flex-row items-center justify-center gap-10">
-              <a
-                href="/demo"
-                className="w-full md:w-auto bg-secondary text-primary px-12 py-6 rounded-2xl font-black uppercase tracking-widest text-lg hover:bg-emerald-400 hover:scale-105 transition-all shadow-2xl text-center flex items-center justify-center gap-3"
-              >
-                <span className="material-symbols-outlined text-2xl">play_circle</span>
-                Try Live Demo
-              </a>
-              <a
-                href="/docs"
-                className="text-white hover:text-secondary font-black tracking-widest text-sm uppercase transition-all flex items-center gap-2"
-              >
-                Documentation{" "}
-                <span className="material-symbols-outlined">arrow_outward</span>
-              </a>
+            <div className="self-center text-secondary text-xl font-bold">→</div>
+
+            {/* 2 — rules */}
+            <div className="flex-1 min-w-[180px] bg-primary border border-outline-variant rounded-xl p-5">
+              <div className="flex items-center gap-2.5 mb-3.5">
+                <StepNumber n="2" />
+                <span className="text-xs font-bold uppercase tracking-[0.1em] text-on-surface-variant">
+                  Local Engine
+                </span>
+              </div>
+              <p className="text-sm leading-relaxed mb-3">
+                Deterministic rules resolve structured identifiers per country,
+                confirmed by checksum.
+              </p>
+              <code className="font-mono text-xs text-secondary">
+                31 country rulesets
+              </code>
+            </div>
+            <div className="self-center text-secondary text-xl font-bold">→</div>
+
+            {/* 3 — cloud */}
+            <div className="flex-1 min-w-[180px] bg-primary border border-dashed border-outline-variant rounded-xl p-5">
+              <div className="flex items-center gap-2.5 mb-3.5">
+                <StepNumber n="3" />
+                <span className="text-xs font-bold uppercase tracking-[0.1em] text-on-surface-variant">
+                  AI Model
+                </span>
+              </div>
+              <span className="inline-block bg-secondary/10 text-secondary text-[11px] font-bold uppercase tracking-[0.08em] px-2.5 py-1 rounded-full mb-3">
+                Coming Soon
+              </span>
+              <p className="text-sm leading-relaxed text-on-surface-variant">
+                Contextual detection for names, addresses and other unstructured
+                PII the rules engine does not emit.
+              </p>
+            </div>
+            <div className="self-center text-secondary text-xl font-bold">→</div>
+
+            {/* 4 — output */}
+            <div className="flex-1 min-w-[220px] bg-primary border border-outline-variant rounded-xl p-5">
+              <div className="flex items-center gap-2.5 mb-3.5">
+                <StepNumber n="4" />
+                <span className="text-xs font-bold uppercase tracking-[0.1em] text-on-surface-variant">
+                  Redacted Output
+                </span>
+              </div>
+              <div className="font-mono text-[13px] leading-loose">
+                Betaling aan Jan de Vries, BSN{" "}
+                <span className="bg-brand text-white text-xs px-1.5 py-0.5 rounded">
+                  [NATIONAL_ID]
+                </span>
+                , vanaf{" "}
+                <span className="bg-brand text-white text-xs px-1.5 py-0.5 rounded">
+                  [BANK_ACCOUNT]
+                </span>
+              </div>
+              <p className="text-xs text-on-surface-variant mt-3">
+                The name is left in place — it needs the cloud tier at step 3.
+              </p>
             </div>
           </div>
+        </div>
+      </section>
+
+      {/* ── DEPLOYMENT ── */}
+      <section className="max-w-[1180px] mx-auto px-8 py-20">
+        <SectionLabel>Deployment Options</SectionLabel>
+        <div className="grid md:grid-cols-2 gap-5 mt-6">
+          <div className="bg-surface border border-outline-variant rounded-xl p-8 flex flex-col">
+            <div className="flex items-baseline justify-between gap-3">
+              <h3 className="text-[22px] font-bold">Rules Core</h3>
+              <span className="font-mono text-xs text-on-surface-variant">
+                Apache 2.0
+              </span>
+            </div>
+            <p className="text-[15px] text-on-surface-variant mt-2 mb-5">
+              The open-source SDK. Local, deterministic, benchmarked.
+            </p>
+            <div className="flex flex-col gap-3 flex-1">
+              {CORE_FEATURES.map((f) => (
+                <div key={f} className="flex gap-2.5 text-[15px] leading-snug">
+                  <span className="text-secondary font-bold">—</span>
+                  <span>{f}</span>
+                </div>
+              ))}
+            </div>
+            <a
+              href="/docs/quickstart"
+              className="mt-6 bg-brand text-white font-mono text-xs font-medium uppercase tracking-[0.12em] px-5 py-4 rounded-xl hover:bg-brand-hover transition-colors text-center"
+            >
+              Get Started — Free →
+            </a>
+          </div>
+
+          <div className="bg-surface border border-outline-variant rounded-xl p-8 flex flex-col">
+            <div className="flex items-baseline justify-between gap-3">
+              <h3 className="text-[22px] font-bold">Cloud Neural</h3>
+              <span className="inline-block bg-secondary/10 text-secondary text-[11px] font-bold uppercase tracking-[0.08em] px-2.5 py-1 rounded-full">
+                Coming Soon
+              </span>
+            </div>
+            <p className="text-[15px] text-on-surface-variant mt-2 mb-5">
+              Managed, EU-hosted neural layer for contextual and unstructured
+              PII.
+            </p>
+            <div className="flex flex-col gap-3 flex-1">
+              {CLOUD_FEATURES.map((f) => (
+                <div
+                  key={f}
+                  className="flex gap-2.5 text-[15px] leading-snug text-on-surface-variant"
+                >
+                  <span className="text-secondary font-bold">—</span>
+                  <span>{f}</span>
+                </div>
+              ))}
+            </div>
+            <WaitlistButton className="mt-6 text-secondary font-mono text-xs font-medium uppercase tracking-[0.12em] px-5 py-4 border border-secondary rounded-xl hover:bg-secondary/10 transition-colors cursor-pointer text-center">
+              Join the Waitlist →
+            </WaitlistButton>
+          </div>
+        </div>
+      </section>
+
+      {/* ── BUILT FOR EUROPE ── */}
+      <section className="bg-surface border-y border-outline-variant">
+        <div className="max-w-[1180px] mx-auto px-8 py-20">
+          <SectionLabel>Built for Europe</SectionLabel>
+          <p className="text-base text-on-surface-variant max-w-xl mt-4 mb-8">
+            31 countries with maintained detection rules for national
+            identifiers, tax numbers, and local formats.
+          </p>
+          <EuropeMap />
         </div>
       </section>
     </>
