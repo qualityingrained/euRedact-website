@@ -56,11 +56,11 @@ export function TokenCalculator() {
   const plan = recommendPlan(totalTokens);
 
   return (
-    <div className="bg-slate-50 rounded-[2rem] border-2 border-slate-200 shadow-xl p-10">
+    <div className="bg-primary rounded-[2rem] border-2 border-outline-variant shadow-xl p-10">
       {/* Documents per month */}
       <div className="mb-10">
         <div className="flex justify-between items-center mb-3">
-          <label className="font-semibold text-primary">
+          <label className="font-semibold text-on-surface">
             Documents per month
           </label>
           <span className="text-secondary font-mono font-bold text-lg">
@@ -74,7 +74,7 @@ export function TokenCalculator() {
           step={1}
           value={sliderVal}
           onChange={(e) => setSliderVal(Number(e.target.value))}
-          className="w-full h-2 bg-slate-200 rounded-full appearance-none cursor-pointer accent-secondary"
+          className="w-full h-2 bg-primary rounded-full appearance-none cursor-pointer accent-secondary"
         />
         <div className="flex justify-between text-xs text-on-surface-variant mt-1">
           <span>100</span>
@@ -87,7 +87,7 @@ export function TokenCalculator() {
       {/* Average document length */}
       <div className="mb-10">
         <div className="flex justify-between items-center mb-3">
-          <label className="font-semibold text-primary">
+          <label className="font-semibold text-on-surface">
             Average document length
           </label>
           <span className="text-secondary font-mono font-bold text-lg">
@@ -101,7 +101,7 @@ export function TokenCalculator() {
           step={1}
           value={lengthIndex}
           onChange={(e) => setLengthIndex(Number(e.target.value))}
-          className="w-full h-2 bg-slate-200 rounded-full appearance-none cursor-pointer accent-secondary"
+          className="w-full h-2 bg-primary rounded-full appearance-none cursor-pointer accent-secondary"
         />
         <div className="flex justify-between text-xs text-on-surface-variant mt-1">
           <span>Short</span>
@@ -111,11 +111,11 @@ export function TokenCalculator() {
       </div>
 
       {/* Results */}
-      <div className="bg-white rounded-2xl border border-slate-200 p-8 text-center">
+      <div className="bg-surface rounded-2xl border border-outline-variant p-8 text-center">
         <p className="text-on-surface-variant text-sm mb-2">
           Estimated monthly tokens
         </p>
-        <p className="text-4xl font-black text-primary mb-4">
+        <p className="text-4xl font-black text-on-surface mb-4">
           {formatNumber(totalTokens)}
         </p>
         <div className="flex items-center justify-center gap-2">

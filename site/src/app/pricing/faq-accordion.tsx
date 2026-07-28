@@ -52,12 +52,12 @@ function AccordionItem({
   onToggle: () => void;
 }) {
   return (
-    <div className="border-b border-slate-200">
+    <div className="border-b border-outline-variant">
       <button
         onClick={onToggle}
         className="w-full flex items-center justify-between py-6 text-left group cursor-pointer"
       >
-        <span className="font-semibold text-primary text-lg pr-4 group-hover:text-secondary transition-colors">
+        <span className="font-semibold text-on-surface text-lg pr-4 group-hover:text-secondary transition-colors">
           {question}
         </span>
         <span
@@ -87,7 +87,7 @@ export function FAQAccordion() {
   const [openIndex, setOpenIndex] = useState<number | null>(null);
 
   return (
-    <div className="bg-white rounded-[2rem] border-2 border-slate-200 shadow-xl p-8 md:p-12">
+    <div className="bg-surface rounded-[2rem] border-2 border-outline-variant shadow-xl p-8 md:p-12">
       {FAQ_ITEMS.map((item, index) => (
         <AccordionItem
           key={index}

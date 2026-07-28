@@ -18,7 +18,7 @@ function CodeBlock({
     <div className="rounded-2xl overflow-hidden border border-white/10">
       {title && (
         <div className="bg-[#0F172A] px-5 py-3 border-b border-white/10">
-          <span className="text-xs font-black text-slate-400 uppercase tracking-widest">
+          <span className="text-xs font-black text-on-surface-variant uppercase tracking-widest">
             {title}
           </span>
         </div>
@@ -34,7 +34,7 @@ export default function QuickstartPage() {
   return (
     <>
       {/* Hero */}
-      <section className="bg-primary hero-pattern py-20">
+      <section className="bg-code hero-pattern py-20">
         <div className="mx-auto max-w-4xl px-8">
           <div className="text-[10px] font-black text-secondary uppercase tracking-[0.3em] mb-4">
             Getting Started
@@ -42,14 +42,14 @@ export default function QuickstartPage() {
           <h1 className="font-black text-5xl text-white tracking-tight">
             Quickstart
           </h1>
-          <p className="mt-4 text-lg text-slate-300 leading-relaxed max-w-2xl">
+          <p className="mt-4 text-lg text-on-surface-variant leading-relaxed max-w-2xl">
             Redact European PII in one function call. Choose your language and
             get running in 30 seconds.
           </p>
         </div>
       </section>
 
-      <section className="bg-white py-16 px-8">
+      <section className="bg-surface py-16 px-8">
         <div className="mx-auto max-w-4xl">
           {/* Python */}
           <div className="mb-16">
@@ -59,12 +59,12 @@ export default function QuickstartPage() {
                   code
                 </span>
               </div>
-              <h2 className="font-black text-3xl text-primary tracking-tight">
+              <h2 className="font-black text-3xl text-on-surface tracking-tight">
                 Python
               </h2>
             </div>
 
-            <h3 className="font-black text-lg text-primary mb-3">
+            <h3 className="font-black text-lg text-on-surface mb-3">
               1. Install
             </h3>
             <CodeBlock title="Terminal">
@@ -72,7 +72,7 @@ export default function QuickstartPage() {
               <span className="text-white"> pip install euredact</span>
             </CodeBlock>
 
-            <h3 className="font-black text-lg text-primary mb-3 mt-8">
+            <h3 className="font-black text-lg text-on-surface mb-3 mt-8">
               2. Redact
             </h3>
             <CodeBlock title="main.py">
@@ -89,7 +89,7 @@ export default function QuickstartPage() {
               <span className="text-white">){"\n\n"}</span>
               <span className="text-secondary">print</span>
               <span className="text-white">(result.redacted_text){"\n"}</span>
-              <span className="text-slate-500">
+              <span className="text-on-surface-variant">
                 # &quot;Mijn BSN is [NATIONAL_ID] en IBAN [BANK_ACCOUNT].&quot;
               </span>
               <span className="text-white">{"\n\n"}</span>
@@ -118,12 +118,12 @@ export default function QuickstartPage() {
                   javascript
                 </span>
               </div>
-              <h2 className="font-black text-3xl text-primary tracking-tight">
+              <h2 className="font-black text-3xl text-on-surface tracking-tight">
                 Node.js
               </h2>
             </div>
 
-            <h3 className="font-black text-lg text-primary mb-3">
+            <h3 className="font-black text-lg text-on-surface mb-3">
               1. Install
             </h3>
             <CodeBlock title="Terminal">
@@ -131,7 +131,7 @@ export default function QuickstartPage() {
               <span className="text-white"> npm install euredact</span>
             </CodeBlock>
 
-            <h3 className="font-black text-lg text-primary mb-3 mt-8">
+            <h3 className="font-black text-lg text-on-surface mb-3 mt-8">
               2. Redact
             </h3>
             <CodeBlock title="index.ts">
@@ -158,7 +158,7 @@ export default function QuickstartPage() {
               <span className="text-white">console.</span>
               <span className="text-secondary">log</span>
               <span className="text-white">(result.redactedText);{"\n"}</span>
-              <span className="text-slate-500">
+              <span className="text-on-surface-variant">
                 // &quot;Mijn BSN is [NATIONAL_ID] en IBAN [BANK_ACCOUNT].&quot;
               </span>
               <span className="text-white">{"\n\n"}</span>
@@ -183,9 +183,9 @@ export default function QuickstartPage() {
       </section>
 
       {/* Supported entities */}
-      <section className="bg-slate-50 py-16 px-8">
+      <section className="bg-primary py-16 px-8">
         <div className="mx-auto max-w-4xl">
-          <h2 className="font-black text-3xl text-primary mb-6 tracking-tight">
+          <h2 className="font-black text-3xl text-on-surface mb-6 tracking-tight">
             What Gets Detected
           </h2>
           <p className="text-on-surface-variant leading-relaxed mb-8">

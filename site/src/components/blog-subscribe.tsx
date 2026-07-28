@@ -39,7 +39,7 @@ export function BlogSubscribe() {
     <section className="mx-auto max-w-7xl px-8 pb-20">
       <div className="bg-accent-indigo rounded-[3rem] p-16 text-center">
         <h2 className="font-black text-3xl text-white mb-4">Stay Updated</h2>
-        <p className="text-slate-300 mb-8">
+        <p className="text-on-surface-variant mb-8">
           Get notified about new features and GDPR guides.
         </p>
 

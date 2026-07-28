@@ -76,12 +76,12 @@ export function WaitlistModal({
 
       {/* Modal */}
       <div
-        className="relative bg-white rounded-[2rem] shadow-2xl max-w-md w-full p-10 text-center"
+        className="relative bg-surface rounded-[2rem] shadow-2xl max-w-md w-full p-10 text-center"
         onClick={(e) => e.stopPropagation()}
       >
         <button
           onClick={onClose}
-          className="absolute top-5 right-5 text-slate-400 hover:text-slate-600 transition-colors"
+          className="absolute top-5 right-5 text-on-surface-variant hover:text-on-surface-variant transition-colors"
           aria-label="Close"
         >
           <span className="material-symbols-outlined text-2xl">close</span>
@@ -92,7 +92,7 @@ export function WaitlistModal({
             <span className="material-symbols-outlined text-secondary text-5xl mb-4">
               check_circle
             </span>
-            <h3 className="text-2xl font-black text-primary mb-2">
+            <h3 className="text-2xl font-black text-on-surface mb-2">
               You&apos;re on the list!
             </h3>
             <p className="text-on-surface-variant text-sm mb-6">
@@ -100,7 +100,7 @@ export function WaitlistModal({
             </p>
             <button
               onClick={onClose}
-              className="bg-secondary text-white font-bold rounded-full px-8 py-3 hover:bg-emerald-400 transition-colors"
+              className="bg-secondary text-primary font-bold rounded-full px-8 py-3 hover:bg-secondary-hover transition-colors"
             >
               Done
             </button>
@@ -110,7 +110,7 @@ export function WaitlistModal({
             <span className="material-symbols-outlined text-secondary text-5xl mb-4">
               notifications_active
             </span>
-            <h3 className="text-2xl font-black text-primary mb-2">
+            <h3 className="text-2xl font-black text-on-surface mb-2">
               Join the Waitlist
             </h3>
             <p className="text-on-surface-variant text-sm mb-8">
@@ -126,12 +126,12 @@ export function WaitlistModal({
                 placeholder="you@company.com"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
-                className="w-full px-5 py-3.5 rounded-xl border-2 border-slate-200 text-primary font-medium text-sm placeholder:text-slate-400 focus:outline-none focus:border-secondary transition-colors"
+                className="w-full px-5 py-3.5 rounded-xl border-2 border-outline-variant text-on-surface font-medium text-sm placeholder:text-on-surface-variant focus:outline-none focus:border-secondary transition-colors"
               />
               <button
                 type="submit"
                 disabled={status === "sending"}
-                className="w-full bg-secondary text-white font-black uppercase tracking-wider text-sm rounded-xl py-3.5 hover:bg-emerald-400 transition-colors disabled:opacity-60 disabled:cursor-not-allowed"
+                className="w-full bg-secondary text-primary font-black uppercase tracking-wider text-sm rounded-xl py-3.5 hover:bg-secondary-hover transition-colors disabled:opacity-60 disabled:cursor-not-allowed"
               >
                 {status === "sending" ? "Submitting..." : "Notify Me"}
               </button>
@@ -142,7 +142,7 @@ export function WaitlistModal({
               )}
             </form>
 
-            <p className="text-[11px] text-slate-400 mt-6">
+            <p className="text-[11px] text-on-surface-variant mt-6">
               We respect your privacy. Unsubscribe anytime.
             </p>
           </>

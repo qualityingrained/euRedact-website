@@ -1,17 +1,45 @@
 @import "tailwindcss";
 
+/* Dark-only palette, from the euRedact Home design system.
+   There is deliberately no light theme and no toggle: one set of values.
+
+   Two accents, because they do different jobs on a dark ground:
+     --color-brand      solid fills (buttons, badges) with light text on top
+     --color-secondary  accent text, borders and icons — light enough to read
+                        against --color-primary, which #0E4F5C is not. */
 @theme inline {
-  --color-primary: #0F172A;
-  --color-secondary: #10B981;
-  --color-accent-indigo: #1E1B4B;
-  --color-pii-highlight: #FBBF24;
-  --color-surface: #FFFFFF;
-  --color-on-surface: #0F172A;
-  --color-on-surface-variant: #475569;
-  --color-outline-variant: #E2E8F0;
+  --color-primary: #082B33;
+  --color-brand: #0E4F5C;
+  --color-brand-hover: #0B4450;
+  --color-secondary: #8FB4BC;
+  --color-secondary-hover: #B9D3D9;
+  --color-accent-indigo: #0E4F5C;
+  --color-pii-highlight: #FED766;
+  --color-pii-danger: #FE4A49;
+  --color-surface: #0B3742;
+  --color-code: #061F25;
+  --color-on-surface: #F4F4F8;
+  --color-on-surface-variant: #9FB3B9;
+  --color-outline-variant: rgba(159, 179, 185, 0.18);
 
   --font-sans: "Inter", ui-sans-serif, system-ui, sans-serif;
   --font-mono: "JetBrains Mono", ui-monospace, monospace;
+}
+
+/* Hero grid + redaction-sweep animation, ported from the design. */
+:root {
+  --grid: rgba(159, 179, 185, 0.09);
+  --cell: rgba(143, 180, 188, 0.26);
+}
+
+@keyframes redactCell {
+  0%, 10% { opacity: 0; }
+  17%, 44% { opacity: 1; }
+  54%, 100% { opacity: 0; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  [data-redact-cell] { animation: none !important; opacity: 0 !important; }
 }
 
 /* Material Symbols — self-hosted so no visitor data reaches Google's CDN.
@@ -44,8 +72,17 @@
 
 /* Hero dot pattern */
 .hero-pattern {
-  background-image: radial-gradient(rgba(16, 185, 129, 0.15) 1px, transparent 1px);
+  background-image: radial-gradient(rgba(143, 180, 188, 0.15) 1px, transparent 1px);
   background-size: 32px 32px;
+}
+
+/* Square grid behind the hero, from the design. */
+.grid-pattern {
+  background-image:
+    linear-gradient(var(--grid) 1px, transparent 1px),
+    linear-gradient(90deg, var(--grid) 1px, transparent 1px);
+  background-size: 72px 72px;
+  background-position: left top;
 }
 
 /* Glass effects */
@@ -63,15 +100,15 @@
 
 /* PII highlight text */
 .text-pii {
-  color: #FBBF24;
-  background: rgba(251, 191, 36, 0.15);
+  color: #FFFFFF;
+  background: #FE4A49;
   padding: 0 4px;
   border-radius: 2px;
 }
 
 /* Electric glow effect */
 .electric-glow {
-  box-shadow: 0 0 40px -10px rgba(16, 185, 129, 0.5);
+  box-shadow: 0 0 40px -10px rgba(143, 180, 188, 0.45);
 }
 
 /* Smooth scrolling */
@@ -81,12 +118,14 @@ html {
 
 body {
   font-family: var(--font-sans);
+  background: var(--color-primary);
+  color: var(--color-on-surface);
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
 ::selection {
-  background: rgba(16, 185, 129, 0.3);
+  background: rgba(254, 215, 102, 0.35);
 }
 
 /* ── Blog prose styles ── */
@@ -126,14 +165,14 @@ body {
 }
 
 .prose a {
-  color: #10b981;
+  color: #8FB4BC;
   font-weight: 700;
   text-decoration: none;
   transition: color 0.15s;
 }
 
 .prose a:hover {
-  color: #6ee7b7;
+  color: #B9D3D9;
 }
 
 .prose strong {
@@ -163,11 +202,11 @@ body {
 }
 
 .prose li::marker {
-  color: #10b981;
+  color: #8FB4BC;
 }
 
 .prose blockquote {
-  border-left: 3px solid #10b981;
+  border-left: 3px solid #8FB4BC;
   padding-left: 1.25rem;
   margin: 1.5rem 0;
   color: #94a3b8;
@@ -218,15 +257,15 @@ body {
 .prose code {
   font-family: var(--font-mono);
   font-size: 0.875em;
-  color: #10b981;
-  background: rgba(16, 185, 129, 0.1);
+  color: #8FB4BC;
+  background: rgba(143, 180, 188, 0.12);
   padding: 0.15em 0.4em;
   border-radius: 0.25rem;
 }
 
 /* Code blocks */
 .prose pre {
-  background: #020617; /* slate-950 */
+  background: #061F25; /* slate-950 */
   border: 1px solid rgba(255, 255, 255, 0.08);
   border-radius: 1rem;
   padding: 1.5rem;
@@ -264,8 +303,8 @@ body {
 .hljs-property { color: #67e8f9; }
 .hljs-type { color: #fbbf24; }
 .hljs-name { color: #f87171; }
-.hljs-symbol { color: #10b981; }
-.hljs-bullet { color: #10b981; }
+.hljs-symbol { color: #8FB4BC; }
+.hljs-bullet { color: #8FB4BC; }
 .hljs-addition { color: #86efac; background: rgba(134, 239, 172, 0.1); }
 .hljs-deletion { color: #fca5a5; background: rgba(252, 165, 165, 0.1); }
 .hljs-section { color: #93c5fd; font-weight: 700; }

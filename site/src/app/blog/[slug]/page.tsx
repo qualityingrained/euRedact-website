@@ -47,12 +47,12 @@ export default async function BlogPostPage({
 
   return (
     <>
-      <article className="bg-primary pt-32 pb-20">
+      <article className="bg-code pt-32 pb-20">
         {/* Header */}
         <header className="mx-auto max-w-3xl px-8 mb-12">
           <Link
             href="/blog"
-            className="inline-flex items-center gap-1 text-slate-400 hover:text-secondary text-sm font-bold uppercase tracking-widest transition-colors mb-8"
+            className="inline-flex items-center gap-1 text-on-surface-variant hover:text-secondary text-sm font-bold uppercase tracking-widest transition-colors mb-8"
           >
             <span className="material-symbols-outlined text-sm">
               arrow_back
@@ -75,9 +75,9 @@ export default async function BlogPostPage({
             {post.title}
           </h1>
 
-          <div className="mt-6 flex items-center gap-4 text-sm text-slate-400">
+          <div className="mt-6 flex items-center gap-4 text-sm text-on-surface-variant">
             <span className="font-bold">{post.author}</span>
-            <span className="text-slate-600">&middot;</span>
+            <span className="text-on-surface-variant">&middot;</span>
             <time dateTime={post.date}>
               {new Date(post.date).toLocaleDateString("en-US", {
                 year: "numeric",
@@ -85,7 +85,7 @@ export default async function BlogPostPage({
                 day: "numeric",
               })}
             </time>
-            <span className="text-slate-600">&middot;</span>
+            <span className="text-on-surface-variant">&middot;</span>
             <span>{post.readingTime}</span>
           </div>
         </header>
@@ -98,11 +98,11 @@ export default async function BlogPostPage({
       </article>
 
       {/* Bottom nav */}
-      <section className="bg-primary border-t border-white/10 py-12">
+      <section className="bg-code border-t border-white/10 py-12">
         <div className="mx-auto max-w-3xl px-8">
           <Link
             href="/blog"
-            className="inline-flex items-center gap-1 text-secondary font-black hover:text-emerald-300 transition-colors"
+            className="inline-flex items-center gap-1 text-secondary font-black hover:text-secondary-hover transition-colors"
           >
             <span className="material-symbols-outlined text-sm">
               arrow_back

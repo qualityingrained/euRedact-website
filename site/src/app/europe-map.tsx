@@ -79,12 +79,14 @@ const SUPPORTED: Record<string, Country> = {
   "826": { code: "UK", name: "United Kingdom", cloud: { tier: "full" } },
 };
 
-/* One hue, three steps: deeper green means deeper coverage. Rules-only sits at
-   the pale end, cloud with every administrative language at the brand green. */
-const RULES = "#A7F3D0";
-const CLOUD_PARTIAL = "#34D399";
-const CLOUD_FULL = "#10B981";
-const UNSUPPORTED = "#1e293b";
+/* One hue, three steps: brighter teal means deeper coverage. On a dark ground
+   the ramp runs the other way round from a light one — rules-only sits dimmest,
+   cloud with every administrative language lands on the brand accent. */
+const RULES = "#2F6B78";
+const CLOUD_PARTIAL = "#5C97A3";
+const CLOUD_FULL = "#8FB4BC";
+const UNSUPPORTED = "#0B2229";
+const BORDER = "#061F25";
 
 /* Counted from the data rather than written by hand: the previous legend read
    "31 Supported Countries" while the map painted 32. */
@@ -109,7 +111,7 @@ function fillFor(country: Country | undefined) {
 
 function LegendHeading({ children }: { children: React.ReactNode }) {
   return (
-    <div className="col-span-3 text-[10px] font-black uppercase tracking-[0.25em] text-slate-400 first:mt-0 mt-4">
+    <div className="col-span-3 text-[10px] font-black uppercase tracking-[0.25em] text-on-surface-variant first:mt-0 mt-4">
       {children}
     </div>
   );
@@ -134,11 +136,11 @@ function LegendRow({
         aria-hidden="true"
       />
       <span
-        className={`text-sm font-bold ${muted ? "text-slate-400" : "text-slate-600"}`}
+        className={`text-sm font-bold ${muted ? "text-on-surface-variant" : "text-on-surface"}`}
       >
         {children}
       </span>
-      <span className="text-sm font-black tabular-nums text-primary text-right">
+      <span className="text-sm font-black tabular-nums text-on-surface text-right">
         {count ?? ""}
       </span>
     </>
@@ -186,14 +188,14 @@ export function EuropeMap() {
                     style={{
                       default: {
                         fill,
-                        stroke: "#0f172a",
+                        stroke: BORDER,
                         strokeWidth: 0.5,
                         outline: "none",
                       },
                       hover: {
-                        fill: match ? fill : "#334155",
+                        fill: match ? fill : "#14424C",
                         opacity: match ? 0.8 : 1,
-                        stroke: "#0f172a",
+                        stroke: BORDER,
                         strokeWidth: 0.5,
                         outline: "none",
                         cursor: match ? "pointer" : "default",
@@ -210,7 +212,7 @@ export function EuropeMap() {
         </div>
 
         {/* Legend. Grouped by availability so "coming soon" is said once rather
-            than repeated per row, and ordered along the colour ramp: palest
+            than repeated per row, and ordered along the colour ramp: dimmest
             (least coverage) at the top. */}
         <div className="shrink-0 mx-auto lg:mx-0 w-fit text-left">
           <div className="grid grid-cols-[auto_1fr_auto] items-center gap-x-4 gap-y-2.5">
@@ -238,7 +240,7 @@ export function EuropeMap() {
       {/* Tooltip */}
       {tooltip && (
         <div
-          className="fixed z-50 pointer-events-none bg-primary border border-secondary/40 text-white text-sm font-bold px-4 py-3 rounded-xl shadow-xl max-w-xs"
+          className="fixed z-50 pointer-events-none bg-code border border-secondary/40 text-white text-sm font-bold px-4 py-3 rounded-xl shadow-xl max-w-xs"
           style={{ left: tooltip.x + 12, top: tooltip.y - 10 }}
         >
           <div>
@@ -252,7 +254,7 @@ export function EuropeMap() {
               {tooltip.cloud.tier === "full"
                 ? "Cloud — all administrative languages"
                 : `Cloud — partial, no ${tooltip.cloud.missing}`}
-              <span className="block text-slate-400 normal-case tracking-normal font-bold mt-0.5">
+              <span className="block text-on-surface-variant normal-case tracking-normal font-bold mt-0.5">
                 Coming soon
               </span>
             </div>
@@ -260,7 +262,7 @@ export function EuropeMap() {
         </div>
       )}
 
-      <p className="text-xs text-slate-500 leading-relaxed text-center max-w-2xl mx-auto mt-8">
+      <p className="text-xs text-on-surface-variant leading-relaxed text-center max-w-2xl mx-auto mt-8">
         The rules engine ships today across all {COUNTS.rules} countries. Cloud
         coverage describes the contextual model still in development, which
         handles Dutch, English, French and German; a country counts as fully

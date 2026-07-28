@@ -39,7 +39,7 @@ function PiiSpan({ span, redacted }: { span: Span; redacted: boolean }) {
         {span.text}
       </span>
       <span
-        className={`transition-opacity duration-500 rounded px-0.5 bg-emerald-400/25 text-emerald-400 font-bold ${
+        className={`transition-opacity duration-500 rounded px-0.5 bg-pii-danger/25 text-pii-danger font-bold ${
           redacted ? "opacity-100" : "opacity-0"
         }`}
         style={{ gridArea: area }}
@@ -68,7 +68,7 @@ function ChatShell({
         <div className="w-6 h-6 rounded-full bg-indigo-500/30 flex items-center justify-center shrink-0 mt-0.5">
           <span className="text-[8px] font-black text-indigo-300">AI</span>
         </div>
-        <div className="bg-white/5 rounded-xl rounded-tl-sm px-3 py-2 text-[11px] text-slate-400 leading-relaxed">
+        <div className="bg-white/5 rounded-xl rounded-tl-sm px-3 py-2 text-[11px] text-on-surface-variant leading-relaxed">
           How can I help you today?
         </div>
       </div>
@@ -94,8 +94,8 @@ function LetterShell({ children }: { children: React.ReactNode }) {
   return (
     <div>
       <div className="flex items-center justify-between mb-4 pb-3 border-b border-white/10">
-        <div className="text-[9px] text-slate-500 font-bold uppercase tracking-wider">Employment Contract</div>
-        <div className="text-[9px] text-slate-600">Page 1 of 3</div>
+        <div className="text-[9px] text-on-surface-variant font-bold uppercase tracking-wider">Employment Contract</div>
+        <div className="text-[9px] text-on-surface-variant">Page 1 of 3</div>
       </div>
       <div className="text-[11px] leading-[1.8] space-y-3">{children}</div>
     </div>
@@ -106,9 +106,9 @@ function LogsShell({ children }: { children: React.ReactNode }) {
   return (
     <div>
       <div className="flex items-center gap-2 mb-3 pb-2 border-b border-white/10">
-        <span className="material-symbols-outlined text-slate-500 text-xs">terminal</span>
-        <span className="text-[9px] text-slate-500 font-bold uppercase tracking-wider">Application Logs</span>
-        <span className="ml-auto text-[9px] text-slate-600 font-mono">tail -f app.log</span>
+        <span className="material-symbols-outlined text-on-surface-variant text-xs">terminal</span>
+        <span className="text-[9px] text-on-surface-variant font-bold uppercase tracking-wider">Application Logs</span>
+        <span className="ml-auto text-[9px] text-on-surface-variant font-mono">tail -f app.log</span>
       </div>
       <div className="font-mono text-[10px] leading-[1.9] space-y-0">{children}</div>
     </div>
@@ -119,9 +119,9 @@ function TableShell({ children }: { children: React.ReactNode }) {
   return (
     <div>
       <div className="flex items-center gap-2 mb-3 pb-2 border-b border-white/10">
-        <span className="material-symbols-outlined text-slate-500 text-xs">table_chart</span>
-        <span className="text-[9px] text-slate-500 font-bold uppercase tracking-wider">customers.csv</span>
-        <span className="ml-auto text-[9px] text-slate-600">1,247 rows</span>
+        <span className="material-symbols-outlined text-on-surface-variant text-xs">table_chart</span>
+        <span className="text-[9px] text-on-surface-variant font-bold uppercase tracking-wider">customers.csv</span>
+        <span className="ml-auto text-[9px] text-on-surface-variant">1,247 rows</span>
       </div>
       {children}
     </div>
@@ -132,8 +132,8 @@ function PaperShell({ children }: { children: React.ReactNode }) {
   return (
     <div>
       <div className="text-center mb-4 pb-3 border-b border-white/10">
-        <div className="text-[9px] text-slate-500 font-bold uppercase tracking-wider mb-1">Journal of European Data Science</div>
-        <div className="text-[11px] text-slate-300 font-bold">Patient Outcome Analysis — NL Cohort 2024</div>
+        <div className="text-[9px] text-on-surface-variant font-bold uppercase tracking-wider mb-1">Journal of European Data Science</div>
+        <div className="text-[11px] text-on-surface-variant font-bold">Patient Outcome Analysis — NL Cohort 2024</div>
       </div>
       <div className="text-[11px] leading-[1.8] space-y-3">{children}</div>
     </div>
@@ -148,8 +148,8 @@ function TicketShell({ children }: { children: React.ReactNode }) {
           <span className="w-2 h-2 rounded-full bg-amber-400" />
           <span className="text-[9px] text-amber-400 font-bold uppercase tracking-wider">Open</span>
         </div>
-        <span className="text-[9px] text-slate-500 font-bold">#4821</span>
-        <span className="text-[9px] text-slate-600 ml-auto">2 hours ago</span>
+        <span className="text-[9px] text-on-surface-variant font-bold">#4821</span>
+        <span className="text-[9px] text-on-surface-variant ml-auto">2 hours ago</span>
       </div>
       <div className="text-[11px] leading-[1.8]">{children}</div>
     </div>
@@ -179,7 +179,7 @@ function TableBody({
         <thead>
           <tr className="border-b border-white/10 bg-white/5">
             {headers.map((h) => (
-              <th key={h} className="px-3 py-2 text-left text-slate-400 font-bold uppercase tracking-wider text-[9px]">
+              <th key={h} className="px-3 py-2 text-left text-on-surface-variant font-bold uppercase tracking-wider text-[9px]">
                 {h}
               </th>
             ))}
@@ -189,7 +189,7 @@ function TableBody({
           {rows.map((row, ri) => (
             <tr key={ri} className="border-b border-white/5 last:border-0">
               {row.cells.map((cell, ci) => (
-                <td key={ci} className="px-3 py-1.5 text-slate-300">
+                <td key={ci} className="px-3 py-1.5 text-on-surface-variant">
                   <PiiSpan span={cell} redacted={redacted} />
                 </td>
               ))}
@@ -241,15 +241,15 @@ export function DocMockup({ lines, variant, darkParent }: DocMockupProps) {
       className={`rounded-2xl md:rounded-[2rem] p-5 md:p-6 shadow-2xl overflow-hidden cursor-default select-none transition-all duration-300 ${
         darkParent
           ? "bg-black/40 border border-white/10"
-          : "bg-slate-950 border border-white/10"
+          : "bg-code border border-white/10"
       } ${hovered ? "border-secondary/40" : ""}`}
     >
       {/* Hover hint */}
       <div className={`flex items-center justify-center gap-1.5 mb-4 transition-opacity duration-300 ${hovered ? "opacity-0" : "opacity-100"}`}>
-        <span className="material-symbols-outlined text-slate-600 text-[11px]">touch_app</span>
-        <span className="text-[9px] text-slate-600 font-bold uppercase tracking-wider">Hover to redact</span>
+        <span className="material-symbols-outlined text-on-surface-variant text-[11px]">touch_app</span>
+        <span className="text-[9px] text-on-surface-variant font-bold uppercase tracking-wider">Hover to redact</span>
       </div>
-      <div className="text-slate-300">{variant === "table" ? null : shell()}</div>
+      <div className="text-on-surface-variant">{variant === "table" ? null : shell()}</div>
     </div>
   );
 }
@@ -276,17 +276,17 @@ export function TableMockup({
       className={`rounded-2xl md:rounded-[2rem] p-5 md:p-6 shadow-2xl overflow-hidden cursor-default select-none transition-all duration-300 ${
         darkParent
           ? "bg-black/40 border border-white/10"
-          : "bg-slate-950 border border-white/10"
+          : "bg-code border border-white/10"
       } ${hovered ? "border-secondary/40" : ""}`}
     >
       <div className={`flex items-center justify-center gap-1.5 mb-4 transition-all duration-300 ${hovered ? "opacity-0 h-0 mb-0" : "opacity-100"}`}>
-        <span className="material-symbols-outlined text-slate-600 text-[11px]">touch_app</span>
-        <span className="text-[9px] text-slate-600 font-bold uppercase tracking-wider">Hover to redact</span>
+        <span className="material-symbols-outlined text-on-surface-variant text-[11px]">touch_app</span>
+        <span className="text-[9px] text-on-surface-variant font-bold uppercase tracking-wider">Hover to redact</span>
       </div>
       <div className="flex items-center gap-2 mb-3 pb-2 border-b border-white/10">
-        <span className="material-symbols-outlined text-slate-500 text-xs">table_chart</span>
-        <span className="text-[9px] text-slate-500 font-bold uppercase tracking-wider">customers.csv</span>
-        <span className="ml-auto text-[9px] text-slate-600">1,247 rows</span>
+        <span className="material-symbols-outlined text-on-surface-variant text-xs">table_chart</span>
+        <span className="text-[9px] text-on-surface-variant font-bold uppercase tracking-wider">customers.csv</span>
+        <span className="ml-auto text-[9px] text-on-surface-variant">1,247 rows</span>
       </div>
       <TableBody headers={headers} rows={rows} redacted={hovered} />
     </div>

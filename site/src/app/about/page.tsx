@@ -29,12 +29,12 @@ export default function AboutPage() {
   return (
     <>
       {/* ===== HERO ===== */}
-      <section className="bg-primary hero-pattern pt-32 py-20">
+      <section className="bg-code hero-pattern pt-32 py-20">
         <div className="mx-auto max-w-5xl px-6 text-center">
           <h1 className="font-black text-5xl text-white tracking-tight">
             Built by Engineers. For Engineers.
           </h1>
-          <p className="mx-auto mt-6 max-w-3xl text-lg text-slate-300 leading-relaxed">
+          <p className="mx-auto mt-6 max-w-3xl text-lg text-on-surface-variant leading-relaxed">
             euRedact is built by developers who got tired of writing the same
             PII regex for every European country, every project, every client.
             So we built the tool we wished existed.
@@ -43,9 +43,9 @@ export default function AboutPage() {
       </section>
 
       {/* ===== STORY ===== */}
-      <section className="bg-white px-8 py-20">
+      <section className="bg-surface px-8 py-20">
         <div className="mx-auto max-w-3xl">
-          <h2 className="font-black text-4xl text-primary mb-8 tracking-tight">
+          <h2 className="font-black text-4xl text-on-surface mb-8 tracking-tight">
             Why euRedact Exists
           </h2>
           <p className="text-on-surface-variant leading-relaxed mb-6">
@@ -73,20 +73,20 @@ export default function AboutPage() {
       </section>
 
       {/* ===== VALUES ===== */}
-      <section className="bg-white px-6 pb-24">
+      <section className="bg-surface px-6 pb-24">
         <div className="mx-auto max-w-5xl">
           <div className="grid gap-8 sm:grid-cols-3">
             {values.map((v) => (
               <div
                 key={v.title}
-                className="rounded-[3rem] bg-slate-50 border-2 border-slate-200 p-12 shadow-xl"
+                className="rounded-[3rem] bg-primary border-2 border-outline-variant p-12 shadow-xl"
               >
                 <div className="mb-6 flex h-14 w-14 items-center justify-center rounded-2xl bg-secondary/10">
                   <span className="material-symbols-outlined text-2xl text-secondary">
                     {v.icon}
                   </span>
                 </div>
-                <h3 className="text-xl font-black text-primary mb-3">
+                <h3 className="text-xl font-black text-on-surface mb-3">
                   {v.title}
                 </h3>
                 <p className="text-on-surface-variant leading-relaxed">
@@ -99,9 +99,9 @@ export default function AboutPage() {
       </section>
 
       {/* ===== OPEN SOURCE ===== */}
-      <section className="bg-slate-50 px-6 py-20">
+      <section className="bg-primary px-6 py-20">
         <div className="mx-auto max-w-5xl text-center">
-          <h2 className="font-black text-4xl text-primary mb-6 tracking-tight">
+          <h2 className="font-black text-4xl text-on-surface mb-6 tracking-tight">
             Open Source at the Core
           </h2>
           <p className="mx-auto max-w-2xl text-on-surface-variant leading-relaxed mb-12">
@@ -112,7 +112,7 @@ export default function AboutPage() {
 
           <a
             href="https://github.com/euRedact/euRedact"
-            className="inline-flex items-center gap-2 bg-primary text-white font-black uppercase tracking-wider text-sm px-8 py-4 rounded-2xl hover:bg-primary/90 transition-colors"
+            className="inline-flex items-center gap-2 bg-code text-white font-black uppercase tracking-wider text-sm px-8 py-4 rounded-2xl hover:bg-code/90 transition-colors"
           >
             View on GitHub
             <span className="material-symbols-outlined text-secondary text-lg">arrow_forward</span>
@@ -121,10 +121,10 @@ export default function AboutPage() {
       </section>
 
       {/* ===== CONTACT ===== */}
-      <section className="bg-white px-6 py-20">
+      <section className="bg-surface px-6 py-20">
         <div className="mx-auto max-w-2xl">
-          <div className="rounded-[3rem] bg-slate-50 p-12 text-center">
-            <h2 className="font-black text-2xl text-primary mb-4">
+          <div className="rounded-[3rem] bg-primary p-12 text-center">
+            <h2 className="font-black text-2xl text-on-surface mb-4">
               Get in Touch
             </h2>
             <p className="text-on-surface-variant leading-relaxed mb-6">

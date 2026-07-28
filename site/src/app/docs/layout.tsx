@@ -20,9 +20,9 @@ export default function DocsLayout({
   return (
     <div className="pt-16 min-h-screen flex">
       {/* Sidebar */}
-      <aside className="hidden lg:flex w-72 shrink-0 flex-col bg-primary border-r border-white/10 sticky top-16 h-[calc(100vh-4rem)] overflow-y-auto">
+      <aside className="hidden lg:flex w-72 shrink-0 flex-col bg-code border-r border-white/10 sticky top-16 h-[calc(100vh-4rem)] overflow-y-auto">
         <div className="p-6">
-          <div className="text-[10px] font-black text-slate-500 uppercase tracking-[0.3em] mb-4">
+          <div className="text-[10px] font-black text-on-surface-variant uppercase tracking-[0.3em] mb-4">
             Documentation
           </div>
           <nav className="flex flex-col gap-1">
@@ -38,7 +38,7 @@ export default function DocsLayout({
                   className={`flex items-center gap-3 px-4 py-2.5 rounded-xl text-sm font-bold transition-all ${
                     isActive
                       ? "bg-secondary/10 text-secondary"
-                      : "text-slate-400 hover:text-white hover:bg-white/5"
+                      : "text-on-surface-variant hover:text-white hover:bg-white/5"
                   }`}
                 >
                   <span className="material-symbols-outlined text-lg">
@@ -51,13 +51,13 @@ export default function DocsLayout({
           </nav>
 
           <div className="mt-8 pt-6 border-t border-white/10">
-            <div className="text-[10px] font-black text-slate-500 uppercase tracking-[0.3em] mb-4">
+            <div className="text-[10px] font-black text-on-surface-variant uppercase tracking-[0.3em] mb-4">
               Resources
             </div>
             <nav className="flex flex-col gap-1">
               <a
                 href="https://github.com/euRedact/euRedact"
-                className="flex items-center gap-3 px-4 py-2.5 rounded-xl text-sm font-bold text-slate-400 hover:text-white hover:bg-white/5 transition-all"
+                className="flex items-center gap-3 px-4 py-2.5 rounded-xl text-sm font-bold text-on-surface-variant hover:text-white hover:bg-white/5 transition-all"
               >
                 <span className="material-symbols-outlined text-lg">
                   code
@@ -66,7 +66,7 @@ export default function DocsLayout({
               </a>
               <a
                 href="https://pypi.org/project/euredact/"
-                className="flex items-center gap-3 px-4 py-2.5 rounded-xl text-sm font-bold text-slate-400 hover:text-white hover:bg-white/5 transition-all"
+                className="flex items-center gap-3 px-4 py-2.5 rounded-xl text-sm font-bold text-on-surface-variant hover:text-white hover:bg-white/5 transition-all"
               >
                 <span className="material-symbols-outlined text-lg">
                   package_2
@@ -75,7 +75,7 @@ export default function DocsLayout({
               </a>
               <a
                 href="https://www.npmjs.com/package/euredact"
-                className="flex items-center gap-3 px-4 py-2.5 rounded-xl text-sm font-bold text-slate-400 hover:text-white hover:bg-white/5 transition-all"
+                className="flex items-center gap-3 px-4 py-2.5 rounded-xl text-sm font-bold text-on-surface-variant hover:text-white hover:bg-white/5 transition-all"
               >
                 <span className="material-symbols-outlined text-lg">
                   package_2
@@ -88,7 +88,7 @@ export default function DocsLayout({
       </aside>
 
       {/* Mobile sidebar (top nav) */}
-      <div className="lg:hidden fixed top-16 left-0 w-full z-40 bg-primary border-b border-white/10 overflow-x-auto">
+      <div className="lg:hidden fixed top-16 left-0 w-full z-40 bg-code border-b border-white/10 overflow-x-auto">
         <nav className="flex gap-1 px-4 py-2">
           {sidebarLinks.map((link) => {
             const isActive =
@@ -102,7 +102,7 @@ export default function DocsLayout({
                 className={`whitespace-nowrap flex items-center gap-2 px-3 py-2 rounded-lg text-xs font-bold transition-all ${
                   isActive
                     ? "bg-secondary/10 text-secondary"
-                    : "text-slate-400 hover:text-white"
+                    : "text-on-surface-variant hover:text-white"
                 }`}
               >
                 <span className="material-symbols-outlined text-base">

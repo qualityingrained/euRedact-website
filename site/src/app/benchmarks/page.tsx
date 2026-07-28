@@ -93,22 +93,22 @@ const comparisonData = [
 ];
 
 function scoreColor(value: number): string {
-  if (value >= 99) return "text-emerald-600";
-  if (value >= 95) return "text-lime-600";
-  return "text-amber-600";
+  if (value >= 99) return "text-emerald-400";
+  if (value >= 95) return "text-lime-400";
+  return "text-amber-400";
 }
 
 function f1Color(value: number): string {
-  if (value >= 0.99) return "text-emerald-600";
-  if (value >= 0.95) return "text-lime-600";
-  return "text-amber-600";
+  if (value >= 0.99) return "text-emerald-400";
+  if (value >= 0.95) return "text-lime-400";
+  return "text-amber-400";
 }
 
 export default function BenchmarksPage() {
   return (
     <div>
       {/* Header */}
-      <section className="pt-32 py-20 bg-primary hero-pattern">
+      <section className="pt-32 py-20 bg-code hero-pattern">
         <div className="max-w-7xl mx-auto px-6 text-center">
           <h1 className="font-black text-5xl text-white mb-6">
             Accuracy Benchmarks
@@ -146,7 +146,7 @@ export default function BenchmarksPage() {
               { value: "31", label: "Countries Tested" },
             ].map((stat) => (
               <div key={stat.label} className="text-center">
-                <div className="text-6xl font-black text-primary tabular-nums">
+                <div className="text-6xl font-black text-on-surface tabular-nums">
                   {stat.value}
                 </div>
                 <div className="text-on-surface-variant text-lg mt-2">
@@ -166,19 +166,19 @@ export default function BenchmarksPage() {
       </section>
 
       {/* Country Table */}
-      <section className="py-20 bg-slate-50/50">
+      <section className="py-20 bg-primary/50">
         <div className="max-w-7xl mx-auto px-6">
-          <h2 className="font-black text-4xl text-primary text-center mb-4">
+          <h2 className="font-black text-4xl text-on-surface text-center mb-4">
             Results by Country
           </h2>
           <p className="text-on-surface-variant text-center mb-12 max-w-xl mx-auto">
             Per-country detection rates across our full benchmark suite.
           </p>
-          <div className="bg-white rounded-[2rem] shadow-xl overflow-hidden">
+          <div className="bg-surface rounded-[2rem] shadow-xl overflow-hidden">
             <div className="overflow-x-auto">
               <table className="w-full">
                 <thead>
-                  <tr className="border-b border-slate-200 bg-slate-50">
+                  <tr className="border-b border-outline-variant bg-primary">
                     <th className="text-left text-sm font-semibold text-on-surface-variant px-6 py-4">
                       Country
                     </th>
@@ -200,9 +200,9 @@ export default function BenchmarksPage() {
                   {countryData.map((row) => (
                     <tr
                       key={row.code}
-                      className="border-b border-slate-100 hover:bg-slate-50/50 transition-colors"
+                      className="border-b border-outline-variant hover:bg-primary/50 transition-colors"
                     >
-                      <td className="px-6 py-3.5 font-bold text-primary">
+                      <td className="px-6 py-3.5 font-bold text-on-surface">
                         {row.flag} {row.code}
                       </td>
                       <td className="px-6 py-3.5 text-right font-bold tabular-nums text-on-surface-variant">
@@ -235,7 +235,7 @@ export default function BenchmarksPage() {
       {/* Entity Type Breakdown */}
       <section className="py-20">
         <div className="max-w-4xl mx-auto px-6">
-          <h2 className="font-black text-4xl text-primary text-center mb-4">
+          <h2 className="font-black text-4xl text-on-surface text-center mb-4">
             Detection by Entity Type
           </h2>
           <p className="text-on-surface-variant text-center mb-12 max-w-xl mx-auto">
@@ -244,10 +244,10 @@ export default function BenchmarksPage() {
           <div className="space-y-5">
             {entityTypes.map((entity) => (
               <div key={entity.name} className="flex items-center gap-4">
-                <div className="w-36 shrink-0 text-right font-mono text-sm font-semibold text-primary">
+                <div className="w-36 shrink-0 text-right font-mono text-sm font-semibold text-on-surface">
                   {entity.name}
                 </div>
-                <div className="flex-1 h-8 bg-slate-100 rounded-full overflow-hidden">
+                <div className="flex-1 h-8 bg-primary rounded-full overflow-hidden">
                   <div
                     className="h-full bg-secondary rounded-full"
                     style={{ width: `${entity.recall}%` }}
@@ -265,15 +265,15 @@ export default function BenchmarksPage() {
       </section>
 
       {/* Comparison Table */}
-      <section className="py-20 bg-slate-50/50">
+      <section className="py-20 bg-primary/50">
         <div className="max-w-7xl mx-auto px-6">
-          <h2 className="font-black text-4xl text-primary text-center mb-4">
+          <h2 className="font-black text-4xl text-on-surface text-center mb-4">
             How We Compare
           </h2>
           <p className="text-on-surface-variant text-center mb-12 max-w-xl mx-auto">
             euRedact benchmarked against popular PII detection tools.
           </p>
-          <div className="bg-primary rounded-[3rem] p-12 overflow-hidden">
+          <div className="bg-code rounded-[3rem] p-12 overflow-hidden">
             <div className="overflow-x-auto">
               <table className="w-full">
                 <thead>
@@ -342,21 +342,21 @@ export default function BenchmarksPage() {
             public documentation:{" "}
             <a
               href="https://microsoft.github.io/presidio/supported_entities/"
-              className="text-primary font-semibold hover:underline"
+              className="text-on-surface font-semibold hover:underline"
             >
               Presidio supported entities
             </a>
             ,{" "}
             <a
               href="https://docs.aws.amazon.com/comprehend/latest/dg/how-pii.html"
-              className="text-primary font-semibold hover:underline"
+              className="text-on-surface font-semibold hover:underline"
             >
               AWS Comprehend PII
             </a>
             , and{" "}
             <a
               href="https://learn.microsoft.com/en-us/azure/ai-services/language-service/personally-identifiable-information/language-support"
-              className="text-primary font-semibold hover:underline"
+              className="text-on-surface font-semibold hover:underline"
             >
               Azure AI Language PII
             </a>
@@ -374,7 +374,7 @@ export default function BenchmarksPage() {
           <span className="material-symbols-outlined text-secondary text-5xl mb-6 block">
             science
           </span>
-          <h2 className="font-black text-4xl text-primary mb-4">
+          <h2 className="font-black text-4xl text-on-surface mb-4">
             Verify It Yourself
           </h2>
           <p className="text-on-surface-variant text-lg mb-8 max-w-xl mx-auto">
@@ -384,7 +384,7 @@ export default function BenchmarksPage() {
             href="https://github.com/euredact/euredact-benchmarks"
             target="_blank"
             rel="noopener noreferrer"
-            className="inline-flex items-center gap-2 bg-primary text-white font-semibold rounded-full py-3.5 px-8 hover:bg-primary/90 transition-colors"
+            className="inline-flex items-center gap-2 bg-code text-white font-semibold rounded-full py-3.5 px-8 hover:bg-code/90 transition-colors"
           >
             <span className="material-symbols-outlined text-xl">code</span>
             View on GitHub

@@ -39,7 +39,7 @@ export default function TrustPage() {
   return (
     <>
       {/* ===== HERO ===== */}
-      <section className="bg-primary hero-pattern pt-32 py-20">
+      <section className="bg-code hero-pattern pt-32 py-20">
         <div className="mx-auto max-w-5xl px-6 text-center">
           <h1 className="font-black text-5xl text-white tracking-tight">
             Security &amp; Compliance
@@ -54,13 +54,13 @@ export default function TrustPage() {
       </section>
 
       {/* ===== ARCHITECTURE DIAGRAM ===== */}
-      <section className="bg-primary px-6 pb-24">
+      <section className="bg-code px-6 pb-24">
         <div className="mx-auto max-w-6xl">
           <h2 className="mb-10 text-center text-3xl font-black text-white tracking-tight">
             How Your Data Flows
           </h2>
 
-          <div className="rounded-[3rem] border border-white/10 bg-primary p-8 lg:p-14">
+          <div className="rounded-[3rem] border border-white/10 bg-code p-8 lg:p-14">
             {/* Flow row */}
             <div className="flex flex-col items-center lg:flex-row lg:items-stretch lg:justify-between gap-2">
               {/* Your Application (left) */}
@@ -130,19 +130,19 @@ export default function TrustPage() {
       </section>
 
       {/* ===== COMPLIANCE CARDS ===== */}
-      <section className="bg-slate-50 px-6 py-24">
+      <section className="bg-primary px-6 py-24">
         <div className="mx-auto max-w-5xl">
-          <h2 className="mb-14 text-center text-3xl font-black text-primary tracking-tight">
+          <h2 className="mb-14 text-center text-3xl font-black text-on-surface tracking-tight">
             Why You Can Trust euRedact
           </h2>
 
           <div className="grid gap-8 sm:grid-cols-2">
             {/* 100% Local */}
-            <div className="rounded-[3rem] bg-white p-12 shadow-xl">
+            <div className="rounded-[3rem] bg-surface p-12 shadow-xl">
               <span className="material-symbols-outlined text-5xl text-secondary mb-4">
                 lock
               </span>
-              <h3 className="text-xl font-black text-primary mb-3">100% Local Processing</h3>
+              <h3 className="text-xl font-black text-on-surface mb-3">100% Local Processing</h3>
               <p className="text-on-surface-variant leading-relaxed">
                 euRedact Rules runs entirely on your machine. No data is sent
                 to any external server. Your text never leaves your infrastructure.
@@ -150,11 +150,11 @@ export default function TrustPage() {
             </div>
 
             {/* Open Source */}
-            <div className="rounded-[3rem] bg-white p-12 shadow-xl">
+            <div className="rounded-[3rem] bg-surface p-12 shadow-xl">
               <span className="material-symbols-outlined text-5xl text-secondary mb-4">
                 code
               </span>
-              <h3 className="text-xl font-black text-primary mb-3">Open Source &amp; Auditable</h3>
+              <h3 className="text-xl font-black text-on-surface mb-3">Open Source &amp; Auditable</h3>
               <p className="text-on-surface-variant leading-relaxed">
                 The full rule engine is open source under Apache 2.0. Every regex
                 pattern, checksum validator, and suppression rule is visible and
@@ -163,11 +163,11 @@ export default function TrustPage() {
             </div>
 
             {/* No Vendor Lock-in */}
-            <div className="rounded-[3rem] bg-white p-12 shadow-xl">
+            <div className="rounded-[3rem] bg-surface p-12 shadow-xl">
               <span className="material-symbols-outlined text-5xl text-secondary mb-4">
                 swap_horiz
               </span>
-              <h3 className="text-xl font-black text-primary mb-3">No Vendor Lock-in</h3>
+              <h3 className="text-xl font-black text-on-surface mb-3">No Vendor Lock-in</h3>
               <p className="text-on-surface-variant leading-relaxed">
                 euRedact is a library, not a service. Your redaction rules,
                 custom patterns, and configuration are yours. No accounts, no
@@ -176,11 +176,11 @@ export default function TrustPage() {
             </div>
 
             {/* Zero Dependencies */}
-            <div className="rounded-[3rem] bg-white p-12 shadow-xl">
+            <div className="rounded-[3rem] bg-surface p-12 shadow-xl">
               <span className="material-symbols-outlined text-5xl text-secondary mb-4">
                 package_2
               </span>
-              <h3 className="text-xl font-black text-primary mb-3">Zero Required Dependencies</h3>
+              <h3 className="text-xl font-black text-on-surface mb-3">Zero Required Dependencies</h3>
               <p className="text-on-surface-variant leading-relaxed">
                 No external packages required in either Python or Node.js.
                 Minimal attack surface, no transitive dependency risks, easy
@@ -192,9 +192,9 @@ export default function TrustPage() {
       </section>
 
       {/* ===== PRIVACY ARCHITECTURE ===== */}
-      <section className="bg-white px-6 py-24">
+      <section className="bg-surface px-6 py-24">
         <div className="mx-auto max-w-5xl">
-          <h2 className="mb-4 text-center text-3xl font-black text-primary tracking-tight">
+          <h2 className="mb-4 text-center text-3xl font-black text-on-surface tracking-tight">
             Cloud Tier — Planned Architecture
           </h2>
           <p className="text-center text-on-surface-variant mb-14 max-w-2xl mx-auto">
@@ -211,7 +211,7 @@ export default function TrustPage() {
                 </span>
               </div>
               <div>
-                <h3 className="text-lg font-black text-primary mb-2">
+                <h3 className="text-lg font-black text-on-surface mb-2">
                   Hash-Based Segment Routing
                 </h3>
                 <p className="text-on-surface-variant leading-relaxed">
@@ -231,7 +231,7 @@ export default function TrustPage() {
                 </span>
               </div>
               <div>
-                <h3 className="text-lg font-black text-primary mb-2">
+                <h3 className="text-lg font-black text-on-surface mb-2">
                   Cross-Client Shuffling
                 </h3>
                 <p className="text-on-surface-variant leading-relaxed">
@@ -251,7 +251,7 @@ export default function TrustPage() {
                 </span>
               </div>
               <div>
-                <h3 className="text-lg font-black text-primary mb-2">
+                <h3 className="text-lg font-black text-on-surface mb-2">
                   Constrained JSON Output
                 </h3>
                 <p className="text-on-surface-variant leading-relaxed">
@@ -271,7 +271,7 @@ export default function TrustPage() {
                 </span>
               </div>
               <div>
-                <h3 className="text-lg font-black text-primary mb-2">
+                <h3 className="text-lg font-black text-on-surface mb-2">
                   Graceful Offline Fallback
                 </h3>
                 <p className="text-on-surface-variant leading-relaxed">
@@ -286,7 +286,7 @@ export default function TrustPage() {
       </section>
 
       {/* ===== TRUST SIGNALS ===== */}
-      <section className="bg-white px-6 pb-24">
+      <section className="bg-surface px-6 pb-24">
         <div className="mx-auto max-w-4xl">
           <div className="flex flex-wrap items-center justify-center gap-4">
             {[
@@ -297,7 +297,7 @@ export default function TrustPage() {
             ].map((badge) => (
               <span
                 key={badge}
-                className="rounded-full border-2 border-slate-200 bg-slate-50 px-6 py-3 text-sm font-black uppercase tracking-wider text-primary"
+                className="rounded-full border-2 border-outline-variant bg-primary px-6 py-3 text-sm font-black uppercase tracking-wider text-on-surface"
               >
                 {badge}
               </span>

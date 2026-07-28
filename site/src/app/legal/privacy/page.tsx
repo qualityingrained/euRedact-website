@@ -8,20 +8,20 @@ export const metadata: Metadata = {
 export default function PrivacyPolicyPage() {
   return (
     <>
-      <section className="bg-primary hero-pattern pt-32 py-20">
+      <section className="bg-code hero-pattern pt-32 py-20">
         <div className="mx-auto max-w-3xl px-6 text-center">
           <h1 className="font-black text-5xl text-white tracking-tight">
             Privacy Policy
           </h1>
-          <p className="mx-auto mt-6 max-w-2xl text-lg text-slate-300 leading-relaxed">
+          <p className="mx-auto mt-6 max-w-2xl text-lg text-on-surface-variant leading-relaxed">
             Last updated: July 2026
           </p>
         </div>
       </section>
 
-      <section className="bg-white px-6 py-20">
+      <section className="bg-surface px-6 py-20">
         <div className="mx-auto max-w-3xl prose prose-slate">
-          <h2 className="font-black text-2xl text-primary mb-4">euRedact Rules (Open Source SDK)</h2>
+          <h2 className="font-black text-2xl text-on-surface mb-4">euRedact Rules (Open Source SDK)</h2>
           <p className="text-on-surface-variant leading-relaxed mb-6">
             euRedact Rules runs entirely on your machine. No data is transmitted
             to any external server. We do not collect, store, or process any text
@@ -29,7 +29,7 @@ export default function PrivacyPolicyPage() {
             network calls.
           </p>
 
-          <h2 className="font-black text-2xl text-primary mb-4">Website</h2>
+          <h2 className="font-black text-2xl text-on-surface mb-4">Website</h2>
           <p className="text-on-surface-variant leading-relaxed mb-6">
             This website (euredact.dev) is hosted on GitHub Pages, operated by
             GitHub, Inc. We set no cookies and use no third-party analytics.
@@ -69,7 +69,7 @@ export default function PrivacyPolicyPage() {
 
           {analyticsEnabled && (
             <>
-              <h2 className="font-black text-2xl text-primary mb-4">
+              <h2 className="font-black text-2xl text-on-surface mb-4">
                 Website Analytics
               </h2>
               <p className="text-on-surface-variant leading-relaxed mb-6">
@@ -123,7 +123,7 @@ export default function PrivacyPolicyPage() {
             </>
           )}
 
-          <h2 className="font-black text-2xl text-primary mb-4">
+          <h2 className="font-black text-2xl text-on-surface mb-4">
             Waitlist &amp; Blog Subscription
           </h2>
           <p className="text-on-surface-variant leading-relaxed mb-6">
@@ -176,7 +176,7 @@ export default function PrivacyPolicyPage() {
             .
           </p>
 
-          <h2 className="font-black text-2xl text-primary mb-4">euRedact Cloud (Coming Soon)</h2>
+          <h2 className="font-black text-2xl text-on-surface mb-4">euRedact Cloud (Coming Soon)</h2>
           <p className="text-on-surface-variant leading-relaxed mb-6">
             When the cloud tier launches, a separate privacy policy will detail
             how text is processed, what data is retained (if any), and what
@@ -184,7 +184,7 @@ export default function PrivacyPolicyPage() {
             available for all cloud tier customers.
           </p>
 
-          <h2 className="font-black text-2xl text-primary mb-4">Contact</h2>
+          <h2 className="font-black text-2xl text-on-surface mb-4">Contact</h2>
           <p className="text-on-surface-variant leading-relaxed">
             For privacy-related inquiries, contact us at{" "}
             <a href="mailto:contact@euredact.eu" className="text-secondary font-bold hover:underline">

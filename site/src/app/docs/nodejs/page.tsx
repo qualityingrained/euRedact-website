@@ -17,7 +17,7 @@ function CodeBlock({
     <div className="rounded-2xl overflow-hidden border border-white/10">
       {title && (
         <div className="bg-[#0F172A] px-5 py-3 border-b border-white/10">
-          <span className="text-xs font-black text-slate-400 uppercase tracking-widest">
+          <span className="text-xs font-black text-on-surface-variant uppercase tracking-widest">
             {title}
           </span>
         </div>
@@ -35,39 +35,39 @@ function ParamTable({
   params: { name: string; type: string; default?: string; description: string }[];
 }) {
   return (
-    <div className="overflow-x-auto rounded-2xl border-2 border-slate-200">
+    <div className="overflow-x-auto rounded-2xl border-2 border-outline-variant">
       <table className="w-full text-sm">
         <thead>
-          <tr className="bg-slate-50">
-            <th className="text-left px-5 py-3 font-black text-primary text-xs uppercase tracking-widest">
+          <tr className="bg-primary">
+            <th className="text-left px-5 py-3 font-black text-on-surface text-xs uppercase tracking-widest">
               Parameter
             </th>
-            <th className="text-left px-5 py-3 font-black text-primary text-xs uppercase tracking-widest">
+            <th className="text-left px-5 py-3 font-black text-on-surface text-xs uppercase tracking-widest">
               Type
             </th>
-            <th className="text-left px-5 py-3 font-black text-primary text-xs uppercase tracking-widest">
+            <th className="text-left px-5 py-3 font-black text-on-surface text-xs uppercase tracking-widest">
               Default
             </th>
-            <th className="text-left px-5 py-3 font-black text-primary text-xs uppercase tracking-widest">
+            <th className="text-left px-5 py-3 font-black text-on-surface text-xs uppercase tracking-widest">
               Description
             </th>
           </tr>
         </thead>
         <tbody>
           {params.map((p) => (
-            <tr key={p.name} className="border-t border-slate-100">
+            <tr key={p.name} className="border-t border-outline-variant">
               <td className="px-5 py-3">
                 <code className="text-secondary font-mono font-bold text-xs bg-secondary/10 px-2 py-0.5 rounded">
                   {p.name}
                 </code>
               </td>
               <td className="px-5 py-3">
-                <code className="text-slate-600 font-mono text-xs">
+                <code className="text-on-surface-variant font-mono text-xs">
                   {p.type}
                 </code>
               </td>
               <td className="px-5 py-3">
-                <code className="text-slate-500 font-mono text-xs">
+                <code className="text-on-surface-variant font-mono text-xs">
                   {p.default || "—"}
                 </code>
               </td>
@@ -101,7 +101,7 @@ export default function NodejsSDKPage() {
   return (
     <>
       {/* Hero */}
-      <section className="bg-primary hero-pattern py-20">
+      <section className="bg-code hero-pattern py-20">
         <div className="mx-auto max-w-4xl px-8">
           <div className="text-[10px] font-black text-secondary uppercase tracking-[0.3em] mb-4">
             SDK Reference
@@ -109,7 +109,7 @@ export default function NodejsSDKPage() {
           <h1 className="font-black text-5xl text-white tracking-tight">
             Node.js SDK
           </h1>
-          <p className="mt-4 text-lg text-slate-300 leading-relaxed max-w-2xl">
+          <p className="mt-4 text-lg text-on-surface-variant leading-relaxed max-w-2xl">
             Zero-dependency PII redaction for Node.js. 86KB package, 0.3ms per
             page.
           </p>
@@ -134,11 +134,11 @@ export default function NodejsSDKPage() {
         </div>
       </section>
 
-      <section className="bg-white py-16 px-8">
+      <section className="bg-surface py-16 px-8">
         <div className="mx-auto max-w-4xl space-y-16">
           {/* Installation */}
           <div>
-            <h2 className="font-black text-3xl text-primary mb-6 tracking-tight">
+            <h2 className="font-black text-3xl text-on-surface mb-6 tracking-tight">
               Installation
             </h2>
             <CodeBlock title="Terminal">
@@ -149,7 +149,7 @@ export default function NodejsSDKPage() {
 
           {/* redact() */}
           <div>
-            <h2 className="font-black text-3xl text-primary mb-2 tracking-tight">
+            <h2 className="font-black text-3xl text-on-surface mb-2 tracking-tight">
               redact()
             </h2>
             <p className="text-on-surface-variant leading-relaxed mb-6">
@@ -216,7 +216,7 @@ export default function NodejsSDKPage() {
               />
             </div>
 
-            <h3 className="font-black text-xl text-primary mt-8 mb-3">
+            <h3 className="font-black text-xl text-on-surface mt-8 mb-3">
               Return value
             </h3>
             <p className="text-on-surface-variant leading-relaxed mb-4">
@@ -255,7 +255,7 @@ export default function NodejsSDKPage() {
               ]}
             />
 
-            <h3 className="font-black text-xl text-primary mt-8 mb-3">
+            <h3 className="font-black text-xl text-on-surface mt-8 mb-3">
               Detection
             </h3>
             <p className="text-on-surface-variant leading-relaxed mb-4">
@@ -302,7 +302,7 @@ export default function NodejsSDKPage() {
               ]}
             />
 
-            <h3 className="font-black text-xl text-primary mt-8 mb-3">
+            <h3 className="font-black text-xl text-on-surface mt-8 mb-3">
               Example
             </h3>
             <CodeBlock title="index.ts">
@@ -332,7 +332,7 @@ export default function NodejsSDKPage() {
               <span className="text-white">console.</span>
               <span className="text-secondary">log</span>
               <span className="text-white">(result.redactedText);{"\n"}</span>
-              <span className="text-slate-500">
+              <span className="text-on-surface-variant">
                 // &quot;Mijn BSN is [NATIONAL_ID] en IBAN [BANK_ACCOUNT].&quot;
               </span>
               {"\n\n"}
@@ -344,7 +344,7 @@ export default function NodejsSDKPage() {
 
           {/* redactBatch() */}
           <div>
-            <h2 className="font-black text-3xl text-primary mb-2 tracking-tight">
+            <h2 className="font-black text-3xl text-on-surface mb-2 tracking-tight">
               redactBatch()
             </h2>
             <p className="text-on-surface-variant leading-relaxed mb-6">
@@ -376,7 +376,7 @@ export default function NodejsSDKPage() {
               <span className="text-blue-300">RedactResult[]</span>
             </CodeBlock>
 
-            <h3 className="font-black text-xl text-primary mt-8 mb-3">
+            <h3 className="font-black text-xl text-on-surface mt-8 mb-3">
               Example
             </h3>
             <CodeBlock title="batch.ts">
@@ -414,7 +414,7 @@ export default function NodejsSDKPage() {
 
           {/* addCustomPattern() */}
           <div>
-            <h2 className="font-black text-3xl text-primary mb-2 tracking-tight">
+            <h2 className="font-black text-3xl text-on-surface mb-2 tracking-tight">
               addCustomPattern()
             </h2>
             <p className="text-on-surface-variant leading-relaxed mb-6">
@@ -457,7 +457,7 @@ export default function NodejsSDKPage() {
               />
             </div>
 
-            <h3 className="font-black text-xl text-primary mt-8 mb-3">
+            <h3 className="font-black text-xl text-on-surface mt-8 mb-3">
               Example
             </h3>
             <CodeBlock title="custom.ts">
@@ -485,7 +485,7 @@ export default function NodejsSDKPage() {
               <span className="text-white">console.</span>
               <span className="text-secondary">log</span>
               <span className="text-white">(result.redactedText);{"\n"}</span>
-              <span className="text-slate-500">
+              <span className="text-on-surface-variant">
                 // &quot;Contact [EMPLOYEE_ID] for details&quot;
               </span>
             </CodeBlock>
@@ -493,7 +493,7 @@ export default function NodejsSDKPage() {
 
           {/* availableCountries() */}
           <div>
-            <h2 className="font-black text-3xl text-primary mb-2 tracking-tight">
+            <h2 className="font-black text-3xl text-on-surface mb-2 tracking-tight">
               availableCountries()
             </h2>
             <p className="text-on-surface-variant leading-relaxed mb-6">
@@ -512,7 +512,7 @@ export default function NodejsSDKPage() {
               <span className="text-white">(</span>
               <span className="text-secondary">availableCountries</span>
               <span className="text-white">());  </span>
-              <span className="text-slate-500">
+              <span className="text-on-surface-variant">
                 // [&quot;AT&quot;, &quot;BE&quot;, &quot;BG&quot;, ...]
               </span>
             </CodeBlock>
@@ -520,7 +520,7 @@ export default function NodejsSDKPage() {
 
           {/* Secret Detection */}
           <div>
-            <h2 className="font-black text-3xl text-primary mb-2 tracking-tight">
+            <h2 className="font-black text-3xl text-on-surface mb-2 tracking-tight">
               Secret Detection
             </h2>
             <p className="text-on-surface-variant leading-relaxed mb-6">
@@ -568,7 +568,7 @@ export default function NodejsSDKPage() {
               <span className="text-white">console.</span>
               <span className="text-secondary">log</span>
               <span className="text-white">(result.redactedText);{"\n"}</span>
-              <span className="text-slate-500">
+              <span className="text-on-surface-variant">
                 // &quot;My API key is [SECRET]&quot;
               </span>
             </CodeBlock>
@@ -576,47 +576,47 @@ export default function NodejsSDKPage() {
 
           {/* Performance */}
           <div>
-            <h2 className="font-black text-3xl text-primary mb-6 tracking-tight">
+            <h2 className="font-black text-3xl text-on-surface mb-6 tracking-tight">
               Performance
             </h2>
             <div className="grid sm:grid-cols-3 gap-6">
-              <div className="rounded-2xl bg-slate-50 border-2 border-slate-200 p-8">
-                <div className="text-4xl font-black text-primary mb-2">
+              <div className="rounded-2xl bg-primary border-2 border-outline-variant p-8">
+                <div className="text-4xl font-black text-on-surface mb-2">
                   0.3ms
                 </div>
-                <div className="text-xs font-black text-slate-400 uppercase tracking-[0.2em]">
+                <div className="text-xs font-black text-on-surface-variant uppercase tracking-[0.2em]">
                   Per page (2,000 chars)
                 </div>
               </div>
-              <div className="rounded-2xl bg-slate-50 border-2 border-slate-200 p-8">
-                <div className="text-4xl font-black text-primary mb-2">
+              <div className="rounded-2xl bg-primary border-2 border-outline-variant p-8">
+                <div className="text-4xl font-black text-on-surface mb-2">
                   ~25,000
                 </div>
-                <div className="text-xs font-black text-slate-400 uppercase tracking-[0.2em]">
+                <div className="text-xs font-black text-on-surface-variant uppercase tracking-[0.2em]">
                   Records per second
                 </div>
               </div>
-              <div className="rounded-2xl bg-slate-50 border-2 border-slate-200 p-8">
-                <div className="text-4xl font-black text-primary mb-2">
+              <div className="rounded-2xl bg-primary border-2 border-outline-variant p-8">
+                <div className="text-4xl font-black text-on-surface mb-2">
                   ~50KB
                 </div>
-                <div className="text-xs font-black text-slate-400 uppercase tracking-[0.2em]">
+                <div className="text-xs font-black text-on-surface-variant uppercase tracking-[0.2em]">
                   Memory per country
                 </div>
               </div>
             </div>
             <div className="grid sm:grid-cols-3 gap-6 mt-6">
-              <div className="rounded-2xl bg-slate-50 border-2 border-slate-200 p-8">
-                <div className="text-4xl font-black text-primary mb-2">
+              <div className="rounded-2xl bg-primary border-2 border-outline-variant p-8">
+                <div className="text-4xl font-black text-on-surface mb-2">
                   86KB
                 </div>
-                <div className="text-xs font-black text-slate-400 uppercase tracking-[0.2em]">
+                <div className="text-xs font-black text-on-surface-variant uppercase tracking-[0.2em]">
                   Package size
                 </div>
               </div>
-              <div className="rounded-2xl bg-slate-50 border-2 border-slate-200 p-8">
-                <div className="text-4xl font-black text-primary mb-2">0</div>
-                <div className="text-xs font-black text-slate-400 uppercase tracking-[0.2em]">
+              <div className="rounded-2xl bg-primary border-2 border-outline-variant p-8">
+                <div className="text-4xl font-black text-on-surface mb-2">0</div>
+                <div className="text-xs font-black text-on-surface-variant uppercase tracking-[0.2em]">
                   Dependencies
                 </div>
               </div>
@@ -626,9 +626,9 @@ export default function NodejsSDKPage() {
       </section>
 
       {/* Supported countries */}
-      <section className="bg-slate-50 py-16 px-8">
+      <section className="bg-primary py-16 px-8">
         <div className="mx-auto max-w-4xl">
-          <h2 className="font-black text-3xl text-primary mb-6 tracking-tight">
+          <h2 className="font-black text-3xl text-on-surface mb-6 tracking-tight">
             Supported Countries
           </h2>
           <p className="text-on-surface-variant leading-relaxed mb-6">
@@ -638,14 +638,14 @@ export default function NodejsSDKPage() {
             {countries.map((code) => (
               <span
                 key={code}
-                className="inline-block rounded-lg bg-primary px-3 py-1.5 text-xs font-mono font-bold text-white"
+                className="inline-block rounded-lg bg-code px-3 py-1.5 text-xs font-mono font-bold text-white"
               >
                 {code}
               </span>
             ))}
           </div>
 
-          <h2 className="font-black text-3xl text-primary mb-6 tracking-tight">
+          <h2 className="font-black text-3xl text-on-surface mb-6 tracking-tight">
             Entity Types
           </h2>
           <div className="flex flex-wrap gap-2">
@@ -662,20 +662,20 @@ export default function NodejsSDKPage() {
       </section>
 
       {/* Links */}
-      <section className="bg-white py-16 px-8">
+      <section className="bg-surface py-16 px-8">
         <div className="mx-auto max-w-4xl">
-          <div className="rounded-[2rem] bg-primary p-10 flex flex-col sm:flex-row items-center justify-between gap-6">
+          <div className="rounded-[2rem] bg-code p-10 flex flex-col sm:flex-row items-center justify-between gap-6">
             <div>
               <h3 className="font-black text-xl text-white mb-2">
                 View source on GitHub
               </h3>
-              <p className="text-slate-400 text-sm">
+              <p className="text-on-surface-variant text-sm">
                 Browse the code, report issues, or contribute.
               </p>
             </div>
             <a
               href="https://github.com/euRedact/euRedact/tree/main/euredact-ts"
-              className="shrink-0 inline-flex items-center gap-2 bg-secondary text-primary px-6 py-3 rounded-xl font-black text-sm uppercase tracking-wider hover:bg-emerald-400 transition-all"
+              className="shrink-0 inline-flex items-center gap-2 bg-secondary text-primary px-6 py-3 rounded-xl font-black text-sm uppercase tracking-wider hover:bg-secondary-hover transition-all"
             >
               GitHub
               <span className="material-symbols-outlined text-base">

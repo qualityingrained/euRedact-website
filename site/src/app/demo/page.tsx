@@ -79,7 +79,7 @@ const FEATURED_COUNTRIES = ["NL", "BE", "DE", "FR", "LU", "SE", "UK"];
 
 function PillBadge({ type }: { type: string }) {
   return (
-    <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-xs font-bold whitespace-nowrap bg-pii-highlight text-on-surface">
+    <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-xs font-bold whitespace-nowrap bg-pii-highlight text-primary">
       {type}
     </span>
   );
@@ -147,7 +147,7 @@ export default function DemoPage() {
   return (
     <>
       {/* ---- Hero header ---- */}
-      <section className="pt-32 pb-16 bg-primary hero-pattern">
+      <section className="pt-32 pb-16 bg-code hero-pattern">
         <div className="max-w-screen-2xl mx-auto px-6 md:px-8">
           <h1 className="text-5xl font-black text-white mb-4">
             Try euRedact
@@ -156,13 +156,13 @@ export default function DemoPage() {
             <span className="material-symbols-outlined text-secondary text-lg">lock</span>
             <span className="text-secondary text-sm font-bold">This demo runs entirely in your browser. No data is sent anywhere.</span>
           </div>
-          <p className="text-slate-400 text-lg max-w-2xl leading-relaxed">
+          <p className="text-on-surface-variant text-lg max-w-2xl leading-relaxed">
             Paste text below and see PII detection in real-time. Powered by the{" "}
             <a
               href="https://www.npmjs.com/package/euredact"
               target="_blank"
               rel="noopener noreferrer"
-              className="text-secondary hover:text-emerald-300 underline decoration-secondary/40 underline-offset-4 transition-colors"
+              className="text-secondary hover:text-secondary-hover underline decoration-secondary/40 underline-offset-4 transition-colors"
             >
               euredact
             </a>{" "}
@@ -172,7 +172,7 @@ export default function DemoPage() {
       </section>
 
       {/* ---- Split panel ---- */}
-      <section className="bg-white py-12">
+      <section className="bg-surface py-12">
         <div className="max-w-screen-2xl mx-auto px-6 md:px-8">
           <div className="grid grid-cols-1 lg:grid-cols-[55fr_45fr] gap-8">
             {/* LEFT — Input */}
@@ -196,7 +196,7 @@ export default function DemoPage() {
                         setSegments(buildSegments(s.text, result.detections as unknown as Detection[], referentialIntegrity));
                         setHasResults(true);
                       }}
-                      className="px-3 py-1.5 rounded-lg text-xs font-bold bg-slate-100 text-slate-600 hover:bg-secondary hover:text-primary transition-all"
+                      className="px-3 py-1.5 rounded-lg text-xs font-bold bg-primary text-on-surface-variant hover:bg-secondary hover:text-primary transition-all"
                     >
                       {s.flag} {s.label}
                     </button>
@@ -208,7 +208,7 @@ export default function DemoPage() {
                 value={inputText}
                 onChange={(e) => setInputText(e.target.value)}
                 rows={8}
-                className="w-full min-h-[12rem] bg-[#1E293B] text-white font-mono text-sm leading-relaxed p-5 rounded-2xl border border-white/10 focus:outline-none focus:ring-2 focus:ring-secondary/50 resize-y placeholder:text-slate-500"
+                className="w-full min-h-[12rem] bg-[#1E293B] text-white font-mono text-sm leading-relaxed p-5 rounded-2xl border border-white/10 focus:outline-none focus:ring-2 focus:ring-secondary/50 resize-y placeholder:text-on-surface-variant"
                 placeholder="Paste or type text containing European PII..."
               />
 
@@ -223,13 +223,13 @@ export default function DemoPage() {
                       className={`px-3 py-1.5 rounded-full text-xs font-bold uppercase tracking-wider transition-all duration-150 ${
                         activeCountries.includes(code)
                           ? "bg-secondary text-primary"
-                          : "bg-slate-100 text-slate-500 hover:bg-slate-200"
+                          : "bg-primary text-on-surface-variant hover:bg-primary"
                       }`}
                     >
                       {code}
                     </button>
                   ))}
-                  <span className="text-xs text-slate-400 self-center ml-1">
+                  <span className="text-xs text-on-surface-variant self-center ml-1">
                     + {SUPPORTED_COUNTRIES.length - FEATURED_COUNTRIES.length} more
                   </span>
                 </div>
@@ -247,11 +247,11 @@ export default function DemoPage() {
                           setReferentialIntegrity(!referentialIntegrity);
                       }}
                       className={`relative inline-flex h-6 w-11 shrink-0 rounded-full border-2 border-transparent transition-colors duration-200 ${
-                        referentialIntegrity ? "bg-secondary" : "bg-slate-300"
+                        referentialIntegrity ? "bg-secondary" : "bg-primary"
                       }`}
                     >
                       <span
-                        className={`pointer-events-none inline-block h-5 w-5 rounded-full bg-white shadow-sm transition-transform duration-200 ${
+                        className={`pointer-events-none inline-block h-5 w-5 rounded-full bg-surface shadow-sm transition-transform duration-200 ${
                           referentialIntegrity ? "translate-x-5" : "translate-x-0"
                         }`}
                       />
@@ -273,11 +273,11 @@ export default function DemoPage() {
                           setDetectDates(!detectDates);
                       }}
                       className={`relative inline-flex h-6 w-11 shrink-0 rounded-full border-2 border-transparent transition-colors duration-200 ${
-                        detectDates ? "bg-secondary" : "bg-slate-300"
+                        detectDates ? "bg-secondary" : "bg-primary"
                       }`}
                     >
                       <span
-                        className={`pointer-events-none inline-block h-5 w-5 rounded-full bg-white shadow-sm transition-transform duration-200 ${
+                        className={`pointer-events-none inline-block h-5 w-5 rounded-full bg-surface shadow-sm transition-transform duration-200 ${
                           detectDates ? "translate-x-5" : "translate-x-0"
                         }`}
                       />
@@ -290,7 +290,7 @@ export default function DemoPage() {
                   {/* Redact button */}
                   <button
                     onClick={handleRedact}
-                    className="bg-secondary hover:bg-emerald-400 text-primary text-sm font-black px-8 py-2.5 rounded-lg transition-all hover:-translate-y-0.5 active:scale-95 duration-150 electric-glow uppercase tracking-wider ml-auto"
+                    className="bg-secondary hover:bg-secondary-hover text-primary text-sm font-black px-8 py-2.5 rounded-lg transition-all hover:-translate-y-0.5 active:scale-95 duration-150 electric-glow uppercase tracking-wider ml-auto"
                   >
                     Redact
                   </button>
@@ -310,16 +310,16 @@ export default function DemoPage() {
               <div className="bg-[#1E293B] rounded-2xl border border-white/10 p-5 min-h-[12rem] font-mono text-sm leading-relaxed">
                 {hasResults ? (
                   referentialIntegrity ? (
-                    <p className="text-slate-300 whitespace-pre-wrap">
+                    <p className="text-on-surface-variant whitespace-pre-wrap">
                       {redactedText}
                     </p>
                   ) : (
-                    <p className="text-slate-300 whitespace-pre-wrap">
+                    <p className="text-on-surface-variant whitespace-pre-wrap">
                       {segments.map((seg, i) =>
                         seg.detection ? (
                           <span
                             key={i}
-                            className="inline-flex items-center bg-pii-highlight text-on-surface px-2 py-0.5 rounded-full text-xs font-bold mx-0.5"
+                            className="inline-flex items-center bg-pii-highlight text-primary px-2 py-0.5 rounded-full text-xs font-bold mx-0.5"
                           >
                             {seg.text}
                           </span>
@@ -330,7 +330,7 @@ export default function DemoPage() {
                     </p>
                   )
                 ) : (
-                  <p className="text-slate-500 italic">
+                  <p className="text-on-surface-variant italic">
                     Click &quot;Redact&quot; to process your text.
                   </p>
                 )}
@@ -342,9 +342,9 @@ export default function DemoPage() {
 
       {/* ---- Detection table ---- */}
       {hasResults && detections.length > 0 && (
-        <section className="bg-white pb-12">
+        <section className="bg-surface pb-12">
           <div className="max-w-screen-2xl mx-auto px-6 md:px-8">
-            <div className="bg-primary rounded-2xl overflow-hidden">
+            <div className="bg-code rounded-2xl overflow-hidden">
               <div className="px-6 py-4 border-b border-white/10 flex items-center gap-2">
                 <span className="material-symbols-outlined text-secondary text-lg">
                   table_rows
@@ -360,7 +360,7 @@ export default function DemoPage() {
               <div className="overflow-x-auto">
                 <table className="w-full text-sm">
                   <thead>
-                    <tr className="text-slate-400 text-xs uppercase tracking-[0.15em] border-b border-white/5">
+                    <tr className="text-on-surface-variant text-xs uppercase tracking-[0.15em] border-b border-white/5">
                       <th className="text-left px-6 py-3 font-bold">
                         Entity Type
                       </th>
@@ -384,7 +384,7 @@ export default function DemoPage() {
                         <td className="px-6 py-3 font-mono text-white">
                           {d.text}
                         </td>
-                        <td className="px-6 py-3 text-slate-400">
+                        <td className="px-6 py-3 text-on-surface-variant">
                           {d.start}&ndash;{d.end}
                         </td>
                       </tr>
@@ -398,7 +398,7 @@ export default function DemoPage() {
       )}
 
       {/* ---- Install banner ---- */}
-      <section className="bg-white pb-20">
+      <section className="bg-surface pb-20">
         <div className="max-w-screen-2xl mx-auto px-6 md:px-8">
           <div className="bg-accent-indigo rounded-[3rem] px-10 py-12 md:px-16 md:py-14 flex flex-col md:flex-row items-center justify-between gap-6">
             <div>

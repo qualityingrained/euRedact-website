@@ -44,12 +44,12 @@ export default function DocsPage() {
   return (
     <>
       {/* Hero */}
-      <section className="bg-primary hero-pattern py-20">
+      <section className="bg-code hero-pattern py-20">
         <div className="mx-auto max-w-4xl px-8">
           <h1 className="font-black text-5xl text-white tracking-tight">
             Documentation
           </h1>
-          <p className="mt-4 text-lg text-slate-300 leading-relaxed max-w-2xl">
+          <p className="mt-4 text-lg text-on-surface-variant leading-relaxed max-w-2xl">
             Everything you need to integrate European PII redaction into your
             application. Available as open-source SDKs for Python and Node.js.
           </p>
@@ -57,7 +57,7 @@ export default function DocsPage() {
       </section>
 
       {/* Cards */}
-      <section className="bg-white py-16 px-8">
+      <section className="bg-surface py-16 px-8">
         <div className="mx-auto max-w-4xl">
           <div className="grid gap-6 sm:grid-cols-2">
             {cards.map((card) => {
@@ -66,7 +66,7 @@ export default function DocsPage() {
                   className={`group rounded-[2rem] border-2 p-10 transition-all hover:-translate-y-1 hover:shadow-xl ${
                     card.accent
                       ? "border-secondary/30 bg-secondary/5"
-                      : "border-slate-200 bg-slate-50"
+                      : "border-outline-variant bg-primary"
                   }`}
                 >
                   <div
@@ -78,10 +78,10 @@ export default function DocsPage() {
                       {card.icon}
                     </span>
                   </div>
-                  <h2 className="text-xl font-black text-primary mb-2 flex items-center gap-2">
+                  <h2 className="text-xl font-black text-on-surface mb-2 flex items-center gap-2">
                     {card.title}
                     {card.external && (
-                      <span className="material-symbols-outlined text-base text-slate-400">
+                      <span className="material-symbols-outlined text-base text-on-surface-variant">
                         arrow_outward
                       </span>
                     )}
@@ -107,9 +107,9 @@ export default function DocsPage() {
       </section>
 
       {/* Quick install */}
-      <section className="bg-slate-50 py-16 px-8">
+      <section className="bg-primary py-16 px-8">
         <div className="mx-auto max-w-4xl text-center">
-          <h2 className="font-black text-3xl text-primary mb-8 tracking-tight">
+          <h2 className="font-black text-3xl text-on-surface mb-8 tracking-tight">
             Install in One Command
           </h2>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
