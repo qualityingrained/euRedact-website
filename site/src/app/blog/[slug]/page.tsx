@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
+import { PostTags } from "@/components/post-tags";
 import { notFound } from "next/navigation";
 import { getAllSlugs, getPostBySlug } from "@/lib/blog";
 
@@ -47,9 +48,10 @@ export default async function BlogPostPage({
 
   return (
     <>
-      <article className="bg-code pt-32 pb-20">
+      <article className="pb-20">
         {/* Header */}
-        <header className="mx-auto max-w-3xl px-8 mb-12">
+        <header className="relative grid-pattern px-8 pt-32 pb-14 mb-12">
+          <div className="mx-auto max-w-3xl">
           <Link
             href="/blog"
             className="inline-flex items-center gap-1 text-on-surface-variant hover:text-secondary text-sm font-bold uppercase tracking-widest transition-colors mb-8"
@@ -60,33 +62,22 @@ export default async function BlogPostPage({
             Back to blog
           </Link>
 
-          <div className="flex flex-wrap gap-2 mb-4">
-            {post.tags.map((tag) => (
-              <span
-                key={tag}
-                className="inline-block rounded-full bg-secondary/15 text-secondary px-3 py-1 text-xs font-bold"
-              >
-                {tag}
-              </span>
-            ))}
+          <div className="mb-5">
+            <PostTags tags={post.tags} />
           </div>
 
-          <h1 className="font-black text-4xl md:text-5xl text-white leading-tight">
+          <h1 className="text-3xl md:text-5xl font-bold tracking-tight leading-[1.05]">
             {post.title}
           </h1>
 
-          <div className="mt-6 flex items-center gap-4 text-sm text-on-surface-variant">
-            <span className="font-bold">{post.author}</span>
-            <span className="text-on-surface-variant">&middot;</span>
-            <time dateTime={post.date}>
-              {new Date(post.date).toLocaleDateString("en-US", {
-                year: "numeric",
-                month: "long",
-                day: "numeric",
-              })}
-            </time>
-            <span className="text-on-surface-variant">&middot;</span>
-            <span>{post.readingTime}</span>
+          <div className="mt-6 font-mono text-[11px] uppercase tracking-[0.1em] text-on-surface-variant">
+            <span className="text-secondary mr-2">/</span>
+            {post.author} · {new Date(post.date).toLocaleDateString("en-GB", {
+              year: "numeric",
+              month: "short",
+              day: "numeric",
+            })} · {post.readingTime}
+          </div>
           </div>
         </header>
 
