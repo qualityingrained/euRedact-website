@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { PageHero } from "@/components/page-hero";
 
 export const metadata: Metadata = {
   title: "Terms of Service — euRedact",
@@ -7,16 +8,11 @@ export const metadata: Metadata = {
 export default function TermsPage() {
   return (
     <>
-      <section className="bg-code hero-pattern pt-32 py-20">
-        <div className="mx-auto max-w-3xl px-6 text-center">
-          <h1 className="font-black text-5xl text-white tracking-tight">
-            Terms of Service
-          </h1>
-          <p className="mx-auto mt-6 max-w-2xl text-lg text-on-surface-variant leading-relaxed">
-            Last updated: April 2026
-          </p>
-        </div>
-      </section>
+      <PageHero
+        eyebrow="Legal"
+        title="Terms of Service"
+        subtitle="Last updated: April 2026"
+      />
 
       <section className="bg-surface px-6 py-20">
         <div className="mx-auto max-w-3xl prose prose-slate">

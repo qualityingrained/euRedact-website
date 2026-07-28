@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
+import { PageHero } from "@/components/page-hero";
 
 export const metadata: Metadata = {
   title: "Documentation — euRedact",
@@ -43,18 +44,11 @@ const cards = [
 export default function DocsPage() {
   return (
     <>
-      {/* Hero */}
-      <section className="bg-code hero-pattern py-20">
-        <div className="mx-auto max-w-4xl px-8">
-          <h1 className="font-black text-5xl text-white tracking-tight">
-            Documentation
-          </h1>
-          <p className="mt-4 text-lg text-on-surface-variant leading-relaxed max-w-2xl">
-            Everything you need to integrate European PII redaction into your
-            application. Available as open-source SDKs for Python and Node.js.
-          </p>
-        </div>
-      </section>
+      <PageHero
+        eyebrow="Reference"
+        title="Documentation"
+        subtitle="Everything you need to integrate European PII redaction into your application. Available as open-source SDKs for Python and Node.js."
+      />
 
       {/* Cards */}
       <section className="bg-surface py-16 px-8">

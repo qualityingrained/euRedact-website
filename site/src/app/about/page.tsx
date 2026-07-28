@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { PageHero } from "@/components/page-hero";
 
 export const metadata: Metadata = {
   title: "About — euRedact",
@@ -29,18 +30,12 @@ export default function AboutPage() {
   return (
     <>
       {/* ===== HERO ===== */}
-      <section className="bg-code hero-pattern pt-32 py-20">
-        <div className="mx-auto max-w-5xl px-6 text-center">
-          <h1 className="font-black text-5xl text-white tracking-tight">
-            Built by Engineers. For Engineers.
-          </h1>
-          <p className="mx-auto mt-6 max-w-3xl text-lg text-on-surface-variant leading-relaxed">
-            euRedact is built by developers who got tired of writing the same
-            PII regex for every European country, every project, every client.
-            So we built the tool we wished existed.
-          </p>
-        </div>
-      </section>
+      <PageHero
+        eyebrow="About"
+        title="Built by Engineers. For Engineers."
+        slash={false}
+        subtitle="euRedact is built by developers who got tired of writing the same PII regex for every European country, every project, every client. So we built the tool we wished existed."
+      />
 
       {/* ===== STORY ===== */}
       <section className="bg-surface px-8 py-20">

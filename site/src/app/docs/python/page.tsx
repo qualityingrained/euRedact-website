@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { PageHero } from "@/components/page-hero";
 
 export const metadata: Metadata = {
   title: "Python SDK — euRedact Docs",
@@ -100,20 +101,12 @@ const entities = [
 export default function PythonSDKPage() {
   return (
     <>
-      {/* Hero */}
-      <section className="bg-code hero-pattern py-20">
-        <div className="mx-auto max-w-4xl px-8">
-          <div className="text-[10px] font-black text-secondary uppercase tracking-[0.3em] mb-4">
-            SDK Reference
-          </div>
-          <h1 className="font-black text-5xl text-white tracking-tight">
-            Python SDK
-          </h1>
-          <p className="mt-4 text-lg text-on-surface-variant leading-relaxed max-w-2xl">
-            High-performance PII redaction for Python. Sync and async support,
-            ~4.6 ms per page.
-          </p>
-          <div className="mt-6 flex gap-4">
+      <PageHero
+        eyebrow="SDK reference"
+        title="Python SDK"
+        subtitle="High-performance PII redaction for Python. Sync and async support, ~4.6 ms per page."
+      >
+          <div className="flex gap-4">
             <a
               href="https://pypi.org/project/euredact/"
               className="inline-flex items-center gap-2 text-secondary font-black text-sm hover:underline"
@@ -131,8 +124,7 @@ export default function PythonSDKPage() {
               GitHub
             </a>
           </div>
-        </div>
-      </section>
+      </PageHero>
 
       <section className="bg-surface py-16 px-8">
         <div className="mx-auto max-w-4xl space-y-16">

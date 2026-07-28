@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { analyticsEnabled, analyticsHost } from "@/lib/analytics";
+import { PageHero } from "@/components/page-hero";
 
 export const metadata: Metadata = {
   title: "Privacy Policy — euRedact",
@@ -8,16 +9,11 @@ export const metadata: Metadata = {
 export default function PrivacyPolicyPage() {
   return (
     <>
-      <section className="bg-code hero-pattern pt-32 py-20">
-        <div className="mx-auto max-w-3xl px-6 text-center">
-          <h1 className="font-black text-5xl text-white tracking-tight">
-            Privacy Policy
-          </h1>
-          <p className="mx-auto mt-6 max-w-2xl text-lg text-on-surface-variant leading-relaxed">
-            Last updated: July 2026
-          </p>
-        </div>
-      </section>
+      <PageHero
+        eyebrow="Legal"
+        title="Privacy Policy"
+        subtitle="Last updated: July 2026"
+      />
 
       <section className="bg-surface px-6 py-20">
         <div className="mx-auto max-w-3xl prose prose-slate">

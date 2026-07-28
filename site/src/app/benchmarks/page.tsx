@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { PageHero } from "@/components/page-hero";
 
 export const metadata: Metadata = {
   title: "Accuracy Benchmarks — euRedact",
@@ -108,16 +109,12 @@ export default function BenchmarksPage() {
   return (
     <div>
       {/* Header */}
-      <section className="pt-32 py-20 bg-code hero-pattern">
-        <div className="max-w-7xl mx-auto px-6 text-center">
-          <h1 className="font-black text-5xl text-white mb-6">
-            Accuracy Benchmarks
-          </h1>
-          <p className="text-white/70 text-xl max-w-2xl mx-auto mb-6">
-            Transparent, independently verifiable detection rates. 152,300
-            records across 31 countries.
-          </p>
-          <p className="text-white/50 text-sm max-w-2xl mx-auto mb-8 leading-relaxed">
+      <PageHero
+        eyebrow="Benchmarks"
+        title="Accuracy Benchmarks"
+        subtitle="Transparent, independently verifiable detection rates. 152,300 records across 31 countries."
+      >
+          <p className="text-on-surface-variant text-sm max-w-3xl leading-relaxed">
             These figures measure structured-PII recall and precision on a
             generated evaluation set of 152,300 records (666,490 non-DOB PII
             labels), measured 27 July 2026. Generated data measures pattern
@@ -131,9 +128,7 @@ export default function BenchmarksPage() {
             little structure to separate from ordinary dates, so they are
             deferred to the LLM tier.
           </p>
-          <div className="w-20 h-1.5 bg-secondary rounded-full mx-auto" />
-        </div>
-      </section>
+      </PageHero>
 
       {/* Summary Metrics */}
       <section className="py-20">

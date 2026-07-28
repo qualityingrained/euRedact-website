@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
+import { PageHero } from "@/components/page-hero";
 
 export const metadata: Metadata = {
   title: "Quickstart — euRedact Docs",
@@ -33,21 +34,11 @@ function CodeBlock({
 export default function QuickstartPage() {
   return (
     <>
-      {/* Hero */}
-      <section className="bg-code hero-pattern py-20">
-        <div className="mx-auto max-w-4xl px-8">
-          <div className="text-[10px] font-black text-secondary uppercase tracking-[0.3em] mb-4">
-            Getting Started
-          </div>
-          <h1 className="font-black text-5xl text-white tracking-tight">
-            Quickstart
-          </h1>
-          <p className="mt-4 text-lg text-on-surface-variant leading-relaxed max-w-2xl">
-            Redact European PII in one function call. Choose your language and
-            get running in 30 seconds.
-          </p>
-        </div>
-      </section>
+      <PageHero
+        eyebrow="Getting started"
+        title="Quickstart"
+        subtitle="Redact European PII in one function call. Choose your language and get running in 30 seconds."
+      />
 
       <section className="bg-surface py-16 px-8">
         <div className="mx-auto max-w-4xl">

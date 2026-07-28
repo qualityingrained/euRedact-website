@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { DocMockup, TableMockup } from "./doc-mockup";
+import { PageHero } from "@/components/page-hero";
 
 export const metadata: Metadata = {
   title: "Use Cases — euRedact",
@@ -350,22 +351,12 @@ export default function UseCasesPage() {
   return (
     <>
       {/* ===== HERO ===== */}
-      <section className="bg-code hero-pattern pt-48 pb-20 px-6 md:px-8">
-        <div className="mx-auto max-w-5xl text-center">
-          <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-secondary/10 text-secondary text-xs font-black tracking-widest uppercase mb-12 border border-secondary/30">
-            <span className="material-symbols-outlined text-sm">cases</span>
-            Use Cases
-          </div>
-          <h1 className="font-black text-4xl md:text-8xl text-white tracking-tighter leading-[0.85] mb-8">
-            PII Redaction for{" "}
-            <span className="text-secondary">Every Pipeline.</span>
-          </h1>
-          <p className="mx-auto max-w-3xl text-lg md:text-xl text-on-surface-variant leading-relaxed font-medium">
-            From LLM pre-processing to log sanitization — see how European
-            developers use euRedact to build GDPR-compliant applications.
-          </p>
-        </div>
-      </section>
+      <PageHero
+        eyebrow="Use cases"
+        title="PII Redaction for Every Pipeline."
+        slash={false}
+        subtitle="From LLM pre-processing to log sanitization — see how European developers use euRedact to build GDPR-compliant applications."
+      />
 
       {/* ===== USE CASE SECTIONS ===== */}
       {useCases.map((uc, i) => {
@@ -384,7 +375,7 @@ export default function UseCasesPage() {
           <section
             key={uc.title}
             className={`px-6 md:px-8 py-16 md:py-28 overflow-hidden ${
-              darkBg ? "bg-code hero-pattern text-white" : bgOptions[i]
+              darkBg ? "bg-code grid-pattern text-white" : bgOptions[i]
             }`}
           >
             <div className="max-w-7xl mx-auto">
@@ -453,7 +444,7 @@ export default function UseCasesPage() {
 
       {/* ===== INDUSTRIES ===== */}
       <section className="py-20 md:py-32 px-6 md:px-8 bg-accent-indigo text-white relative overflow-hidden">
-        <div className="absolute top-0 left-0 w-full h-full hero-pattern opacity-5" />
+        <div className="absolute top-0 left-0 w-full h-full grid-pattern opacity-5" />
         <div className="max-w-7xl mx-auto relative z-10">
           <div className="flex flex-col items-center text-center mb-14 md:mb-20">
             <h2 className="text-3xl md:text-5xl lg:text-6xl font-black tracking-tight text-white mb-6">
@@ -488,7 +479,7 @@ export default function UseCasesPage() {
       {/* ===== CTA ===== */}
       <section className="py-20 md:py-32 px-6 md:px-8">
         <div className="max-w-5xl mx-auto bg-code rounded-[2.5rem] md:rounded-[4rem] p-10 md:p-28 text-center relative overflow-hidden shadow-2xl electric-glow">
-          <div className="absolute inset-0 hero-pattern opacity-10" />
+          <div className="absolute inset-0 grid-pattern opacity-10" />
           <div className="relative z-10">
             <h2 className="text-3xl md:text-5xl lg:text-7xl font-black text-white mb-6 md:mb-8 tracking-tighter leading-none">
               Your Use Case.{" "}

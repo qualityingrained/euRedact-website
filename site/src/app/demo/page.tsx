@@ -4,6 +4,7 @@ import { useState, useCallback } from "react";
 import Link from "next/link";
 import { redact, availableCountries, type Detection } from "euredact";
 import { trackEvent } from "@/lib/analytics";
+import { PageHero } from "@/components/page-hero";
 
 /* ------------------------------------------------------------------ */
 /*  Helpers                                                            */
@@ -146,17 +147,11 @@ export default function DemoPage() {
 
   return (
     <>
-      {/* ---- Hero header ---- */}
-      <section className="pt-32 pb-16 bg-code hero-pattern">
-        <div className="max-w-screen-2xl mx-auto px-6 md:px-8">
-          <h1 className="text-5xl font-black text-white mb-4">
-            Try euRedact
-          </h1>
-          <div className="inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-secondary/10 border border-secondary/30 mb-6">
-            <span className="material-symbols-outlined text-secondary text-lg">lock</span>
-            <span className="text-secondary text-sm font-bold">This demo runs entirely in your browser. No data is sent anywhere.</span>
-          </div>
-          <p className="text-on-surface-variant text-lg max-w-2xl leading-relaxed">
+      <PageHero
+        eyebrow="Live demo"
+        title="Try euRedact"
+        subtitle={
+          <>
             Paste text below and see PII detection in real-time. Powered by the{" "}
             <a
               href="https://www.npmjs.com/package/euredact"
@@ -167,9 +162,14 @@ export default function DemoPage() {
               euredact
             </a>{" "}
             npm package&nbsp;&mdash; everything runs in your browser.
-          </p>
-        </div>
-      </section>
+          </>
+        }
+      >
+          <div className="inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-secondary/10 border border-secondary/30">
+            <span className="material-symbols-outlined text-secondary text-lg">lock</span>
+            <span className="text-secondary text-sm font-bold">This demo runs entirely in your browser. No data is sent anywhere.</span>
+          </div>
+      </PageHero>
 
       {/* ---- Split panel ---- */}
       <section className="bg-surface py-12">

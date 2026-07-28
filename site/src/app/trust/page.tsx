@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { PageHero } from "@/components/page-hero";
 
 export const metadata: Metadata = {
   title: "Security & Compliance — euRedact",
@@ -39,19 +40,11 @@ export default function TrustPage() {
   return (
     <>
       {/* ===== HERO ===== */}
-      <section className="bg-code hero-pattern pt-32 py-20">
-        <div className="mx-auto max-w-5xl px-6 text-center">
-          <h1 className="font-black text-5xl text-white tracking-tight">
-            Security &amp; Compliance
-          </h1>
-          <p className="mx-auto mt-6 max-w-2xl text-lg text-white/70 leading-relaxed">
-            euRedact is built with privacy as a core architectural principle.
-            Local processing and open-source rules are designed to give you
-            control over how personal data is handled.
-          </p>
-          <div className="mx-auto mt-8 h-1 w-20 rounded-full bg-secondary" />
-        </div>
-      </section>
+      <PageHero
+        eyebrow="Trust"
+        title="Security & Compliance"
+        subtitle="euRedact is built with privacy as a core architectural principle. Local processing and open-source rules are designed to give you control over how personal data is handled."
+      />
 
       {/* ===== ARCHITECTURE DIAGRAM ===== */}
       <section className="bg-code px-6 pb-24">

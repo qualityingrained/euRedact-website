@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { FAQAccordion } from "./faq-accordion";
 import { WaitlistButton } from "@/components/waitlist-button";
+import { PageHero } from "@/components/page-hero";
 
 export const metadata: Metadata = {
   title: "Pricing — euRedact",
@@ -40,18 +41,11 @@ export default function PricingPage() {
   return (
     <div>
       {/* Page Header */}
-      <section className="pt-32 py-20 hero-pattern">
-        <div className="max-w-7xl mx-auto px-6 text-center">
-          <h1 className="font-black text-5xl text-on-surface mb-6">
-            Simple, Transparent Pricing
-          </h1>
-          <p className="text-on-surface-variant text-xl max-w-2xl mx-auto mb-8">
-            Start free with our open-source rules engine. Cloud-powered
-            contextual detection is coming soon.
-          </p>
-          <div className="w-20 h-1.5 bg-secondary rounded-full mx-auto" />
-        </div>
-      </section>
+      <PageHero
+        eyebrow="Pricing"
+        title="Simple, Transparent Pricing"
+        subtitle="Start free with our open-source rules engine. Cloud-powered contextual detection is coming soon."
+      />
 
       {/* Pricing Cards */}
       <section className="py-20 bg-primary/50">

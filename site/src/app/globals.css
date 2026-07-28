@@ -70,12 +70,6 @@
   font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
 }
 
-/* Hero dot pattern */
-.hero-pattern {
-  background-image: radial-gradient(rgba(143, 180, 188, 0.15) 1px, transparent 1px);
-  background-size: 32px 32px;
-}
-
 /* Square grid behind the hero, from the design. */
 .grid-pattern {
   background-image:
@@ -265,7 +259,7 @@ body {
 
 /* Code blocks */
 .prose pre {
-  background: #061F25; /* slate-950 */
+  background: #061F25;
   border: 1px solid rgba(255, 255, 255, 0.08);
   border-radius: 1rem;
   padding: 1.5rem;

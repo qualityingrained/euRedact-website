@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { getAllPosts } from "@/lib/blog";
 import { BlogSubscribe } from "@/components/blog-subscribe";
+import { PageHero } from "@/components/page-hero";
 
 const tagColors: Record<string, string> = {
   GDPR: "bg-secondary/15 text-secondary",
@@ -20,15 +21,11 @@ export default function BlogPage() {
   return (
     <>
       {/* Header */}
-      <section className="bg-code hero-pattern pt-32 py-16">
-        <div className="mx-auto max-w-7xl px-8">
-          <h1 className="font-black text-5xl text-white">Blog</h1>
-          <p className="mt-4 text-on-surface-variant text-lg max-w-2xl">
-            Technical deep-dives, GDPR guides, and development updates from the
-            euRedact team.
-          </p>
-        </div>
-      </section>
+      <PageHero
+        eyebrow="Writing"
+        title="Blog"
+        subtitle="Technical deep-dives, GDPR guides, and development updates from the euRedact team."
+      />
 
       {/* Blog Grid */}
       <section className="mx-auto max-w-7xl py-20 px-8">
