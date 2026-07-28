@@ -368,33 +368,6 @@ export function Playground() {
           </div>
         </div>
       </div>
-
-      {/* ── throughput ── */}
-      <div className="px-6 py-5 grid grid-cols-[auto_1fr_auto] gap-x-5 gap-y-3.5 items-center">
-        <span className="text-[13px] font-medium text-on-surface-variant">
-          Python
-        </span>
-        <div className="h-2 bg-code border border-outline-variant rounded-full overflow-hidden">
-          <div className="h-full bg-brand rounded-full w-[7%]" />
-        </div>
-        <span className="font-mono text-[11.5px] text-on-surface-variant whitespace-nowrap">
-          ~4.6 ms / page · ~2,000 rec/s
-        </span>
-
-        <span className="text-[13px] font-medium text-on-surface">Node.js</span>
-        <div className="h-2 bg-code border border-outline-variant rounded-full overflow-hidden">
-          <div className="h-full bg-secondary rounded-full w-full" />
-        </div>
-        <span className="font-mono text-[11.5px] text-on-surface whitespace-nowrap">
-          0.3 ms / page · ~25,000 rec/s
-        </span>
-
-        <span className="col-span-3 text-[12.5px] text-on-surface-variant">
-          Both packages implement the same two-pass rule engine — liberal pattern
-          matching, then checksum validation — and neither calls out to anything.
-          Measured on a 2,000-character page.
-        </span>
-      </div>
     </div>
   );
 }
