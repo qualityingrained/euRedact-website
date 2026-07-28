@@ -91,6 +91,13 @@ const BORDER = "#061F25";
 /* Counted from the data rather than written by hand: the previous legend read
    "31 Supported Countries" while the map painted 32. */
 const countries = Object.values(SUPPORTED);
+
+/* The same list the map paints, for anything that needs to offer a choice of
+   country. Exported from here so there is one place naming the countries, and
+   the claim test that pins this file to availableCountries() covers it too. */
+export const SUPPORTED_COUNTRIES: { code: string; name: string }[] = countries
+  .map(({ code, name }) => ({ code, name }))
+  .sort((a, b) => a.name.localeCompare(b.name));
 const COUNTS = {
   rules: countries.length,
   full: countries.filter((c) => c.cloud?.tier === "full").length,

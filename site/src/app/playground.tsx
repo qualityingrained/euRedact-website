@@ -2,6 +2,7 @@
 
 import { useCallback, useEffect, useRef, useState } from "react";
 import { redact, type Detection } from "euredact";
+import { SUPPORTED_COUNTRIES } from "./europe-map";
 
 /*
   Homepage playground. Runs the real `euredact` package in the browser, the same
@@ -71,6 +72,9 @@ export function Playground() {
   const [detections, setDetections] = useState<Detection[] | null>(null);
   const [auto, setAuto] = useState(true);
   const [pressed, setPressed] = useState(false);
+  /* null = scan every ruleset. Set to a code, the engine only loads that
+     country, which is the configuration the published figures assume. */
+  const [country, setCountry] = useState<string | null>(null);
 
   /* Timers are collected so a user taking over cancels every pending step —
      otherwise a queued keystroke overwrites what they just typed. */
@@ -85,7 +89,7 @@ export function Playground() {
   };
 
   const sample = SAMPLES[sampleIndex];
-  const activeCountry = auto ? sample.country : null;
+  const activeCountry = auto ? sample.country : country;
 
   /*
     The scripted samples are each written for one country, so they run with that
@@ -231,13 +235,33 @@ export function Playground() {
           />
         </div>
         <div className="flex flex-col gap-2">
+          <label className="sr-only" htmlFor="playground-country">
+            Country ruleset
+          </label>
+          <select
+            id="playground-country"
+            value={activeCountry ?? ""}
+            onChange={(e) => {
+              takeOver();
+              setCountry(e.target.value || null);
+              setDetections(null);
+            }}
+            className="bg-code border border-outline-variant rounded-xl text-on-surface font-mono text-[12.5px] px-3 py-2.5 outline-none focus:border-secondary cursor-pointer"
+          >
+            <option value="">All countries</option>
+            {SUPPORTED_COUNTRIES.map((c) => (
+              <option key={c.code} value={c.code}>
+                {c.code} · {c.name}
+              </option>
+            ))}
+          </select>
           <button
             onClick={() => {
               takeOver();
-              /* Explicitly null, not activeCountry: takeOver() only flips the
-                 flag on the next render, so reading it here would still use the
-                 sample's country for the first manual run. */
-              flashAndRun(input, null);
+              /* `country`, not activeCountry: takeOver() only flips the auto
+                 flag on the next render, so activeCountry would still hold the
+                 sample's country on the first manual run. */
+              flashAndRun(input, country);
             }}
             className={`text-white font-bold text-sm px-5 py-3 rounded-xl cursor-pointer whitespace-nowrap transition-all duration-150 motion-safe:will-change-transform ${
               pressed
@@ -251,6 +275,7 @@ export function Playground() {
             onClick={() => {
               takeOver();
               setInput(SAMPLES[0].text);
+              setCountry(SAMPLES[0].country);
               setDetections(null);
             }}
             className="text-secondary font-medium text-[13px] px-5 py-2.5 border border-outline-variant rounded-xl cursor-pointer hover:border-secondary transition-colors whitespace-nowrap"
@@ -258,6 +283,32 @@ export function Playground() {
             Reset
           </button>
         </div>
+      </div>
+
+      {/* Why the selector is worth touching, in the terms the footnote uses. */}
+      <div className="px-6 pb-5 -mt-1 text-[12.5px] text-on-surface-variant">
+        {activeCountry ? (
+          <>
+            Only the{" "}
+            <span className="text-on-surface font-medium">
+              {SUPPORTED_COUNTRIES.find((c) => c.code === activeCountry)?.name ??
+                activeCountry}
+            </span>{" "}
+            ruleset is loaded — the configuration our published accuracy assumes.
+          </>
+        ) : (
+          <>
+            Scanning all 31 rulesets. Naming the country raises recall and cuts
+            false positives —{" "}
+            <a
+              href="#accuracy-note"
+              className="text-secondary hover:text-secondary-hover underline decoration-secondary/40 underline-offset-4"
+            >
+              see the measurement note
+            </a>
+            .
+          </>
+        )}
       </div>
 
       {/* ── detections ── */}
