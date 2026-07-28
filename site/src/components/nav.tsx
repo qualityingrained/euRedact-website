@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import { useState } from "react";
+import { Wordmark } from "@/components/wordmark";
 
 export function Nav() {
   const [mobileOpen, setMobileOpen] = useState(false);
@@ -9,14 +10,8 @@ export function Nav() {
   return (
     <nav className="fixed top-0 z-50 w-full bg-code border-b border-white/10 h-16 flex items-center">
       <div className="max-w-screen-2xl mx-auto w-full px-6 md:px-8 flex justify-between items-center">
-        <Link
-          href="/"
-          className="flex items-center gap-2 text-xl font-black tracking-tighter text-white"
-        >
-          <span className="material-symbols-outlined text-secondary text-2xl">
-            shield_lock
-          </span>
-          euRedact
+        <Link href="/" aria-label="euRedact home" className="flex items-center">
+          <Wordmark id="nav" className="h-7 w-auto text-white" />
         </Link>
 
         {/* Desktop nav */}

@@ -4,6 +4,10 @@ DESIGN.md
 code.html
 screen.png
 
+# ...but app icons are source, not artifacts. Without this the touch icon never
+# reaches CI and the deployed site ships no apple-touch-icon at all.
+!site/src/app/apple-icon.png
+
 # Playwright MCP
 .playwright-mcp/
 

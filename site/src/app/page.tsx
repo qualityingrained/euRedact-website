@@ -2,6 +2,7 @@ import { EuropeMap } from "./europe-map";
 import { InstallTabs } from "./install-tabs";
 import { Playground } from "./playground";
 import { WaitlistButton } from "@/components/waitlist-button";
+import { Wordmark } from "@/components/wordmark";
 
 /* Every figure below is the measured one. The asterisks lead to the
    measurement note in the footer (#accuracy-note), which carries the
@@ -73,15 +74,25 @@ export default function Page() {
             v0.3 — Now supporting 31 European countries
           </div>
 
-          <h1 className="text-5xl md:text-6xl font-bold tracking-tight leading-[1.05] mb-5">
-            European PII Redaction.
-            <span className="text-secondary font-normal ml-3">/</span>
-          </h1>
-          <p className="text-lg leading-relaxed text-on-surface-variant max-w-2xl">
-            Open-source SDK that detects and redacts structured PII across 31
-            European countries. Available for Python and Node.js. Local-only and
-            deterministic — the SDK makes no network calls.
-          </p>
+          {/* Mark on the left, copy to its right, as in the design. Wraps to a
+              stack below the `md` breakpoint so neither gets squeezed. */}
+          <div className="flex flex-wrap items-center gap-10 md:gap-14">
+            <Wordmark
+              id="hero"
+              className="w-64 md:w-[340px] max-w-full h-auto shrink-0 text-on-surface"
+            />
+            <div className="flex-1 min-w-[320px]">
+              <h1 className="text-4xl md:text-5xl font-bold tracking-tight leading-[1.05] mb-5">
+                European PII Redaction.
+                <span className="text-secondary font-normal ml-3">/</span>
+              </h1>
+              <p className="text-lg leading-relaxed text-on-surface-variant max-w-2xl">
+                Open-source SDK that detects and redacts structured PII across
+                31 European countries. Available for Python and Node.js.
+                Local-only and deterministic — the SDK makes no network calls.
+              </p>
+            </div>
+          </div>
 
           <Playground />
         </div>
