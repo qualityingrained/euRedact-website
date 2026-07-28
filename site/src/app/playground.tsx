@@ -73,6 +73,7 @@ export function Playground() {
 
   /* Timers are collected so a user taking over cancels every pending step —
      otherwise a queued keystroke overwrites what they just typed. */
+  const textarea = useRef<HTMLTextAreaElement>(null);
   const timers = useRef<ReturnType<typeof setTimeout>[]>([]);
   const clearTimers = () => {
     timers.current.forEach(clearTimeout);
@@ -83,18 +84,25 @@ export function Playground() {
   };
 
   const sample = SAMPLES[sampleIndex];
+  const activeCountry = auto ? sample.country : null;
 
-  const run = useCallback(
-    (text: string, country: string) => {
-      if (!text.trim()) {
-        setDetections([]);
-        return;
-      }
-      const result = redact(text, { countries: [country] });
-      setDetections(result.detections as unknown as Detection[]);
-    },
-    []
-  );
+  /*
+    The scripted samples are each written for one country, so they run with that
+    country set — the accurate configuration, and the one the published figures
+    assume. Text the visitor types could be from anywhere, so it runs across all
+    31 rulesets instead. Pinning their input to whichever sample happened to be
+    on screen scored Belgian text against Dutch rules.
+  */
+  const run = useCallback((text: string, country: string | null) => {
+    if (!text.trim()) {
+      setDetections([]);
+      return;
+    }
+    const result = country
+      ? redact(text, { countries: [country] })
+      : redact(text);
+    setDetections(result.detections as unknown as Detection[]);
+  }, []);
 
   const takeOver = useCallback(() => {
     setAuto((wasAuto) => {
@@ -134,6 +142,15 @@ export function Playground() {
     return clearTimers;
   }, [auto, sampleIndex, run]);
 
+  /* Grow to fit the content instead of scrolling inside two rows, capped so a
+     pasted document cannot push the rest of the page off screen. */
+  useEffect(() => {
+    const el = textarea.current;
+    if (!el) return;
+    el.style.height = "auto";
+    el.style.height = `${Math.min(el.scrollHeight, 320)}px`;
+  }, [input]);
+
   useEffect(() => clearTimers, []);
 
   const segments =
@@ -164,16 +181,20 @@ export function Playground() {
             }}
             onFocus={takeOver}
             spellCheck={false}
+            ref={textarea}
             rows={2}
             aria-label="Text to redact"
-            className="w-full resize-y bg-code border border-outline-variant rounded-xl text-on-surface font-mono text-[13.5px] leading-relaxed p-3.5 outline-none focus:border-secondary"
+            className="w-full resize-none overflow-y-auto bg-code border border-outline-variant rounded-xl text-on-surface font-mono text-[13.5px] leading-relaxed p-3.5 outline-none focus:border-secondary"
           />
         </div>
         <div className="flex flex-col gap-2">
           <button
             onClick={() => {
               takeOver();
-              run(input, sample.country);
+              /* Explicitly null, not activeCountry: takeOver() only flips the
+                 flag on the next render, so reading it here would still use the
+                 sample's country for the first manual run. */
+              run(input, null);
             }}
             className="bg-brand text-white font-bold text-sm px-5 py-3 rounded-xl cursor-pointer hover:bg-brand-hover transition-colors whitespace-nowrap"
           >
@@ -260,8 +281,12 @@ export function Playground() {
           <div>&nbsp;</div>
           <div className="text-on-surface">
             {lang === "python"
-              ? `result = euredact.redact(text, countries=["${sample.country}"])`
-              : `const result = redact(text, { countries: ["${sample.country}"] });`}
+              ? activeCountry
+                ? `result = euredact.redact(text, countries=["${activeCountry}"])`
+                : "result = euredact.redact(text)"
+              : activeCountry
+                ? `const result = redact(text, { countries: ["${activeCountry}"] });`
+                : "const result = redact(text);"}
           </div>
           <div className="text-on-surface">
             {lang === "python"
@@ -271,7 +296,10 @@ export function Playground() {
           <div className="text-on-surface-variant mt-2.5">
             {lang === "python" ? "#" : "//"} stdout →
           </div>
-          <div className="mt-1 flex flex-wrap items-center gap-y-1 whitespace-pre-wrap">
+          {/* Plain inline flow, not flex: flex makes every segment its own box,
+              which swallows the newlines inside plain-text runs and knocks the
+              lines after a token out of alignment. */}
+          <div className="mt-1 whitespace-pre-wrap break-words">
             {segments === null ? (
               <span className="text-on-surface-variant">awaiting run …</span>
             ) : (
@@ -279,7 +307,7 @@ export function Playground() {
                 s.token ? (
                   <span
                     key={i}
-                    className="bg-brand text-white text-[12px] px-2 py-0.5 rounded mx-0.5"
+                    className="bg-brand text-white text-[12px] px-2 rounded mx-0.5 inline-block align-baseline"
                   >
                     {s.text}
                   </span>
