@@ -235,16 +235,22 @@ export default function BenchmarksPage() {
           </h2>
           <p className="text-on-surface-variant text-center mb-12 max-w-xl mx-auto">
             Recall rates broken down by PII entity type across all countries.
+            The <span className="text-pii-highlight font-bold">DOB</span> bar is
+            marked as a caveat: bare dates are excluded from the headline figures
+            by design and deferred to the LLM tier, so its rate is not a
+            shortfall.
           </p>
           <div className="space-y-5">
             {entityTypes.map((entity) => (
               <div key={entity.name} className="flex items-center gap-4">
-                <div className="w-36 shrink-0 text-right font-mono text-sm font-semibold text-on-surface">
+                <div className="w-36 shrink-0 text-right font-mono text-sm font-semibold text-pii-danger">
                   {entity.name}
                 </div>
                 <div className="flex-1 h-8 bg-primary rounded-full overflow-hidden">
                   <div
-                    className="h-full bg-secondary rounded-full"
+                    className={`h-full rounded-full ${
+                      entity.name === "DOB" ? "bg-pii-highlight" : "bg-secondary"
+                    }`}
                     style={{ width: `${entity.recall}%` }}
                   />
                 </div>

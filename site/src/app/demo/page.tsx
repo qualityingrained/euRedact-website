@@ -80,7 +80,7 @@ const FEATURED_COUNTRIES = ["NL", "BE", "DE", "FR", "LU", "SE", "UK"];
 
 function PillBadge({ type }: { type: string }) {
   return (
-    <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-xs font-bold whitespace-nowrap bg-pii-highlight text-primary">
+    <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-xs font-bold whitespace-nowrap bg-pii-danger text-white">
       {type}
     </span>
   );
@@ -208,7 +208,7 @@ export default function DemoPage() {
                 value={inputText}
                 onChange={(e) => setInputText(e.target.value)}
                 rows={8}
-                className="w-full min-h-[12rem] bg-[#1E293B] text-white font-mono text-sm leading-relaxed p-5 rounded-2xl border border-white/10 focus:outline-none focus:ring-2 focus:ring-secondary/50 resize-y placeholder:text-on-surface-variant"
+                className="w-full min-h-[12rem] bg-code text-white font-mono text-sm leading-relaxed p-5 rounded-2xl border border-white/10 focus:outline-none focus:ring-2 focus:ring-secondary/50 resize-y placeholder:text-on-surface-variant"
                 placeholder="Paste or type text containing European PII..."
               />
 
@@ -307,7 +307,7 @@ export default function DemoPage() {
                 Output
               </h2>
 
-              <div className="bg-[#1E293B] rounded-2xl border border-white/10 p-5 min-h-[12rem] font-mono text-sm leading-relaxed">
+              <div className="bg-code rounded-2xl border border-white/10 p-5 min-h-[12rem] font-mono text-sm leading-relaxed">
                 {hasResults ? (
                   referentialIntegrity ? (
                     <p className="text-on-surface-variant whitespace-pre-wrap">
@@ -319,7 +319,7 @@ export default function DemoPage() {
                         seg.detection ? (
                           <span
                             key={i}
-                            className="inline-flex items-center bg-pii-highlight text-primary px-2 py-0.5 rounded-full text-xs font-bold mx-0.5"
+                            className="inline-flex items-center bg-brand text-white px-2 py-0.5 rounded-full text-xs font-bold mx-0.5"
                           >
                             {seg.text}
                           </span>

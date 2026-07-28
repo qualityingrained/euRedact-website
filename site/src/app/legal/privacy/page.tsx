@@ -172,7 +172,12 @@ export default function PrivacyPolicyPage() {
             .
           </p>
 
-          <h2 className="font-black text-2xl text-on-surface mb-4">euRedact Cloud (Coming Soon)</h2>
+          <h2 className="font-black text-2xl text-on-surface mb-4">
+            euRedact Cloud{" "}
+            <span className="align-middle bg-pii-highlight/15 text-pii-highlight text-xs font-bold uppercase tracking-wider px-2.5 py-1 rounded-full">
+              Coming Soon
+            </span>
+          </h2>
           <p className="text-on-surface-variant leading-relaxed mb-6">
             When the cloud tier launches, a separate privacy policy will detail
             how text is processed, what data is retained (if any), and what

@@ -127,7 +127,7 @@ export function TokenCalculator() {
             <span className={`font-bold ${plan.color}`}>{plan.name}</span>
           </p>
         </div>
-        <p className="text-sm text-on-surface-variant mt-4">
+        <p className="text-sm text-on-surface-variant mt-4 border-l-2 border-pii-highlight/50 pl-3">
           Cloud tiers are coming soon. Join the waitlist to be notified.
         </p>
       </div>

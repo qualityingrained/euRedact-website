@@ -107,13 +107,13 @@ export default function DocsPage() {
             Install in One Command
           </h2>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <div className="bg-[#1E293B] rounded-xl px-6 py-4 flex items-center gap-3 border border-white/10">
+            <div className="bg-code rounded-xl px-6 py-4 flex items-center gap-3 border border-white/10">
               <span className="text-secondary font-mono font-black text-sm">$</span>
               <code className="text-white font-mono font-bold text-sm">
                 pip install euredact
               </code>
             </div>
-            <div className="bg-[#1E293B] rounded-xl px-6 py-4 flex items-center gap-3 border border-white/10">
+            <div className="bg-code rounded-xl px-6 py-4 flex items-center gap-3 border border-white/10">
               <span className="text-secondary font-mono font-black text-sm">$</span>
               <code className="text-white font-mono font-bold text-sm">
                 npm install euredact

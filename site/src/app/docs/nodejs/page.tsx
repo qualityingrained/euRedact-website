@@ -17,13 +17,13 @@ function CodeBlock({
   return (
     <div className="rounded-2xl overflow-hidden border border-white/10">
       {title && (
-        <div className="bg-[#0F172A] px-5 py-3 border-b border-white/10">
+        <div className="bg-primary px-5 py-3 border-b border-white/10">
           <span className="text-xs font-black text-on-surface-variant uppercase tracking-widest">
             {title}
           </span>
         </div>
       )}
-      <pre className="bg-[#1E293B] p-6 overflow-x-auto">
+      <pre className="bg-code p-6 overflow-x-auto">
         <code className="text-sm font-mono leading-relaxed">{children}</code>
       </pre>
     </div>
@@ -644,7 +644,7 @@ export default function NodejsSDKPage() {
             {entities.map((entity) => (
               <span
                 key={entity}
-                className="inline-block rounded-lg bg-[#1E293B] px-3 py-1.5 text-xs font-mono font-bold text-secondary"
+                className="inline-block rounded-lg bg-pii-danger/15 border border-pii-danger/30 px-3 py-1.5 text-xs font-mono font-bold text-pii-danger"
               >
                 [{entity}]
               </span>
