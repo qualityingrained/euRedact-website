@@ -180,6 +180,32 @@ export function Playground() {
 
   return (
     <div className="mt-14 rounded-2xl border border-outline-variant bg-surface overflow-hidden shadow-2xl">
+      {/* ── what this is ──
+          Stated up front rather than left to be inferred: the cloud tier is
+          announced all over this page, so a live demo could easily be taken for
+          it. This runs the open-source rules engine in the browser and nothing
+          else. */}
+      <div className="px-6 py-3 border-b border-outline-variant bg-code flex flex-wrap items-center gap-x-3 gap-y-1.5">
+        <span className="inline-flex items-center gap-1.5 bg-brand text-white font-mono text-[10.5px] font-bold uppercase tracking-[0.1em] px-2.5 py-1 rounded">
+          {/* Inline size, not a text-* class: globals.css pins
+              .material-symbols-outlined to 24px and wins the cascade, so the
+              utility is silently ignored. */}
+          <span
+            className="material-symbols-outlined"
+            style={{ fontSize: "14px" }}
+          >
+            lock
+          </span>
+          Rules engine only
+        </span>
+        <span className="text-[12.5px] text-on-surface-variant">
+          Runs entirely in this browser tab — no cloud tier, no network call, no
+          text leaves your device. Names and addresses are{" "}
+          <span className="text-on-surface">not</span> detected here: those need
+          the cloud tier, which has not launched.
+        </span>
+      </div>
+
       {/* ── input ── */}
       <div className="p-6 border-b border-outline-variant grid md:grid-cols-[1fr_auto] gap-5 items-end">
         <div>
@@ -365,7 +391,8 @@ export function Playground() {
 
         <span className="col-span-3 text-[12.5px] text-on-surface-variant">
           Both packages implement the same two-pass rule engine — liberal pattern
-          matching, then checksum validation. Measured on a 2,000-character page.
+          matching, then checksum validation — and neither calls out to anything.
+          Measured on a 2,000-character page.
         </span>
       </div>
     </div>
