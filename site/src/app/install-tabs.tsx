@@ -42,7 +42,7 @@ export function InstallTabs() {
           {m}
         </button>
       ))}
-      <code className="font-mono text-sm text-white px-4 py-3.5 whitespace-nowrap border-l border-outline-variant">
+      <code className="font-mono text-[13px] md:text-sm text-white px-3 md:px-4 py-3.5 whitespace-nowrap border-l border-outline-variant">
         {COMMANDS[manager]}
       </code>
       <button

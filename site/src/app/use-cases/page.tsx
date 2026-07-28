@@ -381,7 +381,7 @@ export default function UseCasesPage() {
             <div className="max-w-7xl mx-auto">
               <div className="grid lg:grid-cols-2 gap-12 md:gap-20 items-center">
                 {/* Text side */}
-                <div className={isOdd ? "lg:order-2" : ""}>
+                <div className={`min-w-0 ${isOdd ? "lg:order-2" : ""}`}>
                   <div className="flex flex-wrap items-center gap-2 mb-6">
                     {uc.audiences.map((a) => (
                       <span
@@ -433,7 +433,9 @@ export default function UseCasesPage() {
                 </div>
 
                 {/* Mockup side */}
-                <div className={isOdd ? "lg:order-1" : ""}>
+                <div
+                  className={`min-w-0 overflow-x-auto ${isOdd ? "lg:order-1" : ""}`}
+                >
                   {uc.mockup(darkBg)}
                 </div>
               </div>

@@ -85,7 +85,7 @@ export default function Page() {
   return (
     <>
       {/* ── HERO ── */}
-      <section className="relative grid-pattern overflow-hidden pt-32 pb-14 px-8">
+      <section className="relative grid-pattern overflow-hidden pt-28 md:pt-32 pb-14 px-6 md:px-8">
         <HeroRedactionLayer />
         <div className="relative z-10 max-w-[1180px] mx-auto">
           {/* Mark on the left, copy to its right, as in the design. Wraps to a
@@ -95,10 +95,10 @@ export default function Page() {
               id="hero"
               className="w-64 md:w-[340px] max-w-full h-auto shrink-0 text-on-surface"
             />
-            <div className="flex-1 min-w-[320px]">
-              <h1 className="text-4xl md:text-5xl font-bold tracking-tight leading-[1.05] mb-5">
-                European PII Redaction.
-                <span className="text-secondary font-normal ml-3">/</span>
+            <div className="flex-1 min-w-0 md:min-w-[320px]">
+              <h1 className="text-3xl md:text-5xl font-bold tracking-tight leading-[1.08] md:leading-[1.05] mb-5">
+                European PII Redaction.{" "}
+                <span className="text-secondary font-normal">/</span>
               </h1>
               <p className="text-lg leading-relaxed text-on-surface-variant max-w-2xl">
                 Open-source SDK that detects and redacts structured PII across
@@ -114,13 +114,13 @@ export default function Page() {
 
       {/* ── GET STARTED + KEY METRICS ── */}
       <section className="bg-surface border-t border-outline-variant">
-        <div className="max-w-[1180px] mx-auto px-8 pt-20">
+        <div className="max-w-[1180px] mx-auto px-6 md:px-8 pt-20">
           <div className="font-mono text-[11px] font-medium uppercase tracking-[0.14em] text-on-surface-variant mb-5">
             <span className="text-secondary mr-2">/</span>Get started
           </div>
           <h2 className="text-4xl font-bold tracking-tight mb-7">
-            Redaction in 30 Seconds.
-            <span className="text-secondary font-normal ml-3">/</span>
+            Redaction in 30 Seconds.{" "}
+            <span className="text-secondary font-normal">/</span>
           </h2>
           <div className="flex flex-wrap items-center gap-3.5">
             <InstallTabs />
@@ -139,7 +139,7 @@ export default function Page() {
           </div>
         </div>
 
-        <div className="max-w-[1180px] mx-auto px-8 pb-20">
+        <div className="max-w-[1180px] mx-auto px-6 md:px-8 pb-20">
           <div className="grid grid-cols-2 lg:grid-cols-4 mt-16 border border-outline-variant rounded-xl overflow-hidden">
             {STATS.map((s) => (
               <div
@@ -174,7 +174,7 @@ export default function Page() {
       </section>
 
       {/* ── PROBLEM ── */}
-      <section className="max-w-[1180px] mx-auto px-8 py-20">
+      <section className="max-w-[1180px] mx-auto px-6 md:px-8 py-20">
         <SectionLabel tone="danger">The European PII Problem</SectionLabel>
         <div className="grid md:grid-cols-3 gap-5 mt-6">
           {PROBLEMS.map((p) => (
@@ -196,7 +196,7 @@ export default function Page() {
 
       {/* ── ARCHITECTURE ── */}
       <section className="bg-surface border-y border-outline-variant">
-        <div className="max-w-[1180px] mx-auto px-8 py-20">
+        <div className="max-w-[1180px] mx-auto px-6 md:px-8 py-20">
           <SectionLabel>Processing Architecture</SectionLabel>
           <p className="text-base text-on-surface-variant max-w-2xl mt-3 mb-9">
             Every stage runs on your infrastructure. The engine is
@@ -222,7 +222,9 @@ export default function Page() {
                 </span>
               </div>
             </div>
-            <div className="self-center text-secondary text-xl font-bold">→</div>
+            <div className="self-center text-secondary text-xl font-bold rotate-90 md:rotate-0">
+              →
+            </div>
 
             {/* 2 — rules */}
             <div className="flex-1 min-w-[180px] bg-primary border border-outline-variant rounded-xl p-5">
@@ -240,7 +242,9 @@ export default function Page() {
                 31 country rulesets
               </code>
             </div>
-            <div className="self-center text-secondary text-xl font-bold">→</div>
+            <div className="self-center text-secondary text-xl font-bold rotate-90 md:rotate-0">
+              →
+            </div>
 
             {/* 3 — cloud */}
             <div className="flex-1 min-w-[180px] bg-primary border border-dashed border-outline-variant rounded-xl p-5">
@@ -258,7 +262,9 @@ export default function Page() {
                 PII the rules engine does not emit.
               </p>
             </div>
-            <div className="self-center text-secondary text-xl font-bold">→</div>
+            <div className="self-center text-secondary text-xl font-bold rotate-90 md:rotate-0">
+              →
+            </div>
 
             {/* 4 — output */}
             <div className="flex-1 min-w-[220px] bg-primary border border-outline-variant rounded-xl p-5">
@@ -287,7 +293,7 @@ export default function Page() {
       </section>
 
       {/* ── DEPLOYMENT ── */}
-      <section className="max-w-[1180px] mx-auto px-8 py-20">
+      <section className="max-w-[1180px] mx-auto px-6 md:px-8 py-20">
         <SectionLabel>Deployment Options</SectionLabel>
         <div className="grid md:grid-cols-2 gap-5 mt-6">
           <div className="bg-surface border border-outline-variant rounded-xl p-8 flex flex-col">
@@ -347,7 +353,7 @@ export default function Page() {
 
       {/* ── BUILT FOR EUROPE ── */}
       <section className="bg-surface border-y border-outline-variant">
-        <div className="max-w-[1180px] mx-auto px-8 py-20">
+        <div className="max-w-[1180px] mx-auto px-6 md:px-8 py-20">
           <SectionLabel>Built for Europe</SectionLabel>
           <p className="text-base text-on-surface-variant max-w-xl mt-4 mb-8">
             31 countries with maintained detection rules for national

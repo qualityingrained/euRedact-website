@@ -141,7 +141,7 @@ export default function BenchmarksPage() {
               { value: "31", label: "Countries Tested" },
             ].map((stat) => (
               <div key={stat.label} className="text-center">
-                <div className="text-6xl font-black text-on-surface tabular-nums">
+                <div className="text-4xl md:text-6xl font-black text-on-surface tabular-nums">
                   {stat.value}
                 </div>
                 <div className="text-on-surface-variant text-lg mt-2">

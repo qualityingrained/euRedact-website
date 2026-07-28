@@ -34,7 +34,7 @@ export function PageHero({
   children?: ReactNode;
 }) {
   return (
-    <section className="relative grid-pattern overflow-hidden pt-32 pb-14 px-8">
+    <section className="relative grid-pattern overflow-hidden pt-28 md:pt-32 pb-12 md:pb-14 px-6 md:px-8">
       <div className="relative z-10 max-w-[1180px] mx-auto">
         {eyebrow && (
           <div className="font-mono text-[11px] font-medium uppercase tracking-[0.14em] text-on-surface-variant mb-5">
@@ -43,10 +43,13 @@ export function PageHero({
           </div>
         )}
 
-        <h1 className="text-4xl md:text-5xl font-bold tracking-tight leading-[1.05]">
+        <h1 className="text-3xl md:text-5xl font-bold tracking-tight leading-[1.08] md:leading-[1.05]">
           {title}
           {slash && (
-            <span className="text-secondary font-normal ml-3">/</span>
+            <>
+              {" "}
+              <span className="text-secondary font-normal">/</span>
+            </>
           )}
         </h1>
 
