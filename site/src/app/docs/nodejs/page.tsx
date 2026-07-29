@@ -4,7 +4,7 @@ import { PageHero } from "@/components/page-hero";
 export const metadata: Metadata = {
   title: "Node.js SDK — euRedact Docs",
   description:
-    "Complete API reference for the euRedact Node.js SDK. Zero dependencies, 86KB, 0.3ms per page.",
+    "Complete API reference for the euRedact Node.js SDK. Zero dependencies, 86KB, ~1.5ms per page.",
 };
 
 function CodeBlock({
@@ -104,7 +104,7 @@ export default function NodejsSDKPage() {
       <PageHero
         eyebrow="SDK reference"
         title="Node.js SDK"
-        subtitle="Zero-dependency PII redaction for Node.js. 86KB package, 0.3ms per page."
+        subtitle="Zero-dependency PII redaction for Node.js. 86KB package, ~1.5ms per page."
       >
           <div className="flex gap-4">
             <a
@@ -181,7 +181,21 @@ export default function NodejsSDKPage() {
                     type: "string[]",
                     default: "undefined",
                     description:
-                      "Country codes (e.g. [\"NL\", \"BE\"]). Optional, but strongly recommended: passing it lifts recall from 94.4% to 98.3% and precision from 95.2% to 98.9%, and runs 3.5x faster. Omit to detect all supported countries.",
+                      "Country codes (e.g. [\"NL\", \"BE\"]) the document is declared to belong to. Since 0.3.2 this scores detection rather than gating it: every pattern runs whatever you declare, and a match attributed outside the set comes back with outOfScope true rather than being dropped. Declaring it is still worth 98.89% recall against 96.11% blind.",
+                  },
+                  {
+                    name: "countryHint",
+                    type: "string[]",
+                    default: "undefined",
+                    description:
+                      "A prior that resolves ambiguity without narrowing scope or flagging anything out of scope — use it when you know the likely origin but do not want outOfScope semantics.",
+                  },
+                  {
+                    name: "context",
+                    type: "DocumentContext",
+                    default: "undefined",
+                    description:
+                      "Shares country evidence across the chunks of one document, so a chunk with no country signal of its own is still scored with what the rest of the document established. Pair with chunkOffset. Caching is disabled while a context is in use.",
                   },
                   {
                     name: "referentialIntegrity",
@@ -244,6 +258,24 @@ export default function NodejsSDKPage() {
                   description:
                     "Whether the result was produced in a degraded mode.",
                 },
+                {
+                  name: "inferredCountries",
+                  type: "[string, number][]",
+                  description:
+                    "New in 0.3.2. The countries the engine concluded the document belongs to, each with a score in 0-1, most likely first. Populated whether or not you passed countries.",
+                },
+                {
+                  name: "evidence",
+                  type: "CountryEvidence[]",
+                  description:
+                    "New in 0.3.2. The individual signals behind inferredCountries, so an attribution can be audited rather than taken on faith.",
+                },
+                {
+                  name: "detectionMode",
+                  type: '"declared" | "inferred"',
+                  description:
+                    'New in 0.3.2. "declared" when you passed countries, "inferred" otherwise (including when you passed only countryHint).',
+                },
               ]}
             />
 
@@ -291,8 +323,96 @@ export default function NodejsSDKPage() {
                   type: "string",
                   description: "Confidence level of the detection.",
                 },
+                {
+                  name: "countryConfidence",
+                  type: "number",
+                  description:
+                    "New in 0.3.2. How strongly the document supports the country on this detection, 0-1. Separate from confidence, which is about the match itself: a pattern can fire unambiguously while its country attribution stays a guess.",
+                },
+                {
+                  name: "outOfScope",
+                  type: "boolean",
+                  description:
+                    "New in 0.3.2. True when the detection was attributed to a country outside the countries you declared. It is still redacted and still returned — filter on this field if you only want in-scope entities.",
+                },
               ]}
             />
+
+            <h3 className="font-black text-xl text-on-surface mt-8 mb-3">
+              CountryEvidence
+            </h3>
+            <p className="text-on-surface-variant leading-relaxed mb-4">
+              One signal supporting a country attribution. New in 0.3.2.
+            </p>
+            <ParamTable
+              params={[
+                {
+                  name: "country",
+                  type: "string",
+                  description: "The ISO country code this signal points at.",
+                },
+                {
+                  name: "source",
+                  type: "string",
+                  description:
+                    'What produced the signal, e.g. "ibanPrefix", "phonePrefix", "tld".',
+                },
+                {
+                  name: "logOdds",
+                  type: "number",
+                  description:
+                    "How much this signal moves the score. Signals accumulate, so several weak ones can outweigh a single strong one.",
+                },
+                {
+                  name: "span",
+                  type: "[number, number]",
+                  description:
+                    "Where in the text the signal was found. Offsets are absolute when chunkOffset is passed.",
+                },
+              ]}
+            />
+
+            <h3 className="font-black text-xl text-on-surface mt-8 mb-3">
+              DocumentContext
+            </h3>
+            <p className="text-on-surface-variant leading-relaxed mb-4">
+              New in 0.3.2. Country inference reads signals out of the text, so a
+              document processed in chunks loses accuracy at exactly the chunks
+              that carry no signal of their own — a page of bare reference
+              numbers between two pages full of Dutch addresses. A{" "}
+              <code className="text-secondary font-mono font-bold text-sm bg-secondary/10 px-2 py-0.5 rounded">
+                DocumentContext
+              </code>{" "}
+              carries the evidence across chunks so the whole document is scored
+              as one.
+            </p>
+            <CodeBlock title="Chunked document">{`import { DocumentContext, redact } from "euredact";
+
+const ctx = new DocumentContext();
+let offset = 0;
+for (const chunk of chunks) {
+  const result = redact(chunk, { context: ctx, chunkOffset: offset });
+  offset += chunk.length;
+  console.log(result.redactedText);
+}
+
+// Every signal the document produced, spans pointing into the full text.
+console.log(ctx.evidence());`}</CodeBlock>
+            <blockquote className="callout callout-note mt-5">
+              <p>
+                Pass <span className="font-mono">chunkOffset</span> or the
+                evidence spans will all point into the start of the text.
+                Caching is disabled while a context is in use, since the result
+                depends on the document rather than on the chunk alone.
+              </p>
+            </blockquote>
+            <p className="text-on-surface-variant leading-relaxed mt-4">
+              Reuse a context only across chunks of the <em>same</em> document.
+              A context shared between unrelated documents mixes their countries,
+              which cannot cause a miss — a context influences scoring only,
+              never which spans are found — but can attribute a value to the
+              wrong national scheme.
+            </p>
 
             <h3 className="font-black text-xl text-on-surface mt-8 mb-3">
               Example
@@ -574,7 +694,7 @@ export default function NodejsSDKPage() {
             <div className="grid sm:grid-cols-3 gap-6">
               <div className="rounded-2xl bg-primary border-2 border-outline-variant p-8">
                 <div className="text-4xl font-black text-on-surface mb-2">
-                  0.3ms
+                  ~1.5ms
                 </div>
                 <div className="text-xs font-black text-on-surface-variant uppercase tracking-[0.2em]">
                   Per page (2,000 chars)
@@ -582,7 +702,7 @@ export default function NodejsSDKPage() {
               </div>
               <div className="rounded-2xl bg-primary border-2 border-outline-variant p-8">
                 <div className="text-4xl font-black text-on-surface mb-2">
-                  ~25,000
+                  ~23,500
                 </div>
                 <div className="text-xs font-black text-on-surface-variant uppercase tracking-[0.2em]">
                   Records per second

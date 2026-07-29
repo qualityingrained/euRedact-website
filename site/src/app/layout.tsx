@@ -24,7 +24,7 @@ export const metadata: Metadata = {
     template: "%s — euRedact",
   },
   description:
-    "Open-source PII detection and redaction SDK for Python and Node.js. 31 European countries, 27 entity types, checksum validation, 0.3ms per page (Node), zero dependencies. Apache 2.0.",
+    "Open-source PII detection and redaction SDK for Python and Node.js. 31 European countries, 27 entity types, checksum validation, ~1.5ms per page (Node), zero dependencies. Apache 2.0.",
   keywords: [
     "PII redaction",
     "PII detection",
@@ -63,13 +63,13 @@ export const metadata: Metadata = {
     siteName: "euRedact",
     title: "euRedact — European PII Redaction SDK",
     description:
-      "Open-source PII detection and redaction for Python and Node.js. 31 European countries, 27 entity types, checksum validation, 0.3ms per page (Node). Apache 2.0.",
+      "Open-source PII detection and redaction for Python and Node.js. 31 European countries, 27 entity types, checksum validation, ~1.5ms per page (Node). Apache 2.0.",
   },
   twitter: {
     card: "summary_large_image",
     title: "euRedact — European PII Redaction SDK",
     description:
-      "Open-source PII detection and redaction for Python and Node.js. 31 European countries, 27 entity types, 0.3ms per page (Node).",
+      "Open-source PII detection and redaction for Python and Node.js. 31 European countries, 27 entity types, ~1.5ms per page (Node).",
   },
   robots: {
     index: true,
@@ -84,7 +84,7 @@ const jsonLd = {
   applicationCategory: "DeveloperApplication",
   operatingSystem: "Cross-platform",
   description:
-    "Open-source PII detection and redaction SDK for Python and Node.js. Covers 31 European countries with 27 entity types, checksum validation, and 0.3ms-per-page redaction in Node.",
+    "Open-source PII detection and redaction SDK for Python and Node.js. Covers 31 European countries with 27 entity types, checksum validation, and country inference across every ruleset.",
   url: "https://euredact.dev",
   downloadUrl: "https://pypi.org/project/euredact/",
   softwareVersion: "0.3",
@@ -102,7 +102,7 @@ const jsonLd = {
     "Secret and API key detection",
     "Custom pattern registration",
     "Referential integrity mode",
-    "0.3ms per page (Node), 4.6ms per page (Python)",
+    "~1.5ms per page (Node, 2,000 chars)",
     "Zero required dependencies",
     "Python and Node.js/TypeScript support",
     "Context-aware false-positive suppression",

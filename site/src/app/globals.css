@@ -242,8 +242,12 @@ body {
 }
 
 /* Callouts. A tinted panel rather than a quote rule, because these are asides
-   the reader should not skip, not quotations. */
-.prose blockquote.callout {
+   the reader should not skip, not quotations.
+
+   Deliberately NOT scoped to .prose: the same asides carry API caveats in the
+   hand-written docs pages, which are not prose. Inside .prose these still win
+   over `.prose blockquote` above — equal specificity, and these come later. */
+blockquote.callout {
   font-style: normal;
   color: #DDE6E8;
   border-left-width: 3px;
@@ -252,11 +256,11 @@ body {
   margin: 2rem 0;
 }
 
-.prose blockquote.callout p:last-child {
+blockquote.callout p:last-child {
   margin-bottom: 0;
 }
 
-.prose blockquote.callout::before {
+blockquote.callout::before {
   display: block;
   font-family: var(--font-mono);
   font-size: 0.68rem;
@@ -267,29 +271,29 @@ body {
 }
 
 /* Mustard: how to read a number, what a figure excludes. */
-.prose blockquote.callout-caveat,
-.prose blockquote.callout-note {
+blockquote.callout-caveat,
+blockquote.callout-note {
   background: rgba(254, 215, 102, 0.08);
   border-left-color: var(--color-pii-highlight);
 }
 
-.prose blockquote.callout-caveat::before {
+blockquote.callout-caveat::before {
   content: "Caveat";
   color: var(--color-pii-highlight);
 }
 
-.prose blockquote.callout-note::before {
+blockquote.callout-note::before {
   content: "Note";
   color: var(--color-pii-highlight);
 }
 
 /* Red: PII exposure and the consequences of getting it wrong. */
-.prose blockquote.callout-risk {
+blockquote.callout-risk {
   background: rgba(254, 74, 73, 0.08);
   border-left-color: var(--color-pii-danger);
 }
 
-.prose blockquote.callout-risk::before {
+blockquote.callout-risk::before {
   content: "Risk";
   color: var(--color-pii-danger);
 }

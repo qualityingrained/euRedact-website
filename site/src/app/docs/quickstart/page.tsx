@@ -181,13 +181,15 @@ export default function QuickstartPage() {
           </h2>
           <p className="text-on-surface-variant leading-relaxed mb-8">
             euRedact detects 27 PII entity types across 31 European countries
-            with 98.3% recall and 98.9% precision, backed by 345 pattern
+            with 98.89% recall and 98.97% precision, backed by 345 pattern
             definitions and 44 checksum validators. Those figures come from a
-            generated evaluation set of 152,300 records, and assume the optional{" "}
-            <span className="font-mono">countries</span> parameter is supplied —
-            passing it lifts recall from 94.4% and precision from 95.2%, and
-            runs 3.5x faster. Date-of-birth detection is excluded and sits at
-            40.6% by design; bare dates are deferred to the LLM tier.
+            generated evaluation set of 152,300 records with the optional{" "}
+            <span className="font-mono">countries</span> parameter supplied.
+            Since 0.3.2 that parameter scores a detection rather than gating it:
+            every pattern runs either way, and blind detection — no country
+            declared — scores 96.11% recall and 95.79% precision. Date-of-birth
+            detection is excluded and sits at 40.6% by design; bare dates are
+            deferred to the LLM tier.
           </p>
           <div className="flex flex-wrap gap-2">
             {[

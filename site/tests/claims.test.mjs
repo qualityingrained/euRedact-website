@@ -196,14 +196,45 @@ describe("checksum validation", () => {
       assert.ok(!redactedText.includes(valid), `the ${label} survived redaction`);
     });
 
-    test(`${label}: a checksum-invalid identifier is left alone`, () => {
+    test(`${label}: a checksum-invalid identifier is never claimed with confidence`, () => {
+      /*
+        Until 0.3.2 this asserted the value was left untouched. That is no
+        longer the guarantee, and the weaker-looking assertion below is the
+        accurate one.
+
+        `countries=` now scores detection instead of gating it, so every
+        country's patterns run on every document. A value that fails one
+        country's checksum can still validate under another — 111222334 fails
+        the Dutch elfproef but is a well-formed Czech rodné číslo — so it is
+        detected, attributed to the country that accepts it, and flagged
+        out_of_scope with countryConfidence 0, the engine's signal that an
+        attribution rests on a checksum alone.
+
+        What must still hold: a failed checksum can never produce a confident
+        in-scope detection for the declared country. That is the claim the site
+        makes, and it is what this checks.
+      */
       const text = `${label} ${invalid}`;
-      const { redactedText } = euredact.redact(text, { countries: [country] });
-      assert.equal(
-        redactedText,
-        text,
-        `a checksum-invalid ${label} was redacted — the validator is not running`,
+      const { redactedText, detections } = euredact.redact(text, {
+        countries: [country],
+      });
+
+      const claimedInScope = detections.filter(
+        (d) => !d.outOfScope && (d.countryConfidence ?? 0) > 0
       );
+      assert.deepEqual(
+        claimedInScope.map((d) => `${d.entityType}/${d.country}`),
+        [],
+        `a checksum-invalid ${label} was claimed as a confident ${country} detection — the validator is not running`,
+      );
+
+      if (redactedText !== text) {
+        const [d] = detections;
+        assert.ok(
+          d.outOfScope || d.countryConfidence === 0,
+          `${label} was redacted without being flagged out of scope or zero-confidence`,
+        );
+      }
     });
   }
 });
@@ -285,16 +316,51 @@ describe("accuracy figures stay consistent across the site", () => {
   // These cannot be derived from the installed package — the evaluation set
   // lives with the engine — so they are pinned here and checked for drift
   // between pages, which is how ">99%" and "99.1%" coexisted for months.
-  const HEADLINE = { recall: "98.3", precision: "98.9", falsePositives: "1.1" };
+  /*
+    Since 0.3.2 there is no single headline recall. `countries` no longer gates
+    detection, so the engine has two honest operating points rather than one
+    number with a caveat: hinted (you declared the countries) and blind (you did
+    not). Both belong on the site, so the guard accepts either — and nothing
+    else. A third figure appearing anywhere still fails, which is the drift this
+    test exists to catch.
+  */
+  const HEADLINE = {
+    hinted: { recall: "98.89", precision: "98.97" },
+    blind: { recall: "96.11", precision: "95.79" },
+  };
 
-  test("every recall claim quotes the same figure", () => {
+  // Prose rounds to one decimal ("98.9% recall") where a stat tile does not.
+  // Derived from the pinned figures rather than listed, so a rounded claim can
+  // never drift away from the exact one it rounds.
+  const accepted = (pick) =>
+    new Set(
+      [HEADLINE.hinted[pick], HEADLINE.blind[pick]].flatMap((v) => [
+        v,
+        String(Math.round(Number(v) * 10) / 10),
+      ]),
+    );
+
+  test("every recall claim quotes a published operating point", () => {
     const hits = findNumericClaims(/([\d.]+)%\s*recall/gi);
     assert.ok(hits.length > 0, "expected the site to claim a recall figure");
-    const wrong = hits.filter((h) => String(h.value) !== HEADLINE.recall);
+    const ok = accepted("recall");
+    const wrong = hits.filter((h) => !ok.has(String(h.value)));
     assert.deepEqual(
       wrong,
       [],
-      `these disagree with the ${HEADLINE.recall}% headline recall:\n${formatHits(wrong)}`,
+      `recall is ${HEADLINE.hinted.recall}% hinted / ${HEADLINE.blind.recall}% blind; these match neither:\n${formatHits(wrong)}`,
+    );
+  });
+
+  test("every precision claim quotes a published operating point", () => {
+    const hits = findNumericClaims(/([\d.]+)%\s*precision/gi);
+    assert.ok(hits.length > 0, "expected the site to claim a precision figure");
+    const ok = accepted("precision");
+    const wrong = hits.filter((h) => !ok.has(String(h.value)));
+    assert.deepEqual(
+      wrong,
+      [],
+      `precision is ${HEADLINE.hinted.precision}% hinted / ${HEADLINE.blind.precision}% blind; these match neither:\n${formatHits(wrong)}`,
     );
   });
 
@@ -319,9 +385,15 @@ describe("accuracy figures stay consistent across the site", () => {
       ['the "*" anchor the stats link to', /id="accuracy-note"/],
       ["the evaluation set size", /152,300 records/],
       ["that the data is generated", /generated evaluation set/i],
-      ["the countries condition", /countries.{0,80}parameter is\s+supplied/is],
-      ["recall without countries", /94\.4%/],
-      ["false positives without countries", /4\.8%/],
+      ["the countries condition", /countries.{0,120}supplied/is],
+      ["recall with countries", /98\.89%/],
+      ["precision with countries", /98\.97%/],
+      ["recall without countries", /96\.11%/],
+      ["precision without countries", /95\.79%/],
+      // Since 0.3.2 the difference is attribution, not coverage. Without this
+      // sentence the two operating points read as a recall cliff, which would
+      // overstate what `countries` buys you.
+      ["that countries scores rather than gates", /scores a detection rather\s+than gating it/is],
       ["the excluded DOB figure", /40\.6%/],
     ];
     const missing = required

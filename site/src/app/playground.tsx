@@ -289,17 +289,20 @@ export function Playground() {
       <div className="px-6 pb-5 -mt-1 text-[12.5px] text-on-surface-variant">
         {activeCountry ? (
           <>
-            Only the{" "}
+            Declared{" "}
             <span className="text-on-surface font-medium">
               {SUPPORTED_COUNTRIES.find((c) => c.code === activeCountry)?.name ??
                 activeCountry}
-            </span>{" "}
-            ruleset is loaded — the configuration our published accuracy assumes.
+            </span>
+            . Every country&rsquo;s patterns still run — since 0.3.2 the setting
+            decides how a match is labelled, never whether it is found — and
+            anything attributed elsewhere comes back flagged out of scope.
           </>
         ) : (
           <>
-            Scanning all 31 rulesets. Naming the country raises recall and cuts
-            false positives —{" "}
+            No country declared. The engine runs every pattern either way and
+            infers the country from the text, which costs about half a point of
+            recall against declaring one —{" "}
             <a
               href="#accuracy-note"
               className="text-secondary hover:text-secondary-hover underline decoration-secondary/40 underline-offset-4"

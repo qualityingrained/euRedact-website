@@ -150,12 +150,14 @@ export function Footer() {
           id="accuracy-note"
           className="pt-12 border-t border-white/5 text-on-surface-variant text-xs leading-relaxed max-w-4xl scroll-mt-24"
         >
-          <span className="text-pii-highlight font-black">*</span> Measured 27 July
-          2026 on a generated evaluation set of 152,300 records (666,490 non-DOB
-          PII labels) — it measures pattern coverage, not real-world messiness
-          such as OCR noise or broken layouts. Accuracy figures assume the
-          optional <span className="font-mono">countries</span> parameter is
-          supplied; without it recall is 94.4% and false positives 4.8%.
+          <span className="text-pii-highlight font-black">*</span> euRedact
+          0.3.2, measured on a generated evaluation set — it measures pattern
+          coverage, not real-world messiness such as OCR noise or broken
+          layouts. Recall and precision are over 152,300 records with{" "}
+          <span className="font-mono">countries</span> supplied: 98.89% and
+          98.97%. Without it the engine still runs every pattern — since 0.3.2{" "}
+          <span className="font-mono">countries</span> scores a detection rather
+          than gating it — and scores 96.11% recall, 95.79% precision.
           Date-of-birth detection is excluded from these figures and sits at
           40.6% by design — bare dates are deferred to the LLM tier. Latency is
           the Node package on a 2,000-character page.

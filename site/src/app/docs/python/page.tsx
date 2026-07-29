@@ -104,7 +104,7 @@ export default function PythonSDKPage() {
       <PageHero
         eyebrow="SDK reference"
         title="Python SDK"
-        subtitle="High-performance PII redaction for Python. Sync and async support, ~4.6 ms per page."
+        subtitle="PII redaction for Python. Sync and async support, country inference, ~8.5 ms per page — or ~4.4 ms with the optional RE2 prefilter."
       >
           <div className="flex gap-4">
             <a
@@ -137,6 +137,26 @@ export default function PythonSDKPage() {
               <span className="text-secondary">$</span>
               <span className="text-white"> pip install euredact</span>
             </CodeBlock>
+            <p className="text-on-surface-variant leading-relaxed mt-4">
+              The core install has no dependencies. The optional{" "}
+              <code className="text-secondary font-mono font-bold text-sm bg-secondary/10 px-2 py-0.5 rounded">
+                euredact[fast]
+              </code>{" "}
+              extra adds an RE2 scan prefilter: one DFA pass per 1&nbsp;KB window
+              reports which patterns can match there, so the rest are skipped.
+              Measured at ~1.9x on a 2,000-character page. Output is unchanged by
+              construction — the prefilter only decides which patterns are worth
+              running, and each survivor is then run over the whole text.
+            </p>
+            <blockquote className="callout callout-risk mt-5">
+              <p>
+                If you installed <span className="font-mono">euredact[fast]</span>{" "}
+                at 0.3.1, upgrade. In that release the windowed scan could miss
+                SECRET patterns wider than the window — a PEM private key passed
+                through unmasked. The pure-Python default and the Node.js package
+                were never affected. Fixed in 0.3.2.
+              </p>
+            </blockquote>
           </div>
 
           {/* redact() */}
@@ -212,7 +232,28 @@ export default function PythonSDKPage() {
                     type: "list[str] | None",
                     default: "None",
                     description:
-                      "ISO country codes to restrict detection. None = all 31 supported countries. Optional, but strongly recommended: passing it lifts recall from 94.4% to 98.3% and precision from 95.2% to 98.9%, and runs 3.5x faster.",
+                      "ISO country codes the document is declared to belong to. Since 0.3.2 this scores detection rather than gating it: every pattern runs whatever you declare, and a match attributed outside the set is flagged out_of_scope rather than dropped. Declaring it is still worth 98.89% recall against 96.11% blind.",
+                  },
+                  {
+                    name: "country_hint",
+                    type: "list[str] | None",
+                    default: "None",
+                    description:
+                      "A prior that resolves ambiguity without narrowing scope or flagging anything out of scope — use it when you know the likely origin but do not want out_of_scope semantics.",
+                  },
+                  {
+                    name: "context",
+                    type: "DocumentContext | None",
+                    default: "None",
+                    description:
+                      "Shares country evidence across the chunks of one document, so a chunk carrying no country signal is still scored with what the rest of the document established. Pair with chunk_offset. Caching is disabled while a context is in use, since the result no longer depends on the text alone.",
+                  },
+                  {
+                    name: "chunk_offset",
+                    type: "int",
+                    default: "0",
+                    description:
+                      "Character offset of this chunk within the whole document, so evidence spans recorded on a context point into the full text.",
                   },
                   {
                     name: "mode",
@@ -694,6 +735,25 @@ export default function PythonSDKPage() {
                   description:
                     "Whether results may be incomplete due to an internal issue.",
                 },
+                {
+                  name: "inferred_countries",
+                  type: "tuple[tuple[str, float], ...]",
+                  description:
+                    "New in 0.3.2. The countries the engine concluded the document belongs to, each with a score in 0-1, most likely first. Populated whether or not you passed countries.",
+                },
+                {
+                  name: "evidence",
+                  type: "tuple[CountryEvidence, ...]",
+                  description:
+                    "New in 0.3.2. The individual signals behind inferred_countries, so an attribution can be audited rather than taken on faith.",
+                },
+                {
+                  name: "detection_mode",
+                  type: "str",
+                  default: '"inferred"',
+                  description:
+                    'New in 0.3.2. "declared" when you passed countries, "inferred" otherwise (including when you passed only country_hint).',
+                },
               ]}
             />
 
@@ -741,8 +801,97 @@ export default function PythonSDKPage() {
                   default: '"high"',
                   description: "Confidence level of the detection.",
                 },
+                {
+                  name: "country_confidence",
+                  type: "float",
+                  default: "0.0",
+                  description:
+                    "New in 0.3.2. How strongly the document supports the country on this detection, 0-1. Separate from confidence, which is about the match itself: a pattern can fire unambiguously while its country attribution stays a guess.",
+                },
+                {
+                  name: "out_of_scope",
+                  type: "bool",
+                  default: "False",
+                  description:
+                    "New in 0.3.2. True when the detection was attributed to a country outside the countries you declared. It is still redacted and still returned — filter on this field if you only want in-scope entities.",
+                },
               ]}
             />
+
+            <h3 className="font-black text-xl text-on-surface mt-8 mb-3">
+              CountryEvidence
+            </h3>
+            <p className="text-on-surface-variant leading-relaxed mb-4">
+              One signal supporting a country attribution. New in 0.3.2.
+            </p>
+            <ParamTable
+              params={[
+                {
+                  name: "country",
+                  type: "str",
+                  description: "The ISO country code this signal points at.",
+                },
+                {
+                  name: "source",
+                  type: "str",
+                  description:
+                    'What produced the signal, e.g. "iban_prefix", "phone_prefix", "tld".',
+                },
+                {
+                  name: "log_odds",
+                  type: "float",
+                  description:
+                    "How much this signal moves the score. Signals accumulate, so several weak ones can outweigh a single strong one.",
+                },
+                {
+                  name: "span",
+                  type: "tuple[int, int]",
+                  description:
+                    "Where in the text the signal was found. Offsets are absolute when chunk_offset is passed.",
+                },
+              ]}
+            />
+
+            <h3 className="font-black text-xl text-on-surface mt-8 mb-3">
+              DocumentContext
+            </h3>
+            <p className="text-on-surface-variant leading-relaxed mb-4">
+              New in 0.3.2. Country inference reads signals out of the text, so a
+              document processed in chunks loses accuracy at exactly the chunks
+              that carry no signal of their own — a page of bare reference numbers
+              between two pages full of Dutch addresses. A{" "}
+              <code className="text-secondary font-mono font-bold text-sm bg-secondary/10 px-2 py-0.5 rounded">
+                DocumentContext
+              </code>{" "}
+              carries the evidence across chunks so the whole document is scored
+              as one.
+            </p>
+            <CodeBlock title="Chunked document">{`from euredact import DocumentContext, redact
+
+ctx = DocumentContext()
+offset = 0
+for chunk in chunks:
+    result = redact(chunk, context=ctx, chunk_offset=offset)
+    offset += len(chunk)
+    print(result.redacted_text)
+
+# Every signal the document produced, spans pointing into the full text.
+print(ctx.evidence())`}</CodeBlock>
+            <blockquote className="callout callout-note mt-5">
+              <p>
+                Pass <span className="font-mono">chunk_offset</span> or the
+                evidence spans will all point into the start of the text.
+                Caching is disabled while a context is in use, since the result
+                depends on the document rather than on the chunk alone.
+              </p>
+            </blockquote>
+            <p className="text-on-surface-variant leading-relaxed mt-4">
+              Reuse a context only across chunks of the <em>same</em> document.
+              A context shared between unrelated documents mixes their countries,
+              which cannot cause a miss — a context influences scoring only,
+              never which spans are found — but can attribute a value to the
+              wrong national scheme.
+            </p>
           </div>
 
           {/* Custom Patterns */}
@@ -864,15 +1013,19 @@ export default function PythonSDKPage() {
             <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
               <div className="rounded-2xl bg-primary border-2 border-outline-variant p-8">
                 <div className="text-4xl font-black text-on-surface mb-2">
-                  ~4.6 ms
+                  ~8.5 ms
                 </div>
                 <div className="text-xs font-black text-on-surface-variant uppercase tracking-[0.2em]">
                   Per page (2,000 chars)
                 </div>
+                <div className="text-[11px] text-on-surface-variant mt-2">
+                  ~4.4 ms with the{" "}
+                  <span className="font-mono">[fast]</span> extra
+                </div>
               </div>
               <div className="rounded-2xl bg-primary border-2 border-outline-variant p-8">
                 <div className="text-4xl font-black text-on-surface mb-2">
-                  ~2,000
+                  ~770
                 </div>
                 <div className="text-xs font-black text-on-surface-variant uppercase tracking-[0.2em]">
                   Records per second
