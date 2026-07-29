@@ -70,7 +70,13 @@
   font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
 }
 
-/* Square grid behind the hero, from the design. */
+/* Square grid behind the hero, from the design.
+
+   Each element carrying this class starts its own 72px lattice at its own
+   top-left, so two of them on one page only line up if their origins happen to
+   share a multiple of 72. They will not: a centred container's offset moves
+   with the viewport. Keep this to one element per page — full-bleed section
+   backdrops — rather than nesting it inside cards. */
 .grid-pattern {
   background-image:
     linear-gradient(var(--grid) 1px, transparent 1px),

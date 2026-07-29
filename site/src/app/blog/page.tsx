@@ -46,7 +46,7 @@ export default function BlogPage() {
               full title at heading scale, and room for the description. */}
           <section className="max-w-[1180px] mx-auto px-6 md:px-8 pt-2 pb-14">
             <Link href={`/blog/${lead.slug}`} className="group block">
-              <article className="relative grid-pattern border border-outline-variant rounded-2xl p-8 md:p-12 transition-colors hover:border-secondary/50">
+              <article className="relative bg-surface border border-outline-variant rounded-2xl p-8 md:p-12 transition-colors hover:border-secondary/50">
                 <div className="font-mono text-[11px] font-medium uppercase tracking-[0.14em] text-on-surface-variant mb-5">
                   <span className="text-secondary mr-2">/</span>Latest
                 </div>
