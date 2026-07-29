@@ -85,7 +85,7 @@ This is why we're building euRedact as a two-layer system:
 
 **Layer 1: Rules engine (open-source, runs locally)**
 - Regex patterns + checksum validation for structured PII
-- 1.5ms per page in Node, 8.5ms in Python (2,000-character page; 4.4ms with Python's optional `[fast]` extra)
+- 1.5ms per page in Node, 8.4ms in Python (2,000-character page; 4.2ms with Python's optional `[fast]` extra)
 - Zero network calls, zero dependencies
 - 98.9% recall, 99.0% precision on structured entities
 - Available now on [PyPI](https://pypi.org/project/euredact/) and [npm](https://www.npmjs.com/package/euredact)

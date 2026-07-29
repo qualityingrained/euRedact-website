@@ -104,7 +104,7 @@ export default function PythonSDKPage() {
       <PageHero
         eyebrow="SDK reference"
         title="Python SDK"
-        subtitle="PII redaction for Python. Sync and async support, country inference, ~8.5 ms per page — or ~4.4 ms with the optional RE2 prefilter."
+        subtitle="PII redaction for Python. Sync and async support, country inference, ~8.4 ms per page — or ~4.2 ms with the optional RE2 prefilter."
       >
           <div className="flex gap-4">
             <a
@@ -144,7 +144,7 @@ export default function PythonSDKPage() {
               </code>{" "}
               extra adds an RE2 scan prefilter: one DFA pass per 1&nbsp;KB window
               reports which patterns can match there, so the rest are skipped.
-              Measured at ~1.9x on a 2,000-character page. Output is unchanged by
+              Measured at ~2.0x on a 2,000-character page. Output is unchanged by
               construction — the prefilter only decides which patterns are worth
               running, and each survivor is then run over the whole text.
             </p>
@@ -1013,13 +1013,13 @@ print(ctx.evidence())`}</CodeBlock>
             <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
               <div className="rounded-2xl bg-primary border-2 border-outline-variant p-8">
                 <div className="text-4xl font-black text-on-surface mb-2">
-                  ~8.5 ms
+                  ~8.4 ms
                 </div>
                 <div className="text-xs font-black text-on-surface-variant uppercase tracking-[0.2em]">
                   Per page (2,000 chars)
                 </div>
                 <div className="text-[11px] text-on-surface-variant mt-2">
-                  ~4.4 ms with the{" "}
+                  ~4.2 ms with the{" "}
                   <span className="font-mono">[fast]</span> extra
                 </div>
               </div>
