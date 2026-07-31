@@ -30,16 +30,26 @@ const datasetData = [
   { name: "secrets_5k", labels: 6371, hinted: 95.15, blind: 95.15 },
 ];
 
-/* Hinted, Python engine. DOB is listed last and flagged: it is excluded from
-   every headline figure because the Rules Engine layer emits one only with a
-   keyword or an unambiguous format, and bare dates go to the AI layer. */
+/*
+  Hinted, Python engine. Rows are keyed on the corpus's own label categories,
+  which are finer-grained than the engine's entity types — the corpus separates
+  personal from business tax IDs, for instance, where the engine emits one
+  TAX_ID. `emits` names the type the API actually returns, and is set only where
+  it differs from the corpus label, so a reader can join this table to
+  /docs/coverage and to the SDK reference. The mapping is the evaluation
+  harness's own CATEGORY_MAP, not a guess.
+
+  DOB is listed last and flagged: it is excluded from every headline figure
+  because the Rules Engine layer emits one only with a keyword or an
+  unambiguous format, and bare dates go to the AI layer.
+*/
 const entityTypes = [
   { name: "EMAIL", support: 152938, recall: 100.0, precision: 99.91 },
-  { name: "IBAN", support: 126428, recall: 100.0, precision: 100.0 },
+  { name: "IBAN", emits: "BANK_ACCOUNT", support: 126428, recall: 100.0, precision: 100.0 },
   { name: "PHONE", support: 123151, recall: 99.65, precision: 100.0 },
   { name: "NATIONAL_ID", support: 118040, recall: 100.0, precision: 99.64 },
   { name: "POSTAL_CODE", support: 53914, recall: 98.0, precision: 99.84 },
-  { name: "VAT_NUMBER", support: 20136, recall: 99.99, precision: 100.0 },
+  { name: "VAT_NUMBER", emits: "VAT", support: 20136, recall: 99.99, precision: 100.0 },
   { name: "IP_ADDRESS", support: 10038, recall: 99.34, precision: 99.61 },
   { name: "VIN", support: 9701, recall: 99.99, precision: 100.0 },
   { name: "CHAMBER_OF_COMMERCE", support: 8497, recall: 99.99, precision: 100.0 },
@@ -48,19 +58,19 @@ const entityTypes = [
   { name: "SECRET", support: 5659, recall: 95.69, precision: 95.03 },
   { name: "UUID", support: 4890, recall: 100.0, precision: 98.59 },
   { name: "MAC_ADDRESS", support: 3546, recall: 100.0, precision: 100.0 },
-  { name: "TAX_ID_PERSONAL", support: 2837, recall: 100.0, precision: 100.0 },
-  { name: "SWIFT_BIC", support: 2830, recall: 100.0, precision: 93.55 },
+  { name: "TAX_ID_PERSONAL", emits: "TAX_ID", support: 2837, recall: 100.0, precision: 100.0 },
+  { name: "SWIFT_BIC", emits: "BIC", support: 2830, recall: 100.0, precision: 93.55 },
   { name: "IMEI", support: 2443, recall: 100.0, precision: 100.0 },
   { name: "SOCIAL_HANDLE", support: 2267, recall: 100.0, precision: 100.0 },
-  { name: "SOCIAL_SECURITY", support: 1288, recall: 100.0, precision: 100.0 },
+  { name: "SOCIAL_SECURITY", emits: "SSN", support: 1288, recall: 100.0, precision: 100.0 },
   { name: "PASSPORT", support: 1072, recall: 99.91, precision: 100.0 },
   { name: "GPS_COORDINATES", support: 950, recall: 100.0, precision: 100.0 },
   { name: "HEALTH_INSURANCE", support: 933, recall: 100.0, precision: 100.0 },
   { name: "TAX_ID", support: 892, recall: 99.55, precision: 100.0 },
-  { name: "IP_ADDRESS_V6", support: 636, recall: 100.0, precision: 100.0 },
-  { name: "NATIONAL_ID_CARD", support: 542, recall: 100.0, precision: 100.0 },
-  { name: "TAX_ID_BUSINESS", support: 389, recall: 100.0, precision: 100.0 },
-  { name: "HEALTH_ID", support: 252, recall: 100.0, precision: 100.0 },
+  { name: "IP_ADDRESS_V6", emits: "IPV6_ADDRESS", support: 636, recall: 100.0, precision: 100.0 },
+  { name: "NATIONAL_ID_CARD", emits: "NATIONAL_ID", support: 542, recall: 100.0, precision: 100.0 },
+  { name: "TAX_ID_BUSINESS", emits: "VAT", support: 389, recall: 100.0, precision: 100.0 },
+  { name: "HEALTH_ID", emits: "HEALTH_INSURANCE", support: 252, recall: 100.0, precision: 100.0 },
   { name: "DOB", support: 0, recall: 62.76, precision: 99.53 },
 ];
 
@@ -261,13 +271,21 @@ export default function BenchmarksPage() {
           <h2 className="font-black text-4xl text-on-surface text-center mb-4">
             Detection by Entity Type
           </h2>
-          <p className="text-on-surface-variant text-center mb-4 max-w-2xl mx-auto">
+          <p className="text-on-surface-variant text-center mb-4 max-w-3xl mx-auto">
             Every entity type in the corpus, ordered by how often it appears.
             Recall with <span className="font-mono">countries</span> supplied,
             Python engine; precision and label count alongside. Rows are keyed on
-            the corpus&rsquo;s label names, so{" "}
-            <span className="font-mono">IBAN</span> here is the type the engine
-            emits as <span className="font-mono">BANK_ACCOUNT</span>.
+            the <em>corpus&rsquo;s</em> label categories, which are finer-grained
+            than the engine&rsquo;s types — the corpus separates personal from
+            business tax IDs where the engine emits one{" "}
+            <span className="font-mono">TAX_ID</span>. Where the two differ, the
+            type the API actually returns is shown as{" "}
+            <span className="text-secondary font-mono">→ ENGINE_TYPE</span>. All
+            27 engine types and the 13 the AI layer adds are described on{" "}
+            <a href="/docs/coverage" className="text-secondary hover:underline">
+              what euRedact detects
+            </a>
+            .
           </p>
           <p className="text-on-surface-variant text-center mb-12 max-w-2xl mx-auto text-sm">
             The <span className="text-pii-highlight font-bold">DOB</span> row is
@@ -284,8 +302,13 @@ export default function BenchmarksPage() {
           <div className="space-y-3">
             {entityTypes.map((entity) => (
               <div key={entity.name} className="flex items-center gap-3 sm:gap-4">
-                <div className="w-28 sm:w-44 shrink-0 text-right font-mono text-[10px] sm:text-xs font-semibold text-pii-danger break-words">
+                <div className="w-28 sm:w-52 shrink-0 text-right font-mono text-[10px] sm:text-xs font-semibold text-pii-danger break-words">
                   {entity.name}
+                  {entity.emits && (
+                    <span className="block text-secondary/80 font-normal">
+                      &rarr; {entity.emits}
+                    </span>
+                  )}
                 </div>
                 <div className="hidden sm:block w-16 shrink-0 text-right tabular-nums text-[11px] text-on-surface-variant">
                   {entity.support ? entity.support.toLocaleString() : "—"}

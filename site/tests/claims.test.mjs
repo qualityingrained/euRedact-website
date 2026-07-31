@@ -191,6 +191,71 @@ describe("entity types", () => {
     );
   });
 
+  test("the coverage page's 40 types reconcile with the engine's 27", () => {
+    /*
+      The site quotes two type counts: 27 on the SDK pages and the homepage, 40
+      on /docs/coverage. They are not in conflict — 27 is what the Rules Engine
+      layer emits, 40 is both layers — but they read as a contradiction unless
+      they actually reconcile, so this asserts the arithmetic rather than
+      trusting the prose.
+
+      A coverage type is rules-detectable when its layer is not "AI only" AND
+      the engine really has a pattern for it. CREDENTIAL and INTERNAL_ID are
+      AI-led with no patterns today, which is exactly the gap that makes the
+      naive count 29 rather than 27.
+    */
+    const source = readSiteFile("src/app/docs/coverage/types.ts");
+    const entries = [
+      ...source.matchAll(
+        /name: "([A-Z0-9_]+)",\s*\n\s*tier: "\w+",\s*\n\s*layer: "([^"]+)"/g,
+      ),
+    ].map(([, name, layer]) => ({ name, layer }));
+
+    assert.equal(entries.length, 40, "expected 40 types in the coverage catalogue");
+
+    const emitted = emittedEntityTypes(euredact);
+    const claimsRules = entries.filter((e) => e.layer !== "AI only");
+    const backedByPatterns = claimsRules.filter((e) => emitted.has(e.name));
+
+    assert.deepEqual(
+      [...emitted].filter((t) => !entries.some((e) => e.name === t)).sort(),
+      [],
+      "the engine emits a type the coverage page never lists",
+    );
+    assert.equal(
+      backedByPatterns.length,
+      emitted.size,
+      `${backedByPatterns.length} coverage types map to engine patterns but the ` +
+        `engine emits ${emitted.size}`,
+    );
+
+    // The remainder must be AI-led-with-no-patterns, never "Rules only" or
+    // "Rules led" — claiming rules coverage the engine does not have.
+    const unbacked = claimsRules.filter((e) => !emitted.has(e.name));
+    assert.deepEqual(
+      unbacked.filter((e) => e.layer !== "AI led").map((e) => e.name),
+      [],
+      "a type is marked as rules-detected but no pattern emits it",
+    );
+    assert.deepEqual(unbacked.map((e) => e.name).sort(), ["CREDENTIAL", "INTERNAL_ID"]);
+  });
+
+  test("the benchmarks table maps corpus labels to real engine types", () => {
+    // Rows are keyed on the corpus's label categories, which are finer-grained
+    // than the engine's types. Where they differ the page prints "-> TYPE"; if
+    // that target is not a type the engine emits, the arrow points nowhere.
+    const source = readSiteFile("src/app/benchmarks/page.tsx");
+    const emitted = emittedEntityTypes(euredact);
+    const targets = [...source.matchAll(/emits:\s*"([A-Z0-9_]+)"/g)].map((m) => m[1]);
+    assert.ok(targets.length > 0, "expected the benchmarks table to map some labels");
+    const unknown = [...new Set(targets)].filter((t) => !emitted.has(t)).sort();
+    assert.deepEqual(
+      unknown,
+      [],
+      `the benchmarks table maps a corpus label onto a type the engine never emits: ${unknown.join(", ")}`,
+    );
+  });
+
   test("the Node.js docs list exactly the types the engine emits", () => {
     // This is the tripwire for the IBAN -> BANK_ACCOUNT rename: the moment the
     // TS engine adopts the Python naming, this fails and the page needs it too.

@@ -179,8 +179,8 @@ export default function QuickstartPage() {
           <h2 className="font-black text-3xl text-on-surface mb-6 tracking-tight">
             What Gets Detected
           </h2>
-          <p className="text-on-surface-variant leading-relaxed mb-8">
-            euRedact detects 27 PII entity types across 31 European countries
+          <p className="text-on-surface-variant leading-relaxed mb-4">
+            The SDKs detect 27 PII entity types across 31 European countries
             with 99.72% recall and 99.82% precision, backed by 346 pattern
             definitions and 44 checksum validators. Those figures come from a
             generated evaluation set of 152,300 records with the optional{" "}
@@ -190,6 +190,21 @@ export default function QuickstartPage() {
             declared — scores 99.50% recall and 99.59% precision. Date-of-birth
             detection is excluded and sits at 62.76% recall by design; bare
             dates are deferred to the AI layer.
+          </p>
+          <p className="text-on-surface-variant leading-relaxed mb-8">
+            Those 27 are the Rules Engine layer — everything with a format
+            regular enough to match and, often, a checksum to confirm. The
+            forthcoming AI layer adds 13 more for the categories that have no
+            fixed shape: names, addresses, job titles, and the special-category
+            data covered by GDPR Article 9.{" "}
+            <Link
+              href="/docs/coverage"
+              className="text-secondary hover:underline"
+            >
+              What euRedact detects
+            </Link>{" "}
+            lists all 40, what each one covers and deliberately does not, and
+            which layer is responsible.
           </p>
           <div className="flex flex-wrap gap-2">
             {[

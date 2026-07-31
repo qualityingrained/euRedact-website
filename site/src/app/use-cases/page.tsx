@@ -99,7 +99,7 @@ const useCases = [
       "Application logs routinely capture email addresses, phone numbers, and national IDs. euRedact integrates into your logging pipeline to strip structured PII in real-time — keeping your observability stack GDPR-compliant without manual review.",
     benefits: [
       "Sub-millisecond processing handles high-throughput log streams",
-      "Detect emails, phone numbers, IBANs, and 27 PII entity types in total",
+      "Detect emails, phone numbers, IBANs — 27 structured PII types in all",
       "Drop-in integration with Python logging, Node.js streams, or batch jobs",
     ],
     audiences: ["DevOps Engineers", "SREs", "Platform Teams"],

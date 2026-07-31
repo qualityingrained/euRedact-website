@@ -1132,12 +1132,29 @@ print(ctx.evidence())`}</CodeBlock>
             Entity Types
           </h2>
           <p className="text-on-surface-variant leading-relaxed mb-6">
-            27 entity types detected across all supported countries, backed by
-            346 pattern definitions and 44 checksum validators.{" "}
+            These are the 27 types this package emits, across all supported
+            countries, backed by 346 pattern definitions and 44 checksum
+            validators.{" "}
             <span className="font-mono">IBAN</span> is still accepted as a
             legacy alias on input, but detections are emitted as{" "}
             <span className="font-mono">BANK_ACCOUNT</span>.
           </p>
+          <blockquote className="callout callout-note mb-6">
+            <p>
+              27 is the Rules Engine layer. The forthcoming AI layer adds 13
+              more — names, addresses, medical information and the other
+              categories that have no fixed format for a pattern to match, plus
+              the GDPR Article 9 special-category types.{" "}
+              <a
+                href="/docs/coverage"
+                className="text-secondary hover:underline"
+              >
+                What euRedact detects
+              </a>{" "}
+              lists all 40 with the layer responsible for each, so a count of 40
+              elsewhere on this site is not a different number from this one.
+            </p>
+          </blockquote>
           <div className="flex flex-wrap gap-2">
             {entities.map((entity) => (
               <span

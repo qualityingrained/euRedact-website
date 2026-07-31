@@ -43,6 +43,7 @@ const CORE_FEATURES = [
 
 const CLOUD_FEATURES = [
   "Neural detection for unstructured and contextual PII",
+  "13 further types: names, addresses, medical information",
   "Managed, EU-hosted API",
   "Structured PII stripped locally before anything is sent",
   "Availability and pricing to be announced",

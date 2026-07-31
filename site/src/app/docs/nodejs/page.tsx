@@ -797,6 +797,26 @@ console.log(ctx.evidence);`}</CodeBlock>
           <h2 className="font-black text-3xl text-on-surface mb-6 tracking-tight">
             Entity Types
           </h2>
+          <p className="text-on-surface-variant leading-relaxed mb-6">
+            These are the 27 types this package emits, across all supported
+            countries.
+          </p>
+          <blockquote className="callout callout-note mb-6">
+            <p>
+              27 is the Rules Engine layer. The forthcoming AI layer adds 13
+              more — names, addresses, medical information and the other
+              categories that have no fixed format for a pattern to match, plus
+              the GDPR Article 9 special-category types.{" "}
+              <a
+                href="/docs/coverage"
+                className="text-secondary hover:underline"
+              >
+                What euRedact detects
+              </a>{" "}
+              lists all 40 with the layer responsible for each, so a count of 40
+              elsewhere on this site is not a different number from this one.
+            </p>
+          </blockquote>
           <div className="flex flex-wrap gap-2">
             {entities.map((entity) => (
               <span
