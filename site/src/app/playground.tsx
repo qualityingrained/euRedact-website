@@ -3,7 +3,7 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 import { redact, type Detection } from "euredact";
 import { SUPPORTED_COUNTRIES } from "./europe-map";
-import { trackEvent } from "@/lib/analytics";
+import { PLAYGROUND_RUN_CAP, trackEvent } from "@/lib/analytics";
 
 /*
   Homepage playground. Runs the real `euredact` package in the browser, the same
@@ -139,6 +139,9 @@ export function Playground() {
     what was detected in it is still a fact about their text.
   */
   const engaged = useRef(false);
+  /* Runs the visitor asked for, this page load. The scripted demo is excluded:
+     it calls `run` directly and never touches the button. */
+  const runs = useRef(0);
   const takeOver = useCallback(() => {
     if (!engaged.current) {
       engaged.current = true;
@@ -276,6 +279,13 @@ export function Playground() {
           <button
             onClick={() => {
               takeOver();
+              /* Counted here rather than in `run`, which the scripted demo also
+                 calls — this is the one path a person can reach. Still no
+                 payload about the text itself, only which run this is. */
+              runs.current += 1;
+              trackEvent("playground-redacted", {
+                run: Math.min(runs.current, PLAYGROUND_RUN_CAP),
+              });
               /* `country`, not activeCountry: takeOver() only flips the auto
                  flag on the next render, so activeCountry would still hold the
                  sample's country on the first manual run. */

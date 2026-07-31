@@ -468,6 +468,7 @@ describe("analytics stays consent-free", () => {
     "blog-subscribed",
     "demo-redacted",
     "playground-engaged",
+    "playground-redacted",
     "coverage-filtered",
   ];
 

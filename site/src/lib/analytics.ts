@@ -76,7 +76,20 @@ export type AnalyticsEvent =
   | "blog-subscribed"
   | "demo-redacted"
   | "playground-engaged"
+  | "playground-redacted"
   | "coverage-filtered";
+
+/*
+  `playground-redacted` carries the ordinal of the run within this page load, so
+  the property breakdown reads as a funnel: the count of `run: 3` is the number
+  of visits that reached a third run. Paired with `playground-engaged`, which
+  fires once, that gives both the average runs per engaged visit and how far
+  people get before they stop.
+
+  Capped so a held-down button cannot mint unbounded property values; at the cap
+  the bucket means "this many or more", which blunts only the tail.
+*/
+export const PLAYGROUND_RUN_CAP = 10;
 
 declare global {
   interface Window {

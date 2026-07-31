@@ -166,7 +166,7 @@ anything a visitor cares about.
 ## What is measured
 
 Pageviews, referrer, country, and browser/device type — all aggregate — plus
-six conversion events, defined as a closed set in `src/lib/analytics.ts`:
+seven conversion events, defined as a closed set in `src/lib/analytics.ts`:
 
 | Event | Payload | Fires when |
 | --- | --- | --- |
@@ -175,7 +175,20 @@ six conversion events, defined as a closed set in `src/lib/analytics.ts`:
 | `blog-subscribed` | — | a blog subscription succeeds |
 | `demo-redacted` | `detectionCount` | the demo runs a redaction |
 | `playground-engaged` | — | the visitor first takes the homepage playground off its scripted demo |
+| `playground-redacted` | `run` | "Run redact()" is clicked on the homepage playground |
 | `coverage-filtered` | `layer` or `tier` | a filter button on /docs/coverage is chosen |
+
+`playground-engaged` and `playground-redacted` are designed to be read together:
+
+- the `playground-redacted` count is total runs; divided by the
+  `playground-engaged` count it gives runs per engaged visit;
+- `run` is the ordinal within one page load, so its breakdown is a funnel — the
+  count of `run: 3` is the number of visits that reached a third run, because a
+  third run cannot happen without a second.
+
+`run` is capped at `PLAYGROUND_RUN_CAP` so a held-down button cannot mint
+unbounded property values. At the cap the value means "this many or more", which
+blunts the tail of the funnel and nothing else.
 
 `waitlist-opened` paired with `waitlist-submitted` gives the modal's conversion
 rate.

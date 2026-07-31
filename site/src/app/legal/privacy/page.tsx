@@ -96,14 +96,16 @@ export default function PrivacyPolicyPage() {
                 <li>
                   <strong>What we record:</strong> the page you viewed, the site
                   that referred you, your country, and your browser and device
-                  type — all in aggregate. We also count six actions: opening
+                  type — all in aggregate. We also count seven actions: opening
                   and submitting the waitlist form, subscribing to the blog,
                   running the demo, interacting with the homepage playground,
-                  and filtering the detection-coverage table. The demo event
-                  records only how many items were detected, never the text you
-                  entered; the playground event records nothing but the fact
-                  that you used it; the coverage event records only which filter
-                  you picked from the buttons on that page. We also label a
+                  running a redaction in it, and filtering the
+                  detection-coverage table. The demo event records only how many
+                  items were detected, never the text you entered; the
+                  playground events record nothing but the fact that you used it
+                  and how many times you pressed the button, never the text; the
+                  coverage event records only which filter you picked from the
+                  buttons on that page. We also label a
                   visit as automated when it is obviously a bot — a
                   self-identifying crawler or an automated browser — so that
                   crawler traffic can be told apart from human traffic in our
