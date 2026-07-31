@@ -91,7 +91,33 @@ the subset, or the icon renders as its literal ligature text.
      "https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&icon_names=<ICONS>&display=swap"
    ```
 
-3. Download the `src:` URL from that response over this file, keeping the same
-   browser user agent.
+3. Download the `src:` URL from that response, keeping the same browser user
+   agent.
+
+4. **Rename the file to its new content hash and update the `@font-face` URL.**
+   Next fingerprints the CSS but not files served from `public/`, so at a stable
+   filename a returning visitor keeps the previously cached font — the CSS
+   updates, the font does not, and the icon you just added renders as its
+   literal ligature word for everyone who has visited before. Only a first-time
+   visitor sees it working, which is what makes it easy to believe the fix
+   deployed when it did not.
+
+   ```sh
+   HASH=$(shasum -a 256 <downloaded.woff2> | cut -c1-8)
+   git mv public/fonts/material-symbols-outlined.*.woff2 \
+          "public/fonts/material-symbols-outlined.$HASH.woff2"
+   # then point the src: url() in src/app/globals.css at the new filename
+   ```
+
+5. Add the new icon names to `public/fonts/icons.txt`, which records the exact
+   `icon_names` list the subset was built from.
+
+`tests/claims.test.mjs` enforces steps 4 and 5: one test recomputes the hash
+from the file's bytes and fails if the filename or the CSS disagrees, the other
+fails if `src/` uses an icon the manifest does not list. Between them, a
+regeneration that forgets either step cannot reach `main` — but neither can
+prove the ligature resolves, so still run the DOM check from step 1 against the
+production export (`npm run build`, then serve `out/`; `npm run start` does not
+work with `output: export`).
 
 The `@font-face` rule lives in `src/app/globals.css`.

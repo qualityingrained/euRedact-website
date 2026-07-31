@@ -9,7 +9,8 @@
 
 import { test, describe } from "node:test";
 import assert from "node:assert/strict";
-import { readFileSync } from "node:fs";
+import { createHash } from "node:crypto";
+import { readdirSync, readFileSync } from "node:fs";
 import { join } from "node:path";
 
 import * as euredact from "euredact";
@@ -385,6 +386,112 @@ describe("packaging claims", () => {
       `only ${patterns.length} pattern definitions`,
     );
     assert.ok(validators.size >= 40, `only ${validators.size} validators`);
+  });
+});
+
+describe("self-hosted icon font", () => {
+  /*
+    The icon font is subset to the icons in use, so adding an icon without
+    regenerating leaves the ligature unresolved and the browser paints the
+    literal word — "CHECKLIST" at heading size, overlapping its own label.
+
+    Regenerating is only half the fix. Next fingerprints the CSS but not
+    public/, so at a stable URL every returning visitor keeps the old font out
+    of cache and still sees the broken word. The filename therefore carries the
+    font's content hash, and these two tests make both halves un-forgettable:
+    one pins the URL to the file's actual bytes, the other pins the file's
+    coverage to the icons the source asks for.
+  */
+  const FONT_DIR = join(SITE_ROOT, "public/fonts");
+
+  function fontFile() {
+    const files = readdirSync(FONT_DIR).filter((f) => f.endsWith(".woff2"));
+    assert.equal(
+      files.length,
+      1,
+      `expected exactly one icon font in public/fonts, found: ${files.join(", ")}`,
+    );
+    return files[0];
+  }
+
+  test("the @font-face URL carries the font's real content hash", () => {
+    const file = fontFile();
+    const [, hash] = file.match(/^material-symbols-outlined\.([0-9a-f]{8})\.woff2$/) ?? [];
+    assert.ok(
+      hash,
+      `${file} is not named material-symbols-outlined.<8-hex>.woff2 — a stable ` +
+        `filename means returning visitors keep the stale font`,
+    );
+
+    const actual = createHash("sha256")
+      .update(readFileSync(join(FONT_DIR, file)))
+      .digest("hex")
+      .slice(0, 8);
+    assert.equal(
+      hash,
+      actual,
+      `the font was regenerated without renaming it: filename says ${hash}, ` +
+        `contents hash to ${actual}`,
+    );
+
+    const css = readSiteFile("src/app/globals.css");
+    assert.ok(
+      css.includes(`/fonts/${file}`),
+      `globals.css does not reference ${file}`,
+    );
+  });
+
+  test("the subset was generated from the icons the source actually uses", () => {
+    /*
+      Compares the source against public/fonts/icons.txt, the manifest of what
+      the subset was built from, rather than against the font binary — woff2 is
+      brotli-compressed, so the glyph names are not readable without a font
+      parser, and a test that silently matched nothing would be worse than none.
+
+      The collection heuristic mirrors SELF-HOSTED-ASSETS.md, including the two
+      cases that are easy to miss: an `icon:` field in a data array, and a
+      string literal inside a JSX expression such as {open ? "close" : "menu"}.
+    */
+    const used = new Set();
+    for (const { path, text } of claimBearingFiles()) {
+      if (!path.endsWith(".tsx")) continue;
+      for (const m of text.matchAll(/material-symbols-outlined/g)) {
+        const rest = text.slice(m.index + m[0].length);
+        const gt = rest.indexOf(">");
+        const lt = rest.indexOf("<", gt);
+        if (gt === -1 || lt === -1) continue;
+        const content = rest.slice(gt + 1, lt).trim();
+        if (/^[a-z0-9_]+$/.test(content)) used.add(content);
+        else if (content.startsWith("{")) {
+          for (const s of content.matchAll(/"([a-z0-9_]+)"/g)) used.add(s[1]);
+        }
+      }
+      for (const m of text.matchAll(/\bicon:\s*"([a-z0-9_]+)"/g)) used.add(m[1]);
+    }
+    assert.ok(used.size > 0, "expected the site to use icons");
+
+    const manifest = new Set(
+      readFileSync(join(FONT_DIR, "icons.txt"), "utf8")
+        .split("\n")
+        .map((l) => l.trim())
+        .filter((l) => l && !l.startsWith("#")),
+    );
+
+    const missing = [...used].filter((i) => !manifest.has(i)).sort();
+    assert.deepEqual(
+      missing,
+      [],
+      `used in src/ but absent from the font subset, so each renders as its ` +
+        `literal ligature word:\n  ${missing.join("\n  ")}\n` +
+        `Regenerate per SELF-HOSTED-ASSETS.md, rename with the new hash, and ` +
+        `add them to public/fonts/icons.txt.`,
+    );
+
+    // Not a failure — the subset is simply carrying weight nobody asks for.
+    const stale = [...manifest].filter((i) => !used.has(i)).sort();
+    if (stale.length) {
+      console.log(`  note: ${stale.length} icons in the subset are unused: ${stale.join(", ")}`);
+    }
   });
 });
 

@@ -1,0 +1,46 @@
+# Icon names the subset in this directory was generated from — the exact value
+# passed as `icon_names` to the Google Fonts CSS API. See SELF-HOSTED-ASSETS.md.
+#
+# tests/claims.test.mjs compares this list against the icon names actually used
+# in src/, so adding an icon to the site without regenerating the font fails the
+# suite rather than shipping a literal ligature word to visitors.
+account_balance
+apartment
+arrow_back
+arrow_forward
+arrow_outward
+balance
+check_circle
+checklist
+close
+cloud
+code
+data_object
+edit_note
+expand_more
+home
+integration_instructions
+javascript
+local_hospital
+lock
+menu
+notifications_active
+output
+package_2
+person
+public
+recommend
+rocket_launch
+school
+science
+shield
+shuffle
+swap_horiz
+table_chart
+table_rows
+tag
+terminal
+touch_app
+verified_user
+visibility
+wifi_off

@@ -43,14 +43,21 @@
 }
 
 /* Material Symbols — self-hosted so no visitor data reaches Google's CDN.
-   Subset to the icons used on the site; regenerate via fonts/README.md when
-   adding a new icon name. */
+   Subset to the icons used on the site; regenerate via SELF-HOSTED-ASSETS.md
+   when adding a new icon name.
+
+   The filename carries the font's content hash. Next fingerprints the CSS but
+   not files served from public/, so at a stable URL a returning visitor keeps
+   the previously cached font — and a newly added icon renders as its literal
+   ligature text for everyone who has been here before, which is exactly what
+   shipped once already. Rename on every regeneration; a test enforces that the
+   hash in this URL matches the file's actual contents. */
 @font-face {
   font-family: 'Material Symbols Outlined';
   font-style: normal;
   font-weight: 100 700;
   font-display: swap;
-  src: url('/fonts/material-symbols-outlined.woff2') format('woff2');
+  src: url('/fonts/material-symbols-outlined.8e06dd5d.woff2') format('woff2');
 }
 
 .material-symbols-outlined {
