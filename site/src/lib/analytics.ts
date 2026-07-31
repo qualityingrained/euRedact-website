@@ -25,6 +25,46 @@ export function analyticsHost(): string | undefined {
   }
 }
 
+/* ── Telling crawlers apart from people ──────────────────────────────────────
+  The tracker calls `window[AUTOMATION_HOOK](type, payload)` before every
+  beacon, and sends whatever it returns. Ours tags obvious automation and
+  returns the payload unchanged otherwise. It must never return a falsy value:
+  the tracker treats that as "do not send", and the goal here is to *see*
+  crawlers in the dashboard, not to exclude them.
+
+  Two limits worth stating, because they bound what the resulting chart means:
+
+  1. This can only label agents that run JavaScript. Everything that fetches
+     the HTML without rendering it — curl, most scrapers, and the large-scale
+     crawlers — never executes the tracker and is invisible to Umami whatever
+     we do here. /api/send is POST-only, so there is no <noscript> pixel to
+     fall back on. Umami's "bot" segment is therefore a floor, never a total.
+
+  2. `navigator.webdriver` is trivially patched, and Playwright already does it
+     by default. This catches naive automation and self-identifying crawlers;
+     anything trying to blend in will pass as human.
+
+  Every signal is a read of a property already implicit in the request. Nothing
+  is stored on the device and nothing is fingerprinted, so this does not touch
+  the no-consent position.
+*/
+export const AUTOMATION_HOOK = "euredactTagAutomation";
+
+/** Tag applied to beacons that look automated. */
+export const AUTOMATION_TAG = "automated";
+
+/**
+ * Source for the inline hook. Written as a string because it has to run before
+ * the tracker's first beacon, ahead of React hydration.
+ */
+export function automationHookSource(): string {
+  return `window.${AUTOMATION_HOOK}=function(t,p){try{
+var n=navigator,u=n.userAgent||"";
+if(n.webdriver===true||/bot|crawler|spider|slurp|headless|lighthouse|pingdom|gtmetrix/i.test(u)||!(n.languages&&n.languages.length)){p.tag=${JSON.stringify(AUTOMATION_TAG)};}
+}catch(e){}
+return p;};`;
+}
+
 /*
   Conversion events we record. Kept as a closed set so the dashboard has a
   stable vocabulary and so it is obvious, in one place, exactly what is

@@ -201,6 +201,26 @@ unions rendered as buttons on the page — never anything a visitor supplied.
 Changing what is measured means changing the privacy policy in the same commit:
 `src/app/legal/privacy/page.tsx` enumerates these events explicitly.
 
+## Crawlers vs. people
+
+Beacons that look automated are tagged `automated` (via `data-before-send`, see
+`src/lib/analytics.ts`). Nothing is dropped — filter on the tag in the dashboard
+to split the two, or to read either on its own.
+
+**The bot segment is a floor, not a total.** The tracker is JavaScript, so
+anything that fetches the HTML without rendering it — curl, most scrapers, and
+the large-scale crawlers — never runs it and cannot appear in Umami at all.
+`/api/send` is POST-only, so there is no `<noscript>` pixel fallback either, and
+GitHub Pages exposes no access logs. If you need to see *all* crawler traffic,
+that has to come from a layer that sees requests rather than renders — a CDN or
+proxy in front of Pages — which means adding a processor, so weigh it against
+the privacy posture below.
+
+Signals used: `navigator.webdriver`, a self-identifying user agent, and an empty
+`navigator.languages`. All are trivially defeated — Playwright patches
+`navigator.webdriver` by default — so treat the split as "obvious automation vs.
+everything else", not as ground truth.
+
 ## Privacy posture
 
 - No cookies, no cross-site or cross-visit identifiers, no consent banner.

@@ -103,7 +103,12 @@ export default function PrivacyPolicyPage() {
                   records only how many items were detected, never the text you
                   entered; the playground event records nothing but the fact
                   that you used it; the coverage event records only which filter
-                  you picked from the buttons on that page.
+                  you picked from the buttons on that page. We also label a
+                  visit as automated when it is obviously a bot — a
+                  self-identifying crawler or an automated browser — so that
+                  crawler traffic can be told apart from human traffic in our
+                  own statistics. That label is derived from your browser&rsquo;s
+                  own properties and is not stored on your device.
                 </li>
                 <li>
                   <strong>We honour Do Not Track.</strong> If your browser sends

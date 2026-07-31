@@ -542,6 +542,61 @@ describe("analytics stays consent-free", () => {
       "analytics code touches document.cookie",
     );
   });
+
+  test("the automation hook labels without ever dropping a beacon", async () => {
+    /*
+      The hook exists so crawler traffic can be *seen* separately, not removed.
+      The tracker drops any beacon for which the hook returns a falsy value, so
+      an early return or a missing `return p` would silently delete traffic —
+      and it would look like the bots had simply gone away.
+    */
+    /*
+      The hook ships as a string literal, so the test evaluates that exact
+      string rather than a reimplementation — node --test cannot import the .ts
+      module, and a copy of the logic here would pass while the shipped code
+      broke.
+    */
+    const lib = readSiteFile("src/lib/analytics.ts");
+    const AUTOMATION_HOOK = lib.match(/AUTOMATION_HOOK = "([^"]+)"/)?.[1];
+    const AUTOMATION_TAG = lib.match(/AUTOMATION_TAG = "([^"]+)"/)?.[1];
+    assert.ok(AUTOMATION_HOOK && AUTOMATION_TAG, "hook or tag constant missing");
+
+    const literal = lib.match(/return `([\s\S]*?)`;\n}/)?.[1];
+    assert.ok(literal, "could not find the hook source literal");
+    const automationHookSource = () =>
+      literal
+        .replaceAll("${AUTOMATION_HOOK}", AUTOMATION_HOOK)
+        .replaceAll("${JSON.stringify(AUTOMATION_TAG)}", JSON.stringify(AUTOMATION_TAG));
+
+    const cases = [
+      { name: "plain browser", nav: { userAgent: "Mozilla/5.0 (Macintosh)", languages: ["en"] }, tagged: false },
+      { name: "webdriver", nav: { userAgent: "Mozilla/5.0 (Macintosh)", languages: ["en"], webdriver: true }, tagged: true },
+      { name: "self-identifying bot", nav: { userAgent: "Googlebot/2.1", languages: ["en"] }, tagged: true },
+      { name: "headless", nav: { userAgent: "HeadlessChrome/120", languages: ["en"] }, tagged: true },
+      { name: "no languages", nav: { userAgent: "Mozilla/5.0", languages: [] }, tagged: true },
+      // The hook must survive a hostile environment rather than throw and take
+      // the beacon with it.
+      { name: "navigator missing bits", nav: {}, tagged: true },
+    ];
+
+    for (const { name, nav, tagged } of cases) {
+      const sandbox = { navigator: nav };
+      new Function("window", "navigator", `with(window){${automationHookSource()}}`)(
+        sandbox,
+        nav,
+      );
+      const payload = { url: "/", website: "x" };
+      const out = sandbox[AUTOMATION_HOOK]("pageview", payload);
+
+      assert.ok(out, `${name}: hook returned falsy — the beacon would be dropped`);
+      assert.equal(out.url, "/", `${name}: hook mangled the payload`);
+      assert.equal(
+        out.tag,
+        tagged ? AUTOMATION_TAG : undefined,
+        `${name}: expected tag ${tagged ? AUTOMATION_TAG : "none"}`,
+      );
+    }
+  });
 });
 
 describe("self-hosted icon font", () => {
