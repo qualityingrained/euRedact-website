@@ -67,7 +67,7 @@ export default function PricingPage() {
                 <FeatureItem>Unlimited local processing</FeatureItem>
                 <FeatureItem>Structured PII detection</FeatureItem>
                 <FeatureItem>
-                  98.89% recall on IBANs, phones, IDs, emails (with the{" "}
+                  99.72% recall on IBANs, phones, IDs, emails (with the{" "}
                   <span className="font-mono">countries</span> parameter set)
                 </FeatureItem>
                 <FeatureItem>31 country configs</FeatureItem>

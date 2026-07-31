@@ -12,7 +12,7 @@
   },
   "dependencies": {
     "@types/react-simple-maps": "^3.0.6",
-    "euredact": "^0.3.2",
+    "euredact": "^0.3.6",
     "gray-matter": "^4.0.3",
     "highlight.js": "^11.11.1",
     "marked": "^18.0.0",

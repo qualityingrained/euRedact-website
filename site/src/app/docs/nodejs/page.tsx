@@ -4,7 +4,7 @@ import { PageHero } from "@/components/page-hero";
 export const metadata: Metadata = {
   title: "Node.js SDK — euRedact Docs",
   description:
-    "Complete API reference for the euRedact Node.js SDK. Zero dependencies, 86KB, ~1.5ms per page.",
+    "Complete API reference for the euRedact Node.js SDK. Zero dependencies, 86KB, ~1.6ms per page.",
 };
 
 function CodeBlock({
@@ -104,7 +104,7 @@ export default function NodejsSDKPage() {
       <PageHero
         eyebrow="SDK reference"
         title="Node.js SDK"
-        subtitle="Zero-dependency PII redaction for Node.js. 86KB package, ~1.5ms per page."
+        subtitle="Zero-dependency PII redaction for Node.js. 86KB package, ~1.6ms per page."
       >
           <div className="flex gap-4">
             <a
@@ -181,7 +181,7 @@ export default function NodejsSDKPage() {
                     type: "string[]",
                     default: "undefined",
                     description:
-                      "Country codes (e.g. [\"NL\", \"BE\"]) the document is declared to belong to. Since 0.3.2 this scores detection rather than gating it: every pattern runs whatever you declare, and a match attributed outside the set comes back with outOfScope true rather than being dropped. Declaring it is still worth 98.89% recall against 96.11% blind.",
+                      "Country codes (e.g. [\"NL\", \"BE\"]) the document is declared to belong to. Since 0.3.2 this scores detection rather than gating it: every pattern runs whatever you declare, and a match attributed outside the set comes back with outOfScope true rather than being dropped. Declaring it is worth more in this SDK than in the Python one: 99.72% recall against 99.43% blind, where Python gives up less without it.",
                   },
                   {
                     name: "countryHint",
@@ -397,13 +397,26 @@ for (const chunk of chunks) {
 }
 
 // Every signal the document produced, spans pointing into the full text.
-console.log(ctx.evidence());`}</CodeBlock>
+console.log(ctx.evidence);`}</CodeBlock>
             <blockquote className="callout callout-note mt-5">
               <p>
                 Pass <span className="font-mono">chunkOffset</span> or the
                 evidence spans will all point into the start of the text.
                 Caching is disabled while a context is in use, since the result
                 depends on the document rather than on the chunk alone.
+              </p>
+            </blockquote>
+            <blockquote className="callout callout-breaking mt-5">
+              <p>
+                In 0.3.3 <span className="font-mono">evidence</span> became a
+                getter, not a method — it was a method alongside{" "}
+                <span className="font-mono">size</span>, a getter, on the same
+                class. Read it as{" "}
+                <span className="font-mono">ctx.evidence</span>;{" "}
+                <span className="font-mono">ctx.evidence()</span> now throws.
+                The Python SDK keeps{" "}
+                <span className="font-mono">ctx.evidence()</span>, following its
+                own idiom.
               </p>
             </blockquote>
             <p className="text-on-surface-variant leading-relaxed mt-4">
@@ -452,6 +465,27 @@ console.log(ctx.evidence());`}</CodeBlock>
               <span className="text-secondary">log</span>
               <span className="text-white">(result.detections);</span>
             </CodeBlock>
+            <blockquote className="callout callout-breaking mt-5">
+              <p>
+                <span className="font-mono">countries</span> takes an{" "}
+                <em>array</em>. Since 0.3.3 a bare string throws a{" "}
+                <span className="font-mono">TypeError</span>, on every entry
+                point, in both SDKs. Before that,{" "}
+                <span className="font-mono">
+                  countries: &quot;NL&quot;
+                </span>{" "}
+                was walked character by character into the codes{" "}
+                <span className="font-mono">&quot;N&quot;</span> and{" "}
+                <span className="font-mono">&quot;L&quot;</span>; neither
+                resolves, so the call declared nothing and every detection came
+                back with <span className="font-mono">outOfScope</span> true
+                while the redacted text still looked correct. A pipeline
+                filtering on that field — which these docs tell you to do —
+                kept none of them. A wrong country <em>code</em> still only
+                warns; a wrong <em>type</em> has no correct reading to fall
+                back on.
+              </p>
+            </blockquote>
           </div>
 
           {/* redactBatch() */}
@@ -694,7 +728,7 @@ console.log(ctx.evidence());`}</CodeBlock>
             <div className="grid sm:grid-cols-3 gap-6">
               <div className="rounded-2xl bg-primary border-2 border-outline-variant p-8">
                 <div className="text-4xl font-black text-on-surface mb-2">
-                  ~1.5ms
+                  ~1.6ms
                 </div>
                 <div className="text-xs font-black text-on-surface-variant uppercase tracking-[0.2em]">
                   Per page (2,000 chars)
@@ -702,10 +736,13 @@ console.log(ctx.evidence());`}</CodeBlock>
               </div>
               <div className="rounded-2xl bg-primary border-2 border-outline-variant p-8">
                 <div className="text-4xl font-black text-on-surface mb-2">
-                  ~23,500
+                  ~20,500
                 </div>
                 <div className="text-xs font-black text-on-surface-variant uppercase tracking-[0.2em]">
                   Records per second
+                </div>
+                <div className="text-[11px] text-on-surface-variant mt-2">
+                  300-character record
                 </div>
               </div>
               <div className="rounded-2xl bg-primary border-2 border-outline-variant p-8">

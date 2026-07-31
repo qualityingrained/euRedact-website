@@ -64,7 +64,7 @@ print(result.text)
 
 The number `123456782` passes the [elfproef](https://nl.wikipedia.org/wiki/Elfproef) (eleven-test) checksum — it's a structurally valid BSN. But `123456789` would not pass and wouldn't be flagged as a BSN.
 
-This approach gives us **98.89% recall on structured entities** at 98.97% precision, measured on a generated evaluation set of 152,300 records with the optional `countries` parameter supplied. The checksum validation is the key: it's what separates "this 9-digit number could be anything" from "this 9-digit number is mathematically consistent with the BSN format."
+This approach gives us **99.72% recall on structured entities** at 99.82% precision, measured on a generated evaluation set of 152,300 records with the optional `countries` parameter supplied. The checksum validation is the key: it's what separates "this 9-digit number could be anything" from "this 9-digit number is mathematically consistent with the BSN format."
 
 ### Contextual PII: the NLP layer
 
@@ -85,9 +85,9 @@ This is why we're building euRedact as a two-layer system:
 
 **Layer 1: Rules engine (open-source, runs locally)**
 - Regex patterns + checksum validation for structured PII
-- 1.5ms per page in Node, 8.4ms in Python (2,000-character page; 4.2ms with Python's optional `[fast]` extra)
+- 1.6ms per page in Node, 9.5ms in Python (2,000-character page; 4.8ms with Python's optional `[fast]` extra)
 - Zero network calls, zero dependencies
-- 98.9% recall, 99.0% precision on structured entities
+- 99.7% recall, 99.8% precision on structured entities
 - Available now on [PyPI](https://pypi.org/project/euredact/) and [npm](https://www.npmjs.com/package/euredact)
 
 **Layer 2: Fine-tuned LLM (cloud tier, coming soon)**
@@ -129,7 +129,7 @@ The weak spot is date-of-birth detection (F1 86), where the challenge is disting
 We're being transparent about these numbers because we think the PII detection space has too much hand-waving. If a tool claims "99% accuracy" without specifying what entity types, what languages, and what test methodology — that number is meaningless.
 
 > [!CAVEAT]
-> So, our own methodology, stated plainly: the rules-engine figures above come from a **generated** evaluation set, not production documents. Generated data measures pattern coverage — it does not capture real-world messiness like OCR noise or broken layouts, and you should expect lower numbers on scanned or malformed input. Date-of-birth detection is excluded from our headline rules-engine figures and sits at 40.6% by design: a bare date carries too little structure to separate a birth date from an invoice date, so we defer it to the LLM tier rather than guess. And the headline accuracy assumes you pass the optional `countries` parameter. Since 0.3.2 that parameter no longer decides *whether* a pattern runs — every country's rules run on every document, and `countries` decides how a match is labelled. Omitting it costs you attribution confidence, not recall: blind runs still find the entities but score lower on precision, 96.1% recall and 95.8% precision.
+> So, our own methodology, stated plainly: the rules-engine figures above come from a **generated** evaluation set of 152,300 documents and 667,129 labels, not production documents. Generated data measures pattern coverage — it does not capture real-world messiness like OCR noise or broken layouts, and you should expect lower numbers on scanned or malformed input. Date-of-birth detection is excluded from our headline rules-engine figures and sits at 62.76% recall by design: a bare date carries too little structure to separate a birth date from an invoice date, so we defer it to the LLM tier rather than guess. And the headline accuracy assumes you pass the optional `countries` parameter. Since 0.3.2 that parameter no longer decides *whether* a pattern runs — every country's rules run on every document, and `countries` decides how a match is labelled. Omitting it costs you attribution confidence, not coverage: blind runs still find the entities but score lower, 99.50% recall and 99.59% precision. Both figures are the Python engine; we score the Node engine on the same corpus with the same scorer, and it lands at 99.72% / 99.80% hinted and 99.43% / 99.51% blind. Where the two disagree it is country inference, not detection — and it concentrates almost entirely in Greek, Cypriot and Maltese documents.
 
 ## What's next
 

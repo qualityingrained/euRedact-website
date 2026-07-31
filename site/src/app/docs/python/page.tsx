@@ -104,7 +104,7 @@ export default function PythonSDKPage() {
       <PageHero
         eyebrow="SDK reference"
         title="Python SDK"
-        subtitle="PII redaction for Python. Sync and async support, country inference, ~8.4 ms per page — or ~4.2 ms with the optional RE2 prefilter."
+        subtitle="PII redaction for Python. Sync and async support, country inference, ~9.5 ms per page — or ~4.8 ms with the optional RE2 prefilter."
       >
           <div className="flex gap-4">
             <a
@@ -232,7 +232,7 @@ export default function PythonSDKPage() {
                     type: "list[str] | None",
                     default: "None",
                     description:
-                      "ISO country codes the document is declared to belong to. Since 0.3.2 this scores detection rather than gating it: every pattern runs whatever you declare, and a match attributed outside the set is flagged out_of_scope rather than dropped. Declaring it is still worth 98.89% recall against 96.11% blind.",
+                      "ISO country codes the document is declared to belong to. Since 0.3.2 this scores detection rather than gating it: every pattern runs whatever you declare, and a match attributed outside the set is flagged out_of_scope rather than dropped. Declaring it is still worth 99.72% recall against 99.50% blind.",
                   },
                   {
                     name: "country_hint",
@@ -317,6 +317,25 @@ export default function PythonSDKPage() {
               <span className="text-secondary">print</span>
               <span className="text-white">(result.detections)</span>
             </CodeBlock>
+            <blockquote className="callout callout-breaking mt-5">
+              <p>
+                <span className="font-mono">countries</span> takes a{" "}
+                <em>list</em>. Since 0.3.3 a bare string raises{" "}
+                <span className="font-mono">TypeError</span>, on every entry
+                point, in both SDKs. Before that,{" "}
+                <span className="font-mono">countries=&quot;NL&quot;</span> was
+                iterated character by character into the codes{" "}
+                <span className="font-mono">&quot;N&quot;</span> and{" "}
+                <span className="font-mono">&quot;L&quot;</span>; neither
+                resolves, so the call declared nothing and every detection came
+                back flagged <span className="font-mono">out_of_scope</span>{" "}
+                while the redacted text still looked correct. A pipeline
+                filtering on that field — which these docs tell you to do —
+                kept none of them. A wrong country <em>code</em> still only
+                warns; a wrong <em>type</em> has no correct reading to fall
+                back on.
+              </p>
+            </blockquote>
           </div>
 
           {/* redact_batch() */}
@@ -1013,22 +1032,25 @@ print(ctx.evidence())`}</CodeBlock>
             <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
               <div className="rounded-2xl bg-primary border-2 border-outline-variant p-8">
                 <div className="text-4xl font-black text-on-surface mb-2">
-                  ~8.4 ms
+                  ~9.5 ms
                 </div>
                 <div className="text-xs font-black text-on-surface-variant uppercase tracking-[0.2em]">
                   Per page (2,000 chars)
                 </div>
                 <div className="text-[11px] text-on-surface-variant mt-2">
-                  ~4.2 ms with the{" "}
+                  ~4.8 ms with the{" "}
                   <span className="font-mono">[fast]</span> extra
                 </div>
               </div>
               <div className="rounded-2xl bg-primary border-2 border-outline-variant p-8">
                 <div className="text-4xl font-black text-on-surface mb-2">
-                  ~770
+                  ~665
                 </div>
                 <div className="text-xs font-black text-on-surface-variant uppercase tracking-[0.2em]">
                   Records per second
+                </div>
+                <div className="text-[11px] text-on-surface-variant mt-2">
+                  300-character record
                 </div>
               </div>
               <div className="rounded-2xl bg-primary border-2 border-outline-variant p-8">
@@ -1048,6 +1070,40 @@ print(ctx.evidence())`}</CodeBlock>
                 </div>
               </div>
             </div>
+            <blockquote className="callout callout-caveat mt-8">
+              <p>
+                0.3.6 is about 13% slower than 0.3.2 per page, and about 14%
+                slower per record. The extra work is rule and vocabulary growth
+                from 0.3.5 and 0.3.6 &mdash; support-desk terms in nine
+                languages, wider currency lists, more month spellings. The
+                record figure moves more than the page figure because 0.3.5
+                began treating a value that fills an entire field of a
+                delimited row as context, and a 300-character record is exactly
+                that shape.
+              </p>
+              <p className="mt-3">
+                If you are coming from 0.3.3, you will find this{" "}
+                <em>faster</em>. 0.3.3 fixed a real defect &mdash; Python&rsquo;s{" "}
+                <span className="font-mono">\b</span> is Unicode-aware where
+                JavaScript&rsquo;s is ASCII-only, so a national ID written
+                against a non-ASCII letter (
+                <span className="font-mono">ЕГН7523169263</span>,{" "}
+                <span className="font-mono">PESELŁ44051401359</span>) was
+                redacted by the Node SDK and silently missed by Python &mdash;
+                but it paid for the fix by rewriting every{" "}
+                <span className="font-mono">\b</span> in all 303 patterns into a
+                three-branch union, which cost roughly 4&times;. 0.3.4 chose the
+                boundary per occurrence instead and gave the time back without
+                giving back the recall.
+              </p>
+              <p className="mt-3">
+                For throughput, install{" "}
+                <span className="font-mono">euredact[fast]</span>: the RE2
+                prefilter roughly halves per-page latency. Node is unaffected by
+                any of this at ~1.6 ms per page &mdash; its{" "}
+                <span className="font-mono">\b</span> always behaved this way.
+              </p>
+            </blockquote>
           </div>
         </div>
       </section>
@@ -1077,7 +1133,7 @@ print(ctx.evidence())`}</CodeBlock>
           </h2>
           <p className="text-on-surface-variant leading-relaxed mb-6">
             27 entity types detected across all supported countries, backed by
-            345 pattern definitions and 44 checksum validators.{" "}
+            346 pattern definitions and 44 checksum validators.{" "}
             <span className="font-mono">IBAN</span> is still accepted as a
             legacy alias on input, but detections are emitted as{" "}
             <span className="font-mono">BANK_ACCOUNT</span>.

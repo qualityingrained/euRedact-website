@@ -2,7 +2,7 @@
  *
  * Scope: everything here is verified against the installed `euredact` npm
  * package (the TypeScript SDK). The site also publishes Python-specific
- * figures — "~3 ms per page", "345 pattern definitions", "44 checksum
+ * figures — "~9.5 ms per page", "346 pattern definitions", "44 checksum
  * validators" — which this suite CANNOT check, because the Python engine is
  * not a dependency of this repo. Those remain manually verified.
  */
@@ -65,6 +65,25 @@ describe("country coverage", () => {
       .sort();
     const engine = [...euredact.availableCountries()].sort();
     assert.deepEqual(painted, engine);
+  });
+
+  test("the benchmarks page publishes no per-country accuracy table", () => {
+    /*
+      It used to, and the numbers were invented: 32 rows under a heading saying
+      31, Liechtenstein among them despite no such ruleset, per-country record
+      counts summing to 297,704 against a 152,300-record corpus, and a tail that
+      descended in a suspiciously smooth ladder.
+
+      The corpus is generated in country *groups*, so per-country ground truth
+      does not exist to publish. The page reports per dataset instead. If a
+      countryData array comes back, it is invented again.
+    */
+    const source = readSiteFile("src/app/benchmarks/page.tsx");
+    assert.equal(
+      source.includes("const countryData"),
+      false,
+      "the per-country accuracy table is back — the corpus cannot support one",
+    );
   });
 
   test("the SDK docs list the same country codes the engine loads", () => {
@@ -312,33 +331,52 @@ describe("packaging claims", () => {
 });
 
 describe("accuracy figures stay consistent across the site", () => {
-  // Measured 2026-07-27 on a generated evaluation set of 152,300 records.
-  // These cannot be derived from the installed package — the evaluation set
-  // lives with the engine — so they are pinned here and checked for drift
-  // between pages, which is how ">99%" and "99.1%" coexisted for months.
   /*
-    Since 0.3.2 there is no single headline recall. `countries` no longer gates
-    detection, so the engine has two honest operating points rather than one
-    number with a caveat: hinted (you declared the countries) and blind (you did
-    not). Both belong on the site, so the guard accepts either — and nothing
-    else. A third figure appearing anywhere still fails, which is the drift this
-    test exists to catch.
+    Measured 2026-07-31 at tag v0.3.6 over all 152,300 corpus documents and
+    667,129 non-DOB labels, both engines, both modes. These cannot be derived
+    from the installed package — the evaluation corpus lives with the engine —
+    so they are pinned here and checked for drift between pages, which is how
+    ">99%" and "99.1%" coexisted for months.
+
+    There is no single headline number. `countries` scores rather than gates
+    detection, so each engine has two honest operating points: hinted (you
+    declared the countries) and blind (you did not). Both engines are measured
+    with the same scorer, so a difference between them says something about the
+    engines rather than about the measurement — and both belong on the site,
+    because the site documents both SDKs. The guard accepts these four points
+    and nothing else; a fifth figure anywhere is the drift this test catches.
   */
   const HEADLINE = {
-    hinted: { recall: "98.89", precision: "98.97" },
-    blind: { recall: "96.11", precision: "95.79" },
+    python: {
+      hinted: { recall: "99.72", precision: "99.82" },
+      blind: { recall: "99.50", precision: "99.59" },
+    },
+    typescript: {
+      hinted: { recall: "99.72", precision: "99.80" },
+      blind: { recall: "99.43", precision: "99.51" },
+    },
   };
 
-  // Prose rounds to one decimal ("98.9% recall") where a stat tile does not.
+  // DOB is excluded from every headline above: the rules engine emits one only
+  // with a keyword or an unambiguous format, and bare dates go to the cloud
+  // tier. Identical in both engines, so it is pinned once.
+  const DOB = { recall: "62.76", precision: "99.53" };
+
+  // Prose rounds to one decimal ("99.7% recall") where a stat tile does not.
   // Derived from the pinned figures rather than listed, so a rounded claim can
   // never drift away from the exact one it rounds.
   const accepted = (pick) =>
     new Set(
-      [HEADLINE.hinted[pick], HEADLINE.blind[pick]].flatMap((v) => [
-        v,
-        String(Math.round(Number(v) * 10) / 10),
-      ]),
+      [
+        ...Object.values(HEADLINE).flatMap((e) => [e.hinted[pick], e.blind[pick]]),
+        DOB[pick],
+      ].flatMap((v) => [v, String(Math.round(Number(v) * 10) / 10)]),
     );
+
+  const describePoints = (pick) =>
+    `${pick} is Python ${HEADLINE.python.hinted[pick]}% hinted / ` +
+    `${HEADLINE.python.blind[pick]}% blind, Node ${HEADLINE.typescript.hinted[pick]}% / ` +
+    `${HEADLINE.typescript.blind[pick]}%, DOB ${DOB[pick]}%`;
 
   test("every recall claim quotes a published operating point", () => {
     const hits = findNumericClaims(/([\d.]+)%\s*recall/gi);
@@ -348,7 +386,7 @@ describe("accuracy figures stay consistent across the site", () => {
     assert.deepEqual(
       wrong,
       [],
-      `recall is ${HEADLINE.hinted.recall}% hinted / ${HEADLINE.blind.recall}% blind; these match neither:\n${formatHits(wrong)}`,
+      `${describePoints("recall")}; these match none:\n${formatHits(wrong)}`,
     );
   });
 
@@ -360,7 +398,7 @@ describe("accuracy figures stay consistent across the site", () => {
     assert.deepEqual(
       wrong,
       [],
-      `precision is ${HEADLINE.hinted.precision}% hinted / ${HEADLINE.blind.precision}% blind; these match neither:\n${formatHits(wrong)}`,
+      `${describePoints("precision")}; these match none:\n${formatHits(wrong)}`,
     );
   });
 
@@ -386,15 +424,20 @@ describe("accuracy figures stay consistent across the site", () => {
       ["the evaluation set size", /152,300 records/],
       ["that the data is generated", /generated evaluation set/i],
       ["the countries condition", /countries.{0,120}supplied/is],
-      ["recall with countries", /98\.89%/],
-      ["precision with countries", /98\.97%/],
-      ["recall without countries", /96\.11%/],
-      ["precision without countries", /95\.79%/],
+      ["recall with countries", /99\.72%/],
+      ["precision with countries", /99\.82%/],
+      ["recall without countries", /99\.50%/],
+      ["precision without countries", /99\.59%/],
+      // Both engines are published, because the site documents both SDKs and
+      // they do not measure identically once country inference is doing the
+      // work. Naming only the stronger one would be a choice, not a rounding.
+      ["which engine the headline figures are", /Python engine/i],
+      ["the Node engine's blind figures", /99\.43%.{0,40}99\.51%/s],
       // Since 0.3.2 the difference is attribution, not coverage. Without this
       // sentence the two operating points read as a recall cliff, which would
       // overstate what `countries` buys you.
-      ["that countries scores rather than gates", /scores a detection rather\s+than gating it/is],
-      ["the excluded DOB figure", /40\.6%/],
+      ["that countries scores rather than gates", /scores a\s+detection rather than gating it/is],
+      ["the excluded DOB figure", /62\.76%/],
     ];
     const missing = required
       .filter(([, pattern]) => !pattern.test(footer))

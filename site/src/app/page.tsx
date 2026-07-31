@@ -9,10 +9,10 @@ import { Wordmark } from "@/components/wordmark";
    measurement note in the footer (#accuracy-note), which carries the
    conditions: generated evaluation set, `countries` supplied, DOB excluded. */
 const STATS = [
-  { value: "98.9%", label: "Recall rate", note: "152,300-record set", ref: true },
+  { value: "99.7%", label: "Recall rate", note: "152,300-record set", ref: true },
   { value: "31", label: "Countries", note: "Maintained rulesets", ref: false },
-  { value: "99.0%", label: "Precision", note: "Same run", ref: true },
-  { value: "1.5ms", label: "Per page", note: "Node, 2,000 chars", ref: true },
+  { value: "99.8%", label: "Precision", note: "Same run", ref: true },
+  { value: "1.6ms", label: "Per page", note: "Node, 2,000 chars", ref: true },
 ];
 
 const PROBLEMS = [
@@ -36,7 +36,7 @@ const PROBLEMS = [
 const CORE_FEATURES = [
   "Deterministic rules engine — same input, same output",
   "31 European country rulesets, 27 entity types",
-  "345 pattern definitions, 44 checksum validators",
+  "346 pattern definitions, 44 checksum validators",
   "Python and Node.js SDKs, zero dependencies",
   "Local-only — makes no network calls",
 ];

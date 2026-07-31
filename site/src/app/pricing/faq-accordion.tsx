@@ -21,7 +21,7 @@ const FAQ_ITEMS = [
   {
     question: "Is the free tier really unlimited?",
     answer:
-      "Absolutely. The Rules tier runs entirely on your own machine using our open-source Python package. There are no API calls, no metering, and no limits. It detects structured PII with 98.89% recall on our published benchmark corpus (with the optional countries parameter supplied), forever, for free. Our cloud-powered tiers for contextual detection are coming soon -- join the waitlist to be the first to know when they launch.",
+      "Absolutely. The Rules tier runs entirely on your own machine using our open-source Python package. There are no API calls, no metering, and no limits. It detects structured PII with 99.72% recall on our published benchmark corpus (with the optional countries parameter supplied), forever, for free. Our cloud-powered tiers for contextual detection are coming soon -- join the waitlist to be the first to know when they launch.",
   },
   {
     question: "Do you offer annual billing?",

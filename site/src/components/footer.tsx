@@ -151,16 +151,19 @@ export function Footer() {
           className="pt-12 border-t border-white/5 text-on-surface-variant text-xs leading-relaxed max-w-4xl scroll-mt-24"
         >
           <span className="text-pii-highlight font-black">*</span> euRedact
-          0.3.2, measured on a generated evaluation set — it measures pattern
+          0.3.6, measured on a generated evaluation set — it measures pattern
           coverage, not real-world messiness such as OCR noise or broken
-          layouts. Recall and precision are over 152,300 records with{" "}
-          <span className="font-mono">countries</span> supplied: 98.89% and
-          98.97%. Without it the engine still runs every pattern — since 0.3.2{" "}
-          <span className="font-mono">countries</span> scores a detection rather
-          than gating it — and scores 96.11% recall, 95.79% precision.
-          Date-of-birth detection is excluded from these figures and sits at
-          40.6% by design — bare dates are deferred to the LLM tier. Latency is
-          the Node package on a 2,000-character page.
+          layouts. Recall and precision are over 152,300 records (667,129
+          labels) with <span className="font-mono">countries</span> supplied:
+          99.72% and 99.82%. Without it the engine still runs every pattern —
+          since 0.3.2 <span className="font-mono">countries</span> scores a
+          detection rather than gating it — and scores 99.50% recall, 99.59%
+          precision. Those are the Python engine; the Node engine is measured
+          with the same scorer on the same corpus and lands at 99.72% / 99.80%
+          with <span className="font-mono">countries</span> and 99.43% / 99.51%
+          without. Date-of-birth detection is excluded from these figures and
+          sits at 62.76% recall by design — bare dates are deferred to the AI
+          layer. Latency is the Node package on a 2,000-character page.
         </p>
         <div className="pt-12 mt-12 border-t border-white/5 flex flex-col md:flex-row items-center justify-between gap-10">
           <div className="text-on-surface-variant text-[10px] font-black uppercase tracking-[0.3em]">

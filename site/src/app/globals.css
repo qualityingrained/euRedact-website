@@ -287,7 +287,8 @@ blockquote.callout-note::before {
   color: var(--color-pii-highlight);
 }
 
-/* Red: PII exposure and the consequences of getting it wrong. */
+/* Red: PII exposure and the consequences of getting it wrong, plus API changes
+   that make previously-documented code throw. */
 blockquote.callout-risk {
   background: rgba(254, 74, 73, 0.08);
   border-left-color: var(--color-pii-danger);
@@ -295,6 +296,16 @@ blockquote.callout-risk {
 
 blockquote.callout-risk::before {
   content: "Risk";
+  color: var(--color-pii-danger);
+}
+
+blockquote.callout-breaking {
+  background: rgba(254, 74, 73, 0.08);
+  border-left-color: var(--color-pii-danger);
+}
+
+blockquote.callout-breaking::before {
+  content: "Breaking change";
   color: var(--color-pii-danger);
 }
 
