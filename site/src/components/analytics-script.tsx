@@ -11,6 +11,12 @@ import {
   data-do-not-track honours the visitor's browser DNT signal, which we opt into
   deliberately: euRedact's argument is that people should not have to trust a
   vendor's good intentions, and that applies to our own marketing site.
+
+  data-exclude-hash keeps the fragment out of the recorded URL. /docs/coverage
+  links each entity type to its own anchor, so without this every deep link
+  arrives as a separate page — /docs/coverage#PASSPORT reported apart from
+  /docs/coverage — and the page's real traffic is split across dozens of rows.
+  It also means an anchor can never carry anything into the URL we record.
 */
 export function AnalyticsScript() {
   if (!analyticsEnabled) return null;
@@ -20,6 +26,7 @@ export function AnalyticsScript() {
       src={ANALYTICS_SRC}
       data-website-id={ANALYTICS_WEBSITE_ID}
       data-do-not-track="true"
+      data-exclude-hash="true"
       strategy="afterInteractive"
     />
   );

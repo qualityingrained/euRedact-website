@@ -96,10 +96,14 @@ export default function PrivacyPolicyPage() {
                 <li>
                   <strong>What we record:</strong> the page you viewed, the site
                   that referred you, your country, and your browser and device
-                  type — all in aggregate. We also count four actions: opening
-                  and submitting the waitlist form, subscribing to the blog, and
-                  running the demo. The demo event records only how many items
-                  were detected, never the text you entered.
+                  type — all in aggregate. We also count six actions: opening
+                  and submitting the waitlist form, subscribing to the blog,
+                  running the demo, interacting with the homepage playground,
+                  and filtering the detection-coverage table. The demo event
+                  records only how many items were detected, never the text you
+                  entered; the playground event records nothing but the fact
+                  that you used it; the coverage event records only which filter
+                  you picked from the buttons on that page.
                 </li>
                 <li>
                   <strong>We honour Do Not Track.</strong> If your browser sends

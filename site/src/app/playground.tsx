@@ -3,6 +3,7 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 import { redact, type Detection } from "euredact";
 import { SUPPORTED_COUNTRIES } from "./europe-map";
+import { trackEvent } from "@/lib/analytics";
 
 /*
   Homepage playground. Runs the real `euredact` package in the browser, the same
@@ -125,7 +126,24 @@ export function Playground() {
     [run]
   );
 
+  /*
+    Fires once per page load, the first time the visitor takes the playground
+    off its scripted demo — typing, focusing, picking a country or a sample.
+
+    Deliberately not tied to a redaction: the auto demo redacts on a loop, so a
+    per-run event would count the animation rather than a person. Taking over is
+    the only interaction here that a bounce-rate figure cannot see, since the
+    whole session is one pageview however long someone plays with it.
+
+    No payload. The visitor's text never leaves the browser, and the count of
+    what was detected in it is still a fact about their text.
+  */
+  const engaged = useRef(false);
   const takeOver = useCallback(() => {
+    if (!engaged.current) {
+      engaged.current = true;
+      trackEvent("playground-engaged");
+    }
     setAuto((wasAuto) => {
       if (wasAuto) clearTimers();
       return false;

@@ -454,6 +454,96 @@ describe("packaging claims", () => {
   });
 });
 
+describe("analytics stays consent-free", () => {
+  /*
+    The privacy policy tells visitors there is no cookie banner because nothing
+    is stored on their device and the events are enumerated. That claim is only
+    true while the code matches it, and it is the kind of claim that silently
+    stops being true — someone adds an event, or a tracker attribute, and the
+    policy still says four.
+  */
+  const EVENTS = [
+    "waitlist-opened",
+    "waitlist-submitted",
+    "blog-subscribed",
+    "demo-redacted",
+    "playground-engaged",
+    "coverage-filtered",
+  ];
+
+  test("the event set, the policy and ANALYTICS.md agree", () => {
+    const lib = readSiteFile("src/lib/analytics.ts");
+    const declared = [...lib.matchAll(/^\s*\|\s*"([a-z-]+)"/gm)].map((m) => m[1]);
+    assert.deepEqual(
+      declared.sort(),
+      [...EVENTS].sort(),
+      "AnalyticsEvent no longer matches the events this test knows about",
+    );
+
+    const doc = readSiteFile("ANALYTICS.md");
+    const undocumented = EVENTS.filter((e) => !doc.includes(`\`${e}\``));
+    assert.deepEqual(undocumented, [], "events missing from ANALYTICS.md");
+
+    // The policy states a count in words, which is what a reader actually sees.
+    const policy = readSiteFile("src/app/legal/privacy/page.tsx");
+    const WORDS = ["zero", "one", "two", "three", "four", "five", "six",
+                   "seven", "eight", "nine", "ten"];
+    assert.ok(
+      policy.includes(`count ${WORDS[EVENTS.length]} actions`),
+      `the privacy policy does not say "count ${WORDS[EVENTS.length]} actions" — ` +
+        `it enumerates the events, so adding one means rewriting it`,
+    );
+  });
+
+  test("no event payload can carry what a visitor typed", () => {
+    /*
+      The playground and demo run the real engine on text a visitor is invited
+      to paste, which is the one place real personal data plausibly enters this
+      site. An analytics call leaves the browser; their text must not be in it.
+
+      A *count* derived from that text is allowed and is disclosed in the policy
+      — `demo-redacted` sends detections.length — so the rule is that these
+      identifiers may only appear as `.length`, never as the value itself.
+    */
+    const SENSITIVE = /\b(input|text|value|redacted|redactedText|email|detections)\b(\.length)?/g;
+    const offenders = [];
+    for (const { path, text } of claimBearingFiles()) {
+      text.split("\n").forEach((line, i) => {
+        // Only the payload. The event *name* legitimately contains words like
+        // "redacted" — "demo-redacted" is not a leak.
+        const call = line.match(/trackEvent\(\s*"[a-z-]+"\s*,([^)]*)\)/);
+        if (!call) return;
+        for (const m of call[1].matchAll(SENSITIVE)) {
+          if (m[2]) continue; // `.length` is a count, not the content
+          offenders.push({ file: path, line: i + 1, text: line.trim() });
+        }
+      });
+    }
+    assert.deepEqual(
+      offenders,
+      [],
+      `an event payload references visitor-supplied content rather than a count:\n${formatHits(offenders)}`,
+    );
+  });
+
+  test("the tracker sets no cookie and excludes hashes", () => {
+    const script = readSiteFile("src/components/analytics-script.tsx");
+    for (const [what, attr] of [
+      ["honour Do Not Track", 'data-do-not-track="true"'],
+      ["keep anchors out of recorded URLs", 'data-exclude-hash="true"'],
+    ]) {
+      assert.ok(script.includes(attr), `the tracker no longer sets ${attr} (${what})`);
+    }
+    // A cookie anywhere in the tracker path would need the banner the policy
+    // says is unnecessary.
+    assert.equal(
+      /document\.cookie/.test(script + readSiteFile("src/lib/analytics.ts")),
+      false,
+      "analytics code touches document.cookie",
+    );
+  });
+});
+
 describe("self-hosted icon font", () => {
   /*
     The icon font is subset to the icons in use, so adding an icon without

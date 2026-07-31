@@ -34,7 +34,9 @@ export type AnalyticsEvent =
   | "waitlist-opened"
   | "waitlist-submitted"
   | "blog-subscribed"
-  | "demo-redacted";
+  | "demo-redacted"
+  | "playground-engaged"
+  | "coverage-filtered";
 
 declare global {
   interface Window {

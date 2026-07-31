@@ -166,22 +166,37 @@ anything a visitor cares about.
 ## What is measured
 
 Pageviews, referrer, country, and browser/device type — all aggregate — plus
-four conversion events, defined as a closed set in `src/lib/analytics.ts`:
+six conversion events, defined as a closed set in `src/lib/analytics.ts`:
 
-| Event | Fires when |
-| --- | --- |
-| `waitlist-opened` | the waitlist modal is opened |
-| `waitlist-submitted` | a waitlist signup succeeds |
-| `blog-subscribed` | a blog subscription succeeds |
-| `demo-redacted` | the demo runs a redaction |
+| Event | Payload | Fires when |
+| --- | --- | --- |
+| `waitlist-opened` | — | the waitlist modal is opened |
+| `waitlist-submitted` | — | a waitlist signup succeeds |
+| `blog-subscribed` | — | a blog subscription succeeds |
+| `demo-redacted` | `detectionCount` | the demo runs a redaction |
+| `playground-engaged` | — | the visitor first takes the homepage playground off its scripted demo |
+| `coverage-filtered` | `layer` or `tier` | a filter button on /docs/coverage is chosen |
 
 `waitlist-opened` paired with `waitlist-submitted` gives the modal's conversion
 rate.
+
+The last two exist because the pages they sit on are each a single pageview
+however long someone spends there, so engagement is invisible to pageview
+metrics and indistinguishable from a bounce. `playground-engaged` fires once per
+page load and is tied to *taking over*, not to a redaction: the playground
+auto-runs a scripted demo on a loop, so a per-redaction event would count the
+animation rather than a person.
 
 **Never put personal data in an event payload.** `demo-redacted` sends a
 detection *count* and nothing else — the demo's promise is that the text never
 leaves the browser, and an analytics call is still leaving the browser. Do not
 add the input text, the redacted output, detected values, or email addresses.
+
+The same rule is why `playground-engaged` has no payload at all. A count of what
+was detected in someone's pasted text is still a fact about that text, and the
+playground is the one surface where a visitor is actively invited to paste real
+personal data. `coverage-filtered` carries a value from the closed `Layer`/`Tier`
+unions rendered as buttons on the page — never anything a visitor supplied.
 
 Changing what is measured means changing the privacy policy in the same commit:
 `src/app/legal/privacy/page.tsx` enumerates these events explicitly.

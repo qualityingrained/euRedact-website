@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { trackEvent } from "@/lib/analytics";
 import {
   AMBIGUITY_RULES,
   LAYER_MEANING,
@@ -151,6 +152,29 @@ export function CoverageExplorer() {
   const [layer, setLayer] = useState<Layer | null>(null);
   const [tier, setTier] = useState<Tier | null>(null);
 
+  /*
+    Which cut of the catalogue people actually want. This page is one pageview
+    however long it is used, so filtering is invisible to pageview metrics —
+    and the answer changes what belongs above the fold: a reader filtering to
+    "AI only" is asking what is not shipped yet, which is a different visit from
+    one filtering to "Critical".
+
+    The payload is a value from the closed Layer/Tier unions rendered on this
+    page, never anything the visitor supplied. Clearing a filter is not
+    recorded; only choosing one.
+  */
+  const chooseLayer = (value: Layer) => {
+    const next = layer === value ? null : value;
+    setLayer(next);
+    if (next) trackEvent("coverage-filtered", { layer: next });
+  };
+
+  const chooseTier = (value: Tier) => {
+    const next = tier === value ? null : value;
+    setTier(next);
+    if (next) trackEvent("coverage-filtered", { tier: next });
+  };
+
   const shown = TYPES.filter(
     (t) => (!layer || t.layer === layer) && (!tier || t.tier === tier),
   );
@@ -243,11 +267,7 @@ export function CoverageExplorer() {
               Layer
             </span>
             {LAYERS.map((l) => (
-              <Chip
-                key={l}
-                active={layer === l}
-                onClick={() => setLayer(layer === l ? null : l)}
-              >
+              <Chip key={l} active={layer === l} onClick={() => chooseLayer(l)}>
                 {l}
               </Chip>
             ))}
@@ -257,11 +277,7 @@ export function CoverageExplorer() {
               Tier
             </span>
             {TIERS.map((t) => (
-              <Chip
-                key={t}
-                active={tier === t}
-                onClick={() => setTier(tier === t ? null : t)}
-              >
+              <Chip key={t} active={tier === t} onClick={() => chooseTier(t)}>
                 {t}
               </Chip>
             ))}
