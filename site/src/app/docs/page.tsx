@@ -18,6 +18,13 @@ const cards = [
     accent: true,
   },
   {
+    href: "/docs/coverage",
+    icon: "checklist",
+    title: "What we detect",
+    description:
+      "Every personal-data type covered, which layer detects it, and how ambiguity between adjacent types is resolved.",
+  },
+  {
     href: "/docs/python",
     icon: "code",
     title: "Python SDK",

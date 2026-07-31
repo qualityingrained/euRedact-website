@@ -86,6 +86,64 @@ describe("country coverage", () => {
     );
   });
 
+  test("the coverage page's per-type country counts match the engine", () => {
+    /*
+      The coverage catalogue says things like "4 countries with patterns" for
+      PASSPORT and "15 countries" for LICENSE_PLATE. Those are the numbers a
+      reader uses to decide whether the Rules Engine layer covers their
+      jurisdiction for a given type, so they are worth pinning — the site-wide
+      "N countries" guard deliberately skips this file, and this replaces it.
+
+      Counted as: how many non-shared country configs carry at least one
+      pattern emitting that type.
+    */
+    const perType = {};
+    for (const [code, config] of Object.entries(euredact.COUNTRY_CONFIGS)) {
+      if (code === "SHARED") continue;
+      for (const type of new Set(config.patterns.map((p) => p.entityType))) {
+        perType[type] = (perType[type] ?? 0) + 1;
+      }
+    }
+
+    // Only the types whose scope string names a count. BANK_ACCOUNT, PHONE and
+    // POSTAL_CODE say "31 countries", which the site-wide guard already covers.
+    const claimed = {
+      PASSPORT: 4,
+      TAX_ID: 5,
+      SSN: 1,
+      DRIVERS_LICENSE: 1,
+      HEALTH_INSURANCE: 2,
+      HEALTHCARE_PROVIDER: 1,
+      VAT: 30,
+      LICENSE_PLATE: 15,
+      CHAMBER_OF_COMMERCE: 10,
+      NATIONAL_ID: 31,
+      PHONE: 31,
+      POSTAL_CODE: 31,
+    };
+
+    const wrong = [];
+    for (const [type, count] of Object.entries(claimed)) {
+      if (perType[type] !== count) {
+        wrong.push(`${type}: page says ${count}, engine has ${perType[type]}`);
+      }
+    }
+    assert.deepEqual(wrong, [], `\n${wrong.join("\n")}\n`);
+
+    // The catalogue must still carry every type this test pins, or a type
+    // could be dropped from the page and the assertion above would pass on a
+    // list that no longer describes anything.
+    const source = readSiteFile("src/app/docs/coverage/types.ts");
+    const missing = Object.keys(claimed).filter(
+      (type) => !source.includes(`name: "${type}"`),
+    );
+    assert.deepEqual(
+      missing,
+      [],
+      `the coverage catalogue no longer lists: ${missing.join(", ")}`,
+    );
+  });
+
   test("the SDK docs list the same country codes the engine loads", () => {
     const engine = [...euredact.availableCountries()].sort();
     for (const page of ["docs/python", "docs/nodejs"]) {

@@ -61,6 +61,15 @@ const EXEMPT = [
     line: /100,000/,
     why: "an illustrative billing volume, not the evaluation corpus size",
   },
+  {
+    file: "src/app/docs/coverage/types.ts",
+    line: /\d+\s+countr(?:y|ies)\s+with\s+patterns|\d+\s+countries"|ISO-3166 country code/,
+    why:
+      "per-type pattern coverage ('4 countries with patterns'), not a claim " +
+      "about how many countries the engine supports. Pinned to the engine by " +
+      "the 'per-type country coverage' test instead, which is stronger than " +
+      "exempting it — see claims.test.mjs.",
+  },
 ];
 
 function isExempt(file, line) {

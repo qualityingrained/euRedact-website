@@ -6,6 +6,7 @@ import { usePathname } from "next/navigation";
 const sidebarLinks = [
   { href: "/docs", label: "Overview", icon: "home" },
   { href: "/docs/quickstart", label: "Quickstart", icon: "rocket_launch" },
+  { href: "/docs/coverage", label: "What we detect", icon: "checklist" },
   { href: "/docs/python", label: "Python SDK", icon: "code" },
   { href: "/docs/nodejs", label: "Node.js SDK", icon: "javascript" },
 ];
