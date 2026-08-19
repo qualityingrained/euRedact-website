@@ -562,7 +562,12 @@ describe("analytics stays consent-free", () => {
     const AUTOMATION_TAG = lib.match(/AUTOMATION_TAG = "([^"]+)"/)?.[1];
     assert.ok(AUTOMATION_HOOK && AUTOMATION_TAG, "hook or tag constant missing");
 
-    const literal = lib.match(/return `([\s\S]*?)`;\n}/)?.[1];
+    // Anchored to the function name: the file holds more than one inline
+    // script literal (the recorder loader is another), and grabbing the first
+    // `return \`...\`` would evaluate the wrong one.
+    const literal = lib.match(
+      /automationHookSource\(\): string \{\n  return `([\s\S]*?)`;\n\}/,
+    )?.[1];
     assert.ok(literal, "could not find the hook source literal");
     const automationHookSource = () =>
       literal

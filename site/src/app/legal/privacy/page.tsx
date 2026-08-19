@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { analyticsEnabled, analyticsHost } from "@/lib/analytics";
+import { analyticsEnabled, analyticsHost, replayEnabled } from "@/lib/analytics";
 import { PageHero } from "@/components/page-hero";
 
 export const metadata: Metadata = {
@@ -12,7 +12,7 @@ export default function PrivacyPolicyPage() {
       <PageHero
         eyebrow="Legal"
         title="Privacy Policy"
-        subtitle="Last updated: July 2026"
+        subtitle="Last updated: August 2026"
       />
 
       <section className="bg-surface px-6 py-20">
@@ -79,7 +79,10 @@ export default function PrivacyPolicyPage() {
                 , an open-source analytics tool, on our own infrastructure
                 {analyticsHost() ? ` (${analyticsHost()})` : ""}. We chose it so
                 that visitor data stays with us: it is not Google Analytics, and
-                no analytics provider receives your data.
+                no analytics provider receives your data. Everything described
+                in this section is non-personal data about how the website is
+                used, collected for one purpose — improving the product and the
+                site — and never to identify, profile, or advertise to you.
               </p>
               <ul className="text-on-surface-variant leading-relaxed mb-6 list-disc pl-6 space-y-2">
                 <li>
@@ -112,9 +115,26 @@ export default function PrivacyPolicyPage() {
                   own statistics. That label is derived from your browser&rsquo;s
                   own properties and is not stored on your device.
                 </li>
+                {replayEnabled && (
+                  <li>
+                    <strong>Heatmaps and interaction replays.</strong> To see
+                    how pages are actually used — where people click, how far
+                    they scroll, where they hesitate — we record a sample of
+                    visits and view them as aggregate heatmaps and as
+                    individual interaction replays. These recordings capture
+                    the structure of the page and pointer movement, not
+                    content: all text on the page and everything you type is
+                    masked before anything is stored, so we never receive it,
+                    and the interactive demo and the homepage playground —
+                    the places where you might paste real text — are excluded
+                    from recording entirely. Replays are deleted automatically
+                    after 30 days.
+                  </li>
+                )}
                 <li>
                   <strong>We honour Do Not Track.</strong> If your browser sends
-                  a Do Not Track signal, nothing is recorded at all.
+                  a Do Not Track signal, nothing is recorded at all
+                  {replayEnabled ? " — no statistics, and no replays" : ""}.
                 </li>
                 <li>
                   <strong>Legal basis:</strong> our legitimate interest in
@@ -124,7 +144,7 @@ export default function PrivacyPolicyPage() {
                 </li>
                 <li>
                   <strong>Retention:</strong> aggregate statistics are kept for
-                  up to 24 months. They are never sold or shared.
+                  up to 24 months{replayEnabled ? "; interaction replays are deleted after 30 days" : ""}. They are never sold or shared.
                 </li>
               </ul>
             </>

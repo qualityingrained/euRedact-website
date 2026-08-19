@@ -12,8 +12,35 @@
 
 export const ANALYTICS_SRC = process.env.NEXT_PUBLIC_UMAMI_SRC ?? "";
 export const ANALYTICS_WEBSITE_ID = process.env.NEXT_PUBLIC_UMAMI_WEBSITE_ID ?? "";
+export const RECORDER_SRC = process.env.NEXT_PUBLIC_UMAMI_RECORDER_SRC ?? "";
 
 export const analyticsEnabled = Boolean(ANALYTICS_SRC && ANALYTICS_WEBSITE_ID);
+
+/*
+  Session replay (Umami's recorder plugin) is a separate opt-in on top of
+  analytics: it only loads when its own env var is set, and the privacy policy
+  only describes it when it loads. The recording itself is only honest under
+  the dashboard settings documented in ANALYTICS.md — mask level "strict" and
+  a block selector of [data-norecord] — which cannot be enforced from here.
+*/
+export const replayEnabled = Boolean(analyticsEnabled && RECORDER_SRC);
+
+/**
+ * Inline loader for the recorder script. The tracker honours DNT via its
+ * data-do-not-track attribute; the recorder documents no such option, so this
+ * loader checks the signal itself — otherwise the policy's "nothing is
+ * recorded at all" promise would be false for exactly the heaviest collection
+ * we do. Written as a string for the same reason as the automation hook.
+ */
+export function recorderLoaderSource(): string {
+  return `(function(){try{
+if(navigator.doNotTrack==="1"||window.doNotTrack==="1")return;
+var s=document.createElement("script");s.defer=true;
+s.src=${JSON.stringify(RECORDER_SRC)};
+s.setAttribute("data-website-id",${JSON.stringify(ANALYTICS_WEBSITE_ID)});
+document.head.appendChild(s);
+}catch(e){}})();`;
+}
 
 /** Host serving the analytics script, for display in the privacy policy. */
 export function analyticsHost(): string | undefined {

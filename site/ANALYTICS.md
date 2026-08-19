@@ -214,6 +214,52 @@ unions rendered as buttons on the page — never anything a visitor supplied.
 Changing what is measured means changing the privacy policy in the same commit:
 `src/app/legal/privacy/page.tsx` enumerates these events explicitly.
 
+## Heatmaps and session replay
+
+Session replay landed in the free self-hosted core in Umami 3.1 (enabled
+per-website in the dashboard) and click/scroll heatmaps in 3.2; only Umami
+*Cloud* gates them behind its Business plan. Heatmap overlays are rendered
+from captured replay snapshots, so enabling heatmaps means enabling replay
+capture.
+
+The site only loads the recorder when `NEXT_PUBLIC_UMAMI_RECORDER_SRC` is set
+(e.g. `https://analytics.euredact.dev/recorder.js`), same build-time rules as
+the other two variables. The privacy policy's replay section renders only in
+builds where the recorder ships — same doctrine as analytics itself: the
+policy never describes something that isn't running.
+
+**The policy's wording is only true under these dashboard settings.** Set them
+*before* setting the env var; there is no way to enforce them from this repo:
+
+| Dashboard setting | Required value | Why |
+| --- | --- | --- |
+| Mask level | **strict** (masks all inputs *and* all text) | the policy says recordings capture structure, never content |
+| Block selector | `[data-norecord]` | the policy says the demo and playground are excluded entirely |
+| Sample rate | your choice (default 0.15) | policy says "a sample of visits" |
+
+`data-norecord` is set on the homepage playground root (`src/app/playground.tsx`)
+and the demo's input/output panel (`src/app/demo/page.tsx`). Any future surface
+that invites a visitor to enter real text must get the same attribute — the
+playground rule in "What is measured" above applies to replays with double
+force: a replay is the one collection mechanism that could capture pasted text
+wholesale.
+
+What this costs: no heatmap or replay detail *inside* the demo and playground
+panels. That is the right trade — the `demo-redacted` / `playground-*` events
+above already measure their usage, without content.
+
+Two more properties worth knowing:
+
+- **DNT:** the recorder script has no `data-do-not-track` option, so the site
+  wraps it in an inline loader (`recorderLoaderSource()` in
+  `src/lib/analytics.ts`) that checks the signal itself. Do not replace the
+  loader with a bare `<script>` tag — that would silently break the policy's
+  "nothing is recorded at all" promise for DNT visitors.
+- **Retention:** Umami deletes replays after 30 days; the policy states this.
+  The 24-month cron above covers event data — check whether your Umami version
+  stores replay data in additional tables and whether the 30-day deletion
+  actually runs on your instance before trusting either number.
+
 ## Crawlers vs. people
 
 Beacons that look automated are tagged `automated` (via `data-before-send`, see

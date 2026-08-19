@@ -172,7 +172,10 @@ export default function DemoPage() {
       </PageHero>
 
       {/* ---- Split panel ---- */}
-      <section className="bg-surface py-12">
+      {/* data-norecord: the demo's input/output panel handles text a visitor
+          pastes, so the replay recorder must never capture it. Requires the
+          dashboard block selector [data-norecord] — see ANALYTICS.md. */}
+      <section data-norecord="" className="bg-surface py-12">
         <div className="max-w-screen-2xl mx-auto px-6 md:px-8">
           <div className="grid grid-cols-1 lg:grid-cols-[55fr_45fr] gap-8">
             {/* LEFT — Input */}

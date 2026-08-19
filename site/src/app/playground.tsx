@@ -204,7 +204,13 @@ export function Playground() {
       : 'import { redact } from "euredact";';
 
   return (
-    <div className="mt-14 rounded-2xl border border-outline-variant bg-surface overflow-hidden shadow-2xl">
+    // data-norecord: visitors paste real personal data here, so the session
+    // replay recorder must never capture this subtree. Requires the dashboard
+    // block selector [data-norecord] — see ANALYTICS.md.
+    <div
+      data-norecord=""
+      className="mt-14 rounded-2xl border border-outline-variant bg-surface overflow-hidden shadow-2xl"
+    >
       {/* ── what this is ──
           Stated up front rather than left to be inferred: the cloud tier is
           announced all over this page, so a live demo could easily be taken for

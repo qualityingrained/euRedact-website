@@ -5,6 +5,8 @@ import {
   AUTOMATION_HOOK,
   automationHookSource,
   analyticsEnabled,
+  replayEnabled,
+  recorderLoaderSource,
 } from "@/lib/analytics";
 
 /*
@@ -48,6 +50,22 @@ export function AnalyticsScript() {
         data-before-send={AUTOMATION_HOOK}
         strategy="afterInteractive"
       />
+      {/*
+        The replay recorder goes through an inline loader instead of a plain
+        <Script> tag because it has no data-do-not-track option of its own —
+        the loader checks the DNT signal before injecting it, keeping the
+        privacy policy's DNT promise true for replays as well. See
+        recorderLoaderSource() for the details, and ANALYTICS.md for the
+        dashboard settings (strict masking, [data-norecord] block selector)
+        that the policy's wording depends on.
+      */}
+      {replayEnabled && (
+        <Script
+          id="umami-recorder-loader"
+          strategy="afterInteractive"
+          dangerouslySetInnerHTML={{ __html: recorderLoaderSource() }}
+        />
+      )}
     </>
   );
 }
