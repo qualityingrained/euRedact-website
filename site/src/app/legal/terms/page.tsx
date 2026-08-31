@@ -52,8 +52,8 @@ export default function TermsPage() {
           <h2 className="font-black text-2xl text-on-surface mb-4">Contact</h2>
           <p className="text-on-surface-variant leading-relaxed">
             For questions about these terms, contact us at{" "}
-            <a href="mailto:contact@euredact.eu" className="text-secondary font-bold hover:underline">
-              contact@euredact.eu
+            <a href="mailto:hello@euredact.dev" className="text-secondary font-bold hover:underline">
+              hello@euredact.dev
             </a>.
           </p>
         </div>

@@ -127,10 +127,10 @@ export default function AboutPage() {
               euRedact.
             </p>
             <a
-              href="mailto:contact@euredact.eu"
+              href="mailto:hello@euredact.dev"
               className="text-secondary font-black hover:underline"
             >
-              contact@euredact.eu
+              hello@euredact.dev
             </a>
           </div>
         </div>

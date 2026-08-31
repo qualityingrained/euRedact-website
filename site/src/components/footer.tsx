@@ -114,7 +114,7 @@ export function Footer() {
               </li>
               <li>
                 <a
-                  href="mailto:contact@euredact.eu?subject=DPA%20Request"
+                  href="mailto:hello@euredact.dev?subject=DPA%20Request"
                   className="text-on-surface-variant hover:text-secondary transition-colors text-sm font-bold"
                 >
                   DPA Agreement
